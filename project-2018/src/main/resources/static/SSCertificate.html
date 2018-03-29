@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>Self-signed certificate</title>
+<link rel="stylesheet" href="stylesheets/SSCertificate.css" type="text/css">
+<script src="jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+
+ $( function() {
+    $( "#datepicker1" ).datepicker();
+  } );
+  </script>
+</head>
+<body>
+
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+<div class="login">
+
+  <h2 class="active"> Self-signed certificate</h2>
+
+  
+  <form name = "Login" id = "Login" method = "post">
+  
+    <input type="text" class="text" id = "publisher" name="publisher">
+     <span id="error_username" class="text-danger">Izdavac sertifikata</span>
+
+    <br>
+    
+    <br>
+
+    <input type="password" class="text" id = "bearer" name="bearer">
+    <span id="error_password" class="text-danger">Nosilac sertifikata</span>
+    <br>
+
+    <br>
+    <input type="text" class="text" id="datepicker">
+    <span id="error_password" class="text-danger">Datum izdavanja sertifikata</span>
+    <br>
+       
+    <br>
+    <input type="text" class="text" id="datepicker1">
+    <span id="error_password" class="text-danger">Datum vazenja sertifikata</span>
+    <br>
+
+	
+
+	<p><input class="signin" type="button" value="Generate" id = "submit" name = "submit"></p>
+
+    
+  </form>
+
+
+</div>
+
+
+</body>
+</html>
+
