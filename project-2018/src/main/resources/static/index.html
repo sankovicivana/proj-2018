@@ -14,7 +14,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="jquery-ui.css">
@@ -27,6 +26,33 @@
 	 $( function() {
 		    $( "#datepicker1" ).datepicker();
 		  } );
+	 
+	 
+	 $(document).ready(function(){
+		
+		 $("#addRootC").click(function(){
+			 
+			 formData = JSON.stringify({
+	               
+	            });
+			 
+				$.ajax({
+					url: "/certificate/add",
+					type: "POST",
+					data: formData,
+					//saljemo json i ocekujemo json nazad
+					contentType: "application/json",
+					datatype: 'json',
+					success: function(data) {
+						
+					  }
+					});
+				$('#inputModalP').modal('toggle');
+				
+		 });
+		 
+	 });
+	 
   </script>
  
 </head>
@@ -94,7 +120,7 @@
        
 		      <div class="modal-footer">
 		       
-		        <button type="button" class="btn btn-primary" id="add">Generate</button>
+		        <button type="button" class="btn btn-primary" id="addRootC">Generate</button>
 		      </div>
 		      </form>
 		    </div>
