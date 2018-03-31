@@ -18,8 +18,8 @@ public class SSCertificate {
 	private String organizationUnit;
 	private String country;
 	private String email;
-	private Date startDate;
-	private Date endDate;
+	private String startDate;
+	private String endDate;
 	private String purpose;
 	private String AIA;
 	private String CDP;
@@ -34,7 +34,7 @@ public class SSCertificate {
 	
 	
 	public SSCertificate(Long id, String commonName, String surname, String givenName, String organization,
-			String organizationUnit, String country, String email, Date startDate, Date endDate, String purpose,
+			String organizationUnit, String country, String email, String startDate, String endDate, String purpose,
 			String aIA, String cDP, SSCertificate issuer, boolean isCA) {
 		super();
 		this.id = id;
@@ -80,11 +80,11 @@ public class SSCertificate {
 		this.surname = surname;
 	}
 
-	public String getGiveNamme() {
+	public String getGivenName() {
 		return givenName;
 	}
 
-	public void setGiveNamme(String givenName) {
+	public void setGivenName(String givenName) {
 		this.givenName = givenName;
 	}
 
@@ -120,19 +120,19 @@ public class SSCertificate {
 		this.email = email;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 
