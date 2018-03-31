@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<link rel="stylesheet" href="../css/pocetna.css">
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<title>pocetna</title>
+</head>
+
+
+<body>
+
+
+    <ul >
+      <li><a href="#inputModalP" data-toggle="modal" data-target="#inputModalP">Generate Self-Signed Certificate</a></li>
+      <li><a href="#inputRa" data-toggle="modal" data-target="#inputRa">Generate Certificate for CA</a></li>
+      <li><a href="#inputU" data-toggle="modal" data-target="#inputU">Generate Certificate for Users</a></li>
+    </ul>
+
+	
+
+		<div class="modal fade" id="inputModalP" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Generate Self-Signed Certificate</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <form id="inputForm" role="form">
+		      <div class="modal-body">
+					<input type="hidden" name="id" id="id" />
+				<p>
+					<label for="email">Email:</label> <input type="email"  name="email" id="email" placeholder="Enter email" >
+				</p>
+				<p>
+					<label for="pasword">Password:</label> <input type="text" name="pasword" id="pasword" placeholder="Password">
+				</p>		
+		      </div>
+		   
+       
+		      <div class="modal-footer">
+		       
+		        <button type="button" class="btn btn-primary" id="add">Generate</button>
+		      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		
+		
+		<div class="modal fade" id="inputRa" tabindex="-1" role="dialog">
+		 <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabelReg">Generate Certificate for CA</h5>
+		         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		       </div>
+		       <div class="modal-body">
+		       	<input type="hidden" id="idr" name="ide">
+		       	<p>
+		       		<label for="inputEmail1">Email address</label>
+    				<input type="email"  id="inputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+		       	</p>
+		       	<p>
+		       		<label for="passregistration">Password</label>
+		       		<input type="password"  id="passwordR" aria-describedby="passHelp" placeholder="Password">
+		       	</p>
+		       
+		       
+		  		
+		       </div>
+		       <div class="modal-footer">
+		       
+		        	<button type="button" class="btn btn-primary" id="add">Generate</button>
+				</div>
+		     </div>
+		</div>
+		
+	
+	</div>
+
+
+	<div class="modal fade" id="inputU" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Generate Certificate for Users</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <form id="inputForm" role="form">
+		      <div class="modal-body">
+					<input type="hidden" name="id" id="id" />
+				<p>
+					<label for="email">Email:</label> <input type="email"  name="email" id="email" placeholder="Enter email" >
+				</p>
+				<p>
+					<label for="pasword">Password:</label> <input type="text" name="pasword" id="pasword" placeholder="Password">
+				</p>		
+		      </div>
+		   
+       
+		      <div class="modal-footer">
+		       
+		        <button type="button" class="btn btn-primary" id="add">Generate</button>
+		      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+
+
+</body>
+</html>
