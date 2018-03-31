@@ -24,7 +24,8 @@ public class CertificateController {
 	public ResponseEntity<SSCertificate> addCert(@RequestBody SSCertificate cert){
 		System.out.println("test");
 		
-		//pozvati servis koji ce kreirati novi sertifikat
+		//pozvati servis koji ce kreirati novi sertifikat.
+		
 	return new ResponseEntity<>(cert, HttpStatus.OK);
 	}
 	

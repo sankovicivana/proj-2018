@@ -24,6 +24,7 @@ public class SSCertificate {
 	private String AIA;
 	private String CDP;
 	private SSCertificate issuer;
+	private boolean isCA;
 	
 
 	public SSCertificate() {
@@ -31,6 +32,30 @@ public class SSCertificate {
 	}
 
 	
+	
+	public SSCertificate(Long id, String commonName, String surname, String giveNamme, String organization,
+			String organizationUnit, String country, String email, Date startDate, Date endDate, String purpose,
+			String aIA, String cDP, SSCertificate issuer, boolean isCA) {
+		super();
+		this.id = id;
+		this.commonName = commonName;
+		this.surname = surname;
+		this.giveNamme = giveNamme;
+		this.organization = organization;
+		this.organizationUnit = organizationUnit;
+		this.country = country;
+		this.email = email;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.purpose = purpose;
+		AIA = aIA;
+		CDP = cDP;
+		this.issuer = issuer;
+		this.isCA = isCA;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}
@@ -141,6 +166,16 @@ public class SSCertificate {
 
 	public void setIssuer(SSCertificate issuer) {
 		this.issuer = issuer;
+	}
+
+
+	public boolean isCA() {
+		return isCA;
+	}
+
+
+	public void setCA(boolean isCA) {
+		this.isCA = isCA;
 	}
 	
 	
