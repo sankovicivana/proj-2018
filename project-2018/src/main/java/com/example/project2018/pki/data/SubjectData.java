@@ -1,4 +1,4 @@
-package com.example.project2018.data;
+package com.example.project2018.pki.data;
 
 import java.security.PublicKey;
 import java.util.Date;
