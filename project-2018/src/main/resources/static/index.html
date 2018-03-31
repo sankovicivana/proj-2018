@@ -33,14 +33,22 @@
 		 $("#addRootC").click(function(){
 			 
 			 formData = JSON.stringify({
-	               
+					commonName: $("#inputForm [name='commonNameSS']").val(),
+					surname: $("#inputForm [name='surenameSS']").val(),
+					giveNamme: $("#inputForm [name='givennameSS']").val(),
+					organization: $("#inputForm [name='organizationSS']").val(),
+					organizationUnit: $("#inputForm [name='organizationunitSS']").val(),
+					country: $("#inputForm [name='countrySS']").val(),
+					email: $("#inputForm [name='emailSS']").val(),
+					startDate: $("#inputForm [name='startdateSS']").val(),
+					endDate: $("#inputForm [name='enddateSS']").val(),
+					purpose: $("#inputForm [name='purposeSS']").val()
 	            });
 			 
 				$.ajax({
 					url: "/certificate/add",
 					type: "POST",
 					data: formData,
-					//saljemo json i ocekujemo json nazad
 					contentType: "application/json",
 					datatype: 'json',
 					success: function(data) {
@@ -104,13 +112,13 @@
 				</p>
 			
 					<p>
-					<label for="datumi">Datum izdavanja:</label> <input type="text" id="datepicker"></p>
+					<label for="datumi">Datum izdavanja:</label> <input type="text" name="startdateSS" id="datepicker"></p>
 				
 				<p>
 				</p>
 			
 				<p>
-					<label for="datumv">Datum vazenja:</label> <input type="text" id="datepicker1"></p>
+					<label for="datumv">Datum vazenja:</label> <input type="text" name="enddateSS" id="datepicker1"></p>
 				
 				<p>
 					<label for="purpose">Purpose:</label> <input type="text"  name="purpose" id="purpose">

@@ -13,7 +13,7 @@ public class SSCertificate {
 	private Long id;
 	private String commonName;
 	private String	surname;
-	private String giveNamme;
+	private String givenName;
 	private String organization;
 	private String organizationUnit;
 	private String country;
@@ -33,14 +33,14 @@ public class SSCertificate {
 
 	
 	
-	public SSCertificate(Long id, String commonName, String surname, String giveNamme, String organization,
+	public SSCertificate(Long id, String commonName, String surname, String givenName, String organization,
 			String organizationUnit, String country, String email, Date startDate, Date endDate, String purpose,
 			String aIA, String cDP, SSCertificate issuer, boolean isCA) {
 		super();
 		this.id = id;
 		this.commonName = commonName;
 		this.surname = surname;
-		this.giveNamme = giveNamme;
+		this.givenName = givenName;
 		this.organization = organization;
 		this.organizationUnit = organizationUnit;
 		this.country = country;
@@ -61,7 +61,7 @@ public class SSCertificate {
 	}
 
 	public void setId(Long id) {
-		id = id;
+		this.id = id;
 	}
 
 	public String getCommonName() {
@@ -81,11 +81,11 @@ public class SSCertificate {
 	}
 
 	public String getGiveNamme() {
-		return giveNamme;
+		return givenName;
 	}
 
-	public void setGiveNamme(String giveNamme) {
-		this.giveNamme = giveNamme;
+	public void setGiveNamme(String givenName) {
+		this.givenName = givenName;
 	}
 
 	public String getOrganization() {
