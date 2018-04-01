@@ -17,15 +17,46 @@ import com.example.project2018.pki.service.SSCertificateService;
 @RequestMapping(value = "/certificate")
 public class CertificateController {
 
-	//@Autowired
-	//private SSCertificateService service;
+	@Autowired
+	private SSCertificateService service;
 	
-	@RequestMapping(value="/add", method=RequestMethod.POST, consumes="application/json")
+/*	Postman POST zahtev
+	{
+	    "id": null,
+	    "serialNumber": null,
+	    "commonName": "cn",
+	    "surname": "sn",
+	    "givenName": "gn",
+	    "organization": "o",
+	    "organizationUnit": "ou",
+	    "country": "rs",
+	    "email": "pera@pera",
+	    "startDate": "04/01/2018",
+	    "endDate": "04/07/2018",
+	    "purpose": "EMAIL",
+	    "issuer": null,
+	    "ca": false,
+	    "aia": null,
+	    "cdp": null
+	}
+*/
+	@RequestMapping(value="/addSSC", method=RequestMethod.POST, consumes="application/json")
 	
-	public ResponseEntity<SSCertificate> addCert(@RequestBody SSCertificate cert){
+	public ResponseEntity<SSCertificate> addSSCert(@RequestBody SSCertificate cert){
+		System.out.println("test");
+		System.out.println(cert.getStartDate());
+		
+		SSCertificate generatedCert = service.createSSCertificate(cert);
+		service.save(generatedCert);
+		return new ResponseEntity<>(generatedCert, HttpStatus.OK);
+	}
+	
+@RequestMapping(value="/addIMC", method=RequestMethod.POST, consumes="application/json")
+	
+	public ResponseEntity<SSCertificate> addIMCert(@RequestBody SSCertificate cert){
 		System.out.println("test");
 		
-		//service.generateCertificate(cert);
+		service.createIMCertificate(cert);
 		
 	return new ResponseEntity<>(cert, HttpStatus.OK);
 	}

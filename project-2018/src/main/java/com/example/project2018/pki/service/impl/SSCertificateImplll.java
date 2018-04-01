@@ -1,4 +1,6 @@
 package com.example.project2018.pki.service.impl;
+/*
+package com.example.project2018.pki.service.impl;
 
 
 import java.security.cert.X509Certificate;
@@ -14,11 +16,12 @@ import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 
-
-import com.example.project2018.pki.data.IssuerData;
-import com.example.project2018.pki.data.SubjectData;
 import com.example.project2018.pki.model.SSCertificate;
 import com.example.project2018.pki.service.SSCertificateService;
+
+
+
+
 
 
 public class SSCertificateImpl implements SSCertificateService {
@@ -69,10 +72,18 @@ public class SSCertificateImpl implements SSCertificateService {
 		}
 		return null;
 	}
+
+
+
+	@Override
+	public X509Certificate generateCertificate(SSCertificate cert) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 		
 		
 		
 	}
-	
+	*/
 
 	

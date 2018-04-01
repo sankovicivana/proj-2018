@@ -1,9 +1,19 @@
 package com.example.project2018.pki.model;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class SSCertificate {
 
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	private String serialNumber;
 	private String commonName;
 	private String	surname;
 	private String givenName;
@@ -16,6 +26,8 @@ public class SSCertificate {
 	private String purpose;
 	private String AIA;
 	private String CDP;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
 	private SSCertificate issuer;
 	private boolean isCA;
 	
@@ -169,6 +181,18 @@ public class SSCertificate {
 
 	public void setCA(boolean isCA) {
 		this.isCA = isCA;
+	}
+
+
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 	
 	

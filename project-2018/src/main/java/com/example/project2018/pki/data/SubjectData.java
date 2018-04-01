@@ -12,17 +12,72 @@ public class SubjectData {
 	private String serialNumber;
 	private Date startDate;
 	private Date endDate;
+	private boolean isCA;
+	private String aia;
+	private String cdp;
+	private String purpose;
 	
 	public SubjectData(){}
 
 	
-	public SubjectData(PublicKey publicKey, X500Name x500name, String serialNumber, Date startDate, Date endDate) {
+	
+
+
+	public SubjectData(PublicKey publicKey, X500Name x500name, String serialNumber, Date startDate, Date endDate,
+			boolean isCA, String aia, String cdp, String purpose) {
 		super();
 		this.publicKey = publicKey;
 		this.x500name = x500name;
 		this.serialNumber = serialNumber;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.isCA = isCA;
+		this.aia = aia;
+		this.cdp = cdp;
+		this.purpose = purpose;
+	}
+
+
+
+
+
+	public boolean isCA() {
+		return isCA;
+	}
+
+
+	public void setCA(boolean isCA) {
+		this.isCA = isCA;
+	}
+
+
+	public String getAia() {
+		return aia;
+	}
+
+
+	public void setAia(String aia) {
+		this.aia = aia;
+	}
+
+
+	public String getCdp() {
+		return cdp;
+	}
+
+
+	public void setCdp(String cdp) {
+		this.cdp = cdp;
+	}
+
+
+	public String getPurpose() {
+		return purpose;
+	}
+
+
+	public void setPurpose(String purpose) {
+		this.purpose = purpose;
 	}
 
 
