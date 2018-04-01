@@ -1,12 +1,5 @@
 package com.example.project2018.pki.model;
 
-import java.util.Date;
-
-import com.example.project2018.pki.data.IssuerData;
-import com.example.project2018.pki.data.SubjectData;
-
-
-
 public class SSCertificate {
 
 	
