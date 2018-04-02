@@ -1,5 +1,6 @@
 package com.example.project2018.pki.data;
 
+import java.security.KeyPair;
 import java.security.PublicKey;
 import java.util.Date;
 
@@ -16,17 +17,15 @@ public class SubjectData {
 	private String aia;
 	private String cdp;
 	private String purpose;
-	
+	private String password;
+	private KeyPair keyPair;
 	public SubjectData(){}
 
 	
-	
-
-
-	public SubjectData(PublicKey publicKey, X500Name x500name, String serialNumber, Date startDate, Date endDate,
-			boolean isCA, String aia, String cdp, String purpose) {
+	public SubjectData(KeyPair keyPair, X500Name x500name, String serialNumber, Date startDate, Date endDate,
+			boolean isCA, String aia, String cdp, String purpose, String password) {
 		super();
-		this.publicKey = publicKey;
+		this.keyPair=keyPair;
 		this.x500name = x500name;
 		this.serialNumber = serialNumber;
 		this.startDate = startDate;
@@ -35,6 +34,7 @@ public class SubjectData {
 		this.aia = aia;
 		this.cdp = cdp;
 		this.purpose = purpose;
+		this.password = password;
 	}
 
 
@@ -119,6 +119,26 @@ public class SubjectData {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+	public KeyPair getKeyPair() {
+		return keyPair;
+	}
+
+
+	public void setKeyPair(KeyPair keyPair) {
+		this.keyPair = keyPair;
 	}
 	
 }

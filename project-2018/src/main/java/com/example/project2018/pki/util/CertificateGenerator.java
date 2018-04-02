@@ -1,10 +1,16 @@
 package com.example.project2018.pki.util;
 
 import java.math.BigInteger;
+import java.net.URI;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
+import org.bouncycastle.asn1.x509.AuthorityInformationAccess;
+import org.bouncycastle.asn1.x509.BasicConstraints;
+import org.bouncycastle.asn1.x509.Extension;
+import org.bouncycastle.asn1.x509.GeneralName;
+import org.bouncycastle.cert.CertIOException;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
@@ -12,12 +18,13 @@ import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+import org.springframework.stereotype.Component;
 
 import com.example.project2018.pki.data.IssuerData;
 import com.example.project2018.pki.data.SubjectData;
 
 
-
+@Component
 public class CertificateGenerator {
 	public CertificateGenerator() {}
 	//issuer je izdavac sertifikata a subject je onaj koji prima sertifikat
@@ -39,7 +46,15 @@ public class CertificateGenerator {
 					subjectData.getStartDate(),
 					subjectData.getEndDate(),
 					subjectData.getX500name(),
-					subjectData.getPublicKey());
+					subjectData.getKeyPair().getPublic());
+			certGen.addExtension(Extension.basicConstraints, false, new BasicConstraints(subjectData.isCA()));
+			
+			//*******************
+			// Treba ubaciti parametar za AIA chasing. Za ovo se koristi endpoint koji je naveden pod tačkom 4. stavke specifikacije 2.1. 
+			//certGen.addExtension(Extension.authorityInfoAccess, false, )
+			// CDP polje, ovo treba da bude lokacija do CRL za izdavaoca datog sertifikata.
+			//*******************
+			
 			//Generise se sertifikat koji je potpisan privatnim kljucem izdavaoca sertifikata
 			X509CertificateHolder certHolder = certGen.build(contentSigner);
 
@@ -59,6 +74,8 @@ public class CertificateGenerator {
 		} catch (OperatorCreationException e) {
 			e.printStackTrace();
 		} catch (CertificateException e) {
+			e.printStackTrace();
+		} catch (CertIOException e) {
 			e.printStackTrace();
 		}
 		return null;

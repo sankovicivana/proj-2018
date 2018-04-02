@@ -18,7 +18,7 @@ import com.example.project2018.pki.data.IssuerData;
 import com.example.project2018.pki.data.SubjectData;
 import com.example.project2018.pki.model.SSCertificate;
 
-import ch.qos.logback.core.rolling.helper.IntegerTokenConverter;
+
 
 
 
@@ -88,7 +88,7 @@ public class DataUtil {
 		    // - podatke o vlasniku
 		    // - serijski broj sertifikata
 		    // - od kada do kada vazi sertifikat
-		    return new SubjectData(keyPairSubject.getPublic(), builder.build(), sn, startDate, endDate, cert.isCA(), cert.getAIA(), cert.getCDP(), cert.getPurpose());
+		    return new SubjectData(keyPairSubject, builder.build(), sn, startDate, endDate, cert.isCA(), cert.getAIA(), cert.getCDP(), cert.getPurpose(), cert.getPassword());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

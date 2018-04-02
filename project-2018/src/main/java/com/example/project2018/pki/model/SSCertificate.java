@@ -7,11 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-@Entity
+
 public class SSCertificate {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	
 	private Long id;
 	private String serialNumber;
 	private String commonName;
@@ -26,11 +25,48 @@ public class SSCertificate {
 	private String purpose;
 	private String AIA;
 	private String CDP;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	private SSCertificate issuer;
+	private String password;
+	private String issuerName;
+	private String issuerEndDate;
+	private String issuerPassword;
+	private String issuerSerialNumber;
 	private boolean isCA;
 	
+
+	
+	public String getIssuerName() {
+		return issuerName;
+	}
+
+	
+
+	public void setIssuerName(String issuerName) {
+		this.issuerName = issuerName;
+	}
+
+
+
+	public String getIssuerEndDate() {
+		return issuerEndDate;
+	}
+
+
+
+	public void setIssuerEndDate(String issuerEndDate) {
+		this.issuerEndDate = issuerEndDate;
+	}
+
+
+
+	public String getIssuerPassword() {
+		return issuerPassword;
+	}
+
+
+
+	public void setIssuerPassword(String issuerPassword) {
+		this.issuerPassword = issuerPassword;
+	}
 
 	public SSCertificate() {
 		super();
@@ -40,7 +76,7 @@ public class SSCertificate {
 	
 	public SSCertificate(Long id, String commonName, String surname, String givenName, String organization,
 			String organizationUnit, String country, String email, String startDate, String endDate, String purpose,
-			String aIA, String cDP, SSCertificate issuer, boolean isCA) {
+			String aIA, String cDP, boolean isCA) {
 		super();
 		this.id = id;
 		this.commonName = commonName;
@@ -55,7 +91,7 @@ public class SSCertificate {
 		this.purpose = purpose;
 		AIA = aIA;
 		CDP = cDP;
-		this.issuer = issuer;
+		
 		this.isCA = isCA;
 	}
 
@@ -165,13 +201,7 @@ public class SSCertificate {
 		CDP = cDP;
 	}
 
-	public SSCertificate getIssuer() {
-		return issuer;
-	}
-
-	public void setIssuer(SSCertificate issuer) {
-		this.issuer = issuer;
-	}
+	
 
 
 	public boolean isCA() {
@@ -193,6 +223,30 @@ public class SSCertificate {
 
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
+	}
+
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+
+	public String getIssuerSerialNumber() {
+		return issuerSerialNumber;
+	}
+
+
+
+	public void setIssuerSerialNumber(String issuerSerialNumber) {
+		this.issuerSerialNumber = issuerSerialNumber;
 	}
 	
 	

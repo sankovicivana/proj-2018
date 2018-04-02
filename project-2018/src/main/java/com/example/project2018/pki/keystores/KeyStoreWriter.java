@@ -1,5 +1,6 @@
 package com.example.project2018.pki.keystores;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,16 +13,29 @@ import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class KeyStoreWriter {
 
 	
 	private KeyStore keyStore;
+	@Value("${keystore.path}")
+	private String ksFile;
+	@Value("${keystore.pass}")
+	private String ksPass;
+	//String ksFile = "./files/keystores/keystore.jks";
+	//private String ksPass = "pass";
 
-	
 	public KeyStoreWriter() {
 		
 		try {
 		  keyStore = KeyStore.getInstance("JKS","SUN");
+		  
+		  
 		}
 		catch(KeyStoreException e) {
 			e.printStackTrace();
@@ -30,7 +44,15 @@ public class KeyStoreWriter {
 			e.printStackTrace();
 		}
 	}	
-	
+	@PostConstruct
+	private void init()
+	{
+		System.out.println(ksFile + "****T E S T****");
+		if(new File(ksFile).exists())
+			loadKeyStore(ksFile, ksPass.toCharArray());
+		else
+			loadKeyStore(null, ksPass.toCharArray());
+	}
 	public void loadKeyStore(String fileName, char[] password) {
 		try {
 			if(fileName != null) {
@@ -75,6 +97,7 @@ public class KeyStoreWriter {
 		
 		try {
 			keyStore.setKeyEntry(alias,privateKey, password,new Certificate[] {certificate});	
+			saveKeyStore(ksFile, ksPass.toCharArray());
 		} catch (KeyStoreException e) {
 			e.printStackTrace();
 		}

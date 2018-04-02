@@ -37,8 +37,31 @@ public class CertificateController {
 	    "issuer": null,
 	    "ca": false,
 	    "aia": null,
-	    "cdp": null
+	    "cdp": null,
+	    "password":123
 	}
+	{
+    "id": null,
+    "serialNumber": "612788",
+    "commonName": "cn",
+    "surname": "sn",
+    "givenName": "gn",
+    "organization": "o",
+    "organizationUnit": "ou",
+    "country": "rs",
+    "email": "pera@pera",
+    "startDate": "04/01/2018",
+    "endDate": "04/07/2018",
+    "purpose": "EMAIL",
+    "password": "123",
+    "issuerName": null,
+    "issuerEndDate": null,
+    "issuerPassword": null,
+    "issuerSerialNumber": null,
+    "ca": true,
+    "aia": "http://localhost:8080/certificate/612788",
+    "cdp": "Putanja do CRL liste issuera"
+}
 */
 	@RequestMapping(value="/addSSC", method=RequestMethod.POST, consumes="application/json")
 	
@@ -47,14 +70,14 @@ public class CertificateController {
 		System.out.println(cert.getStartDate());
 		
 		SSCertificate generatedCert = service.createSSCertificate(cert);
-		service.save(generatedCert);
+		//service.save(generatedCert);
 		return new ResponseEntity<>(generatedCert, HttpStatus.OK);
 	}
 	
-@RequestMapping(value="/addIMC", method=RequestMethod.POST, consumes="application/json")
+	@RequestMapping(value="/addIMC", method=RequestMethod.POST, consumes="application/json")
 	
 	public ResponseEntity<SSCertificate> addIMCert(@RequestBody SSCertificate cert){
-		System.out.println("test");
+		System.out.println("test");               
 		
 		service.createIMCertificate(cert);
 		

@@ -12,13 +12,5 @@ public interface SSCertificateService {
 	public SSCertificate createSSCertificate(SSCertificate cert);
 
 	public SSCertificate createIMCertificate(SSCertificate cert);
-	
-	List<SSCertificate> searchCa(boolean bool);
-	
-	List<SSCertificate> findAll();
-	SSCertificate findOne(Long id);
-	SSCertificate findById(Long id);
-	SSCertificate save(SSCertificate cert);
-	SSCertificate delete(Long id);
-	
+
 }
