@@ -6,7 +6,6 @@ import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.Security;
 import java.security.cert.CRLException;
-import java.security.cert.CRLReason;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateNotYetValidException;
@@ -216,7 +215,7 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 				JcaContentSignerBuilder builder = new JcaContentSignerBuilder("SHA256WithRSAEncryption");
 				builder.setProvider("BC");
 				ContentSigner contentSigner = builder.build(pk);
-					
+				
 				crlBuilder.addCRL(new X509CRLHolder(crl.getEncoded()));
 				//crlBuilder.addCRLEntry(cert.getSerialNumber(), today, CRLReason.UNSPECIFIED);
 				X509CRLHolder holder = crlBuilder.build(contentSigner);
@@ -270,6 +269,21 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 				return false;	
 		}
 		return true;
+	}
+
+	//Provera da li je sertifikat povucen
+	@Override
+	public boolean isRevoked(Certificate cert) {
+		
+		X509CRL crl = CRLUtils.openFromFile(crlFile);
+			
+			if(crl.isRevoked(cert)) {
+				
+				return true;
+				
+			}
+		
+		return false;
 	}
 	
 	//treba proveriti da li je sertifikat validan, i treba napraviti servis za iscitavanje svih CA==true issuera

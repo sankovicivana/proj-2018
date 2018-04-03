@@ -25,6 +25,8 @@ public interface SSCertificateService {
 	public Certificate getCertificate(String alias);
 	public List<Certificate> getCertificates(); 
 	public boolean deleteAllFromKeyStore();
+	
+	public boolean isRevoked(Certificate cert);
 }
 
 
