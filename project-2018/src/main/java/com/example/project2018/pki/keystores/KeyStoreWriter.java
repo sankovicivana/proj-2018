@@ -104,5 +104,16 @@ public class KeyStoreWriter {
 		}
 	}
 	
+	public boolean deleteCertificate(String alias) {
 		
+		try {
+			keyStore.deleteEntry(alias);
+			saveKeyStore(ksFile, ksPass.toCharArray());
+			return true;
+		} catch (KeyStoreException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
 	}

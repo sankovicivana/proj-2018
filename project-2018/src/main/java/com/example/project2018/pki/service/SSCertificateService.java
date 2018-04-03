@@ -27,6 +27,8 @@ public interface SSCertificateService {
 	public boolean deleteAllFromKeyStore();
 	
 	public boolean isRevoked(Certificate cert);
+	
+	public boolean isCa(Certificate cert);
 }
 
 

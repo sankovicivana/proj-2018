@@ -265,7 +265,7 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 		List<String> aliases = keyStoreReader.getAliases();
 		for (String alias : aliases) {
 			
-			if (keyStoreReader.deleteCertificate(alias) == false)
+			if (keyStoreWriter.deleteCertificate(alias) == false)
 				return false;	
 		}
 		return true;
@@ -284,6 +284,18 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 			}
 		
 		return false;
+	}
+
+	@Override
+	public boolean isCa(Certificate cert) {
+		X509Certificate c = (X509Certificate) cert;
+		
+		if (c.getBasicConstraints() == -1) {
+			return false;
+		} else {
+			return true;
+		}
+
 	}
 	
 	//treba proveriti da li je sertifikat validan, i treba napraviti servis za iscitavanje svih CA==true issuera

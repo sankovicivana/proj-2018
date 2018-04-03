@@ -155,16 +155,6 @@ public class KeyStoreReader {
 		
 		return null;
 	}
-	public boolean deleteCertificate(String alias) {
-		
-		try {
-			keyStore.deleteEntry(alias);
-			return true;
-		} catch (KeyStoreException e) {
-			e.printStackTrace();
-			return false;
-		}
-		
-	}
+
 	
 }
