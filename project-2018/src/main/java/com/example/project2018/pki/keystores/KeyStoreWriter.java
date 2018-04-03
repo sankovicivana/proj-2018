@@ -47,10 +47,11 @@ public class KeyStoreWriter {
 	@PostConstruct
 	private void init()
 	{
-		System.out.println(ksFile + "****T E S T****");
-		if(new File(ksFile).exists())
-			loadKeyStore(ksFile, ksPass.toCharArray());
-		else
+		
+		if(new File(ksFile).exists()){
+			System.out.println(ksFile + "****T E S T****");
+			loadKeyStore(ksFile, ksPass.toCharArray());			
+		} else
 			loadKeyStore(null, ksPass.toCharArray());
 	}
 	public void loadKeyStore(String fileName, char[] password) {

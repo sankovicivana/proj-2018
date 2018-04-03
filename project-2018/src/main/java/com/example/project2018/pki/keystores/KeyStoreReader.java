@@ -13,9 +13,15 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
 
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.example.project2018.pki.data.IssuerData;
@@ -26,20 +32,18 @@ import com.example.project2018.pki.data.IssuerData;
 public class KeyStoreReader {
 
 	private KeyStore keyStore;
+	@Value("${keystore.path}")
+	private String ksFile;
+	@Value("${keystore.pass}")
+	private String ksPass;
 	
 	
-	
-	public KeyStore getKeyStore() {
-		return keyStore;
-	}
-	public void setKeyStore(KeyStore keyStore) {
-		this.keyStore = keyStore;
-	}
 	public KeyStoreReader() {
 		
 		try {                                            //SUN-JDK provider which contains two types of cryptographic services
 			                                             //(MessageDigests and Signatures)
 		  keyStore = KeyStore.getInstance("JKS", "SUN"); //JKS-Java KeyStore
+		 
 		}
 		 catch(KeyStoreException e) {
 			e.printStackTrace();
@@ -108,12 +112,10 @@ public class KeyStoreReader {
 		return null;
 	}
 	
-	//Ucitava privatni kljuc iz keyStor-a
+	//Ucitavanje privatnog kljuca iz keyStor-a
 	public PrivateKey readPrivateKey(String keyStoreFile, String keyStorePass, String alias, String pass) {
 		try {
-			//kreiramo instancu KeyStore
 			KeyStore ks = KeyStore.getInstance("JKS", "SUN");
-			//ucitavamo podatke
 			BufferedInputStream in = new BufferedInputStream(new FileInputStream(keyStoreFile));
 			ks.load(in, keyStorePass.toCharArray());
 			
@@ -139,5 +141,30 @@ public class KeyStoreReader {
 		return null;
 	}
 	
+	public List<String> getAliases(){
+		
+		try {
+			
+				Enumeration<String> aliases = keyStore.aliases();
+				List<String> retVal = Collections.list(aliases);
+				return retVal;
+			} catch (KeyStoreException e) {
+				System.out.println("Greska pri citanju iz jks-a.");
+				e.printStackTrace();
+			}
+		
+		return null;
+	}
+	public boolean deleteCertificate(String alias) {
+		
+		try {
+			keyStore.deleteEntry(alias);
+			return true;
+		} catch (KeyStoreException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
 	
 }

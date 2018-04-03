@@ -1,5 +1,8 @@
 package com.example.project2018.pki.controller;
 
+import java.security.cert.Certificate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -93,5 +96,34 @@ public class CertificateController {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	 
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	public ResponseEntity<String> getCert(@PathVariable String id){
+		System.out.println("test getCert ");               
+		
+		 
+		Certificate cert = service.getCertificate(id);
+		System.out.println(cert);
+		
+	return new ResponseEntity<>(cert.toString(), HttpStatus.OK);
+	}
 	
+	@RequestMapping(value="/getAll", method=RequestMethod.GET)
+	public ResponseEntity<String> getCerts(){
+		
+		System.out.println("test getCerts ");            
+		List<Certificate> certs = service.getCertificates();
+		System.out.println(certs);
+		
+	return new ResponseEntity<>(certs.toString(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/deleteAll", method=RequestMethod.DELETE)
+	public ResponseEntity<String> deleteCerts(){
+		
+		System.out.println("test deleteCerts ");            
+		service.deleteAllFromKeyStore();
+		
+		
+	return new ResponseEntity<>("Brisanje uspesno.", HttpStatus.OK);
+	}
 }

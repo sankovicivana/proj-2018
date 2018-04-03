@@ -12,8 +12,10 @@ import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.X509CRL;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.cert.X509CRLHolder;
@@ -53,7 +55,7 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 	@Value("${keystore.path}")
 	private String ksFile;
 	
-	@Value("${crl.file}")
+	//@Value("${crl.file}")
 	private String crlFile;
 	
 	@Autowired
@@ -224,6 +226,50 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 				
 				CRLUtils.saveCRLfile(crlFile, newCRL);
 				return cert ;
+	}
+
+	@Override
+	public Certificate getCertificate(String alias) {
+		List<String> aliases = keyStoreReader.getAliases();
+		System.out.println(aliases);
+		if (aliases.contains(alias)) {
+			
+			Certificate cert = keyStoreReader.readCertificate(ksFile, ksPass, alias);
+			return cert;
+		} else {
+			System.out.println("Trazeni sertifikat nije pronadjen.");
+			return null;
+
+		}
+	}
+
+	@Override
+	public List<Certificate> getCertificates() {
+		List<Certificate> certificates = new ArrayList<>();
+		
+		List<String> aliases = keyStoreReader.getAliases();
+		for (String alias : aliases) {
+			System.out.println("Velicina " + aliases.size());
+			System.out.println("Alias " + alias);
+
+			Certificate cert = keyStoreReader.readCertificate(ksFile, ksPass, alias);
+			System.out.println("Cert " + cert);
+			certificates.add(cert);
+			
+			
+		}
+		return certificates;
+	}
+
+	@Override
+	public boolean deleteAllFromKeyStore() {
+		List<String> aliases = keyStoreReader.getAliases();
+		for (String alias : aliases) {
+			
+			if (keyStoreReader.deleteCertificate(alias) == false)
+				return false;	
+		}
+		return true;
 	}
 	
 	//treba proveriti da li je sertifikat validan, i treba napraviti servis za iscitavanje svih CA==true issuera

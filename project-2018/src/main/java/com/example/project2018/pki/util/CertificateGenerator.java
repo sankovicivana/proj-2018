@@ -1,15 +1,23 @@
 package com.example.project2018.pki.util;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.security.cert.X509Extension;
 
+import org.bouncycastle.asn1.ASN1OctetString;
+import org.bouncycastle.asn1.DEROctetString;
 import org.bouncycastle.asn1.x509.AuthorityInformationAccess;
 import org.bouncycastle.asn1.x509.BasicConstraints;
+import org.bouncycastle.asn1.x509.CRLDistPoint;
+import org.bouncycastle.asn1.x509.ExtendedKeyUsage;
 import org.bouncycastle.asn1.x509.Extension;
+import org.bouncycastle.asn1.x509.Extensions;
 import org.bouncycastle.asn1.x509.GeneralName;
+import org.bouncycastle.asn1.x509.KeyUsage;
 import org.bouncycastle.cert.CertIOException;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
@@ -48,7 +56,16 @@ public class CertificateGenerator {
 					subjectData.getX500name(),
 					subjectData.getKeyPair().getPublic());
 			certGen.addExtension(Extension.basicConstraints, false, new BasicConstraints(subjectData.isCA()));
-			
+			//Extension ext1 = new Extension(Extension.basicConstraints,true, new DEROctetString(new BasicConstraints(subjectData.isCA())));
+			//CRLDistPoint cdp = new CRLDistPoint();
+			//ExtendedKeyUsage = new ExtendedKeyUsage(Extensions.)
+			KeyUsage keyUsage = new KeyUsage(KeyUsage.dataEncipherment);
+			//
+			Extension extension = new Extension( Extension.keyUsage, true, keyUsage.getEncoded());
+			//Extension extension = new Extension( Extension.keyUsage, true, new byte[] {16} );
+			//Extension extension = new Extension( Extension.cRLDistributionPoints, true, new CRLDistPoint() );
+			certGen.addExtension(extension);
+			//certGen.addExtension(ext1);
 			//*******************
 			// Treba ubaciti parametar za AIA chasing. Za ovo se koristi endpoint koji je naveden pod tačkom 4. stavke specifikacije 2.1. 
 			//certGen.addExtension(Extension.authorityInfoAccess, false, )
@@ -76,6 +93,9 @@ public class CertificateGenerator {
 		} catch (CertificateException e) {
 			e.printStackTrace();
 		} catch (CertIOException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
