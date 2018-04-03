@@ -1,22 +1,28 @@
 package com.example.project2018.pki.service;
 
-import java.security.InvalidKeyException;
+import java.io.IOException;
 import java.security.KeyPair;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
+
 import java.security.PrivateKey;
 import java.security.Security;
-import java.security.SignatureException;
+import java.security.cert.CRLException;
+import java.security.cert.CRLReason;
 import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
+import java.security.cert.CertificateExpiredException;
+import java.security.cert.CertificateNotYetValidException;
+import java.security.cert.X509CRL;
 import java.security.cert.X509Certificate;
-import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
 
-import javax.net.ssl.KeyStoreBuilderParameters;
-import javax.swing.KeyStroke;
-
-import org.bouncycastle.asn1.x500.style.BCStyle;
+import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.cert.X509CRLHolder;
+import org.bouncycastle.cert.X509v2CRLBuilder;
+import org.bouncycastle.cert.jcajce.JcaX509CRLConverter;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.operator.ContentSigner;
+import org.bouncycastle.operator.OperatorCreationException;
+import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,7 +32,7 @@ import com.example.project2018.pki.data.SubjectData;
 import com.example.project2018.pki.keystores.KeyStoreReader;
 import com.example.project2018.pki.keystores.KeyStoreWriter;
 import com.example.project2018.pki.model.SSCertificate;
-
+import com.example.project2018.pki.util.CRLUtils;
 import com.example.project2018.pki.util.CertificateGenerator;
 import com.example.project2018.pki.util.DataUtil;
 
@@ -46,6 +52,10 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 	private String ksPass;
 	@Value("${keystore.path}")
 	private String ksFile;
+	
+	@Value("${crl.file}")
+	private String crlFile;
+	
 	@Autowired
 	private KeyStoreWriter keyStoreWriter;
 	@Autowired
@@ -155,8 +165,69 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 		
 	return cert;
 	}
+
+	@Override
+	public boolean isValid(String serialNumber) {
+		
+		X509Certificate cert = (X509Certificate) keyStoreReader.readCertificate(ksFile, ksPass, serialNumber);
+		
+		X509CRL crl = CRLUtils.openFromFile(crlFile);
+		
+		try {
+			cert.checkValidity();
+		if(crl.isRevoked(cert))
+		
+			return false;
+		else
+					return true;
+				}
+				catch (CertificateExpiredException e) {
+					return false;
+				}
+				catch (CertificateNotYetValidException e) {
+					return false;
+				}
+		
+		
+	}
+
+	@Override
+	public Certificate revoke(String serialNumber, String issuerAlias, String issuerPassword)
+			throws CRLException, IOException, OperatorCreationException {
+		
+		X509Certificate cert = (X509Certificate) keyStoreReader.readCertificate(ksFile, ksPass, serialNumber);
+		
+		X509CRL crl = CRLUtils.openFromFile(crlFile);
+				
+				IssuerData issuer = keyStoreReader.readIssuerFromStore(ksFile, 
+						issuerAlias, 
+						ksPass.toCharArray(), 
+						issuerPassword.toCharArray());
+				
+				PrivateKey pk = issuer.getPrivateKey();
+				
+				X500Name CA = issuer.getX500Name();
+				
+				Date today = Calendar.getInstance().getTime();
+				X509v2CRLBuilder crlBuilder = new X509v2CRLBuilder(CA, today);
+				
+				JcaContentSignerBuilder builder = new JcaContentSignerBuilder("SHA256WithRSAEncryption");
+				builder.setProvider("BC");
+				ContentSigner contentSigner = builder.build(pk);
+					
+				crlBuilder.addCRL(new X509CRLHolder(crl.getEncoded()));
+				//crlBuilder.addCRLEntry(cert.getSerialNumber(), today, CRLReason.UNSPECIFIED);
+				X509CRLHolder holder = crlBuilder.build(contentSigner);
+				JcaX509CRLConverter cnv = new JcaX509CRLConverter();
+				cnv.setProvider("BC");
+				X509CRL newCRL = cnv.getCRL(holder);					
+				
+				CRLUtils.saveCRLfile(crlFile, newCRL);
+				return cert ;
+	}
 	
 	//treba proveriti da li je sertifikat validan, i treba napraviti servis za iscitavanje svih CA==true issuera
 	
-
+	
+	
 }
