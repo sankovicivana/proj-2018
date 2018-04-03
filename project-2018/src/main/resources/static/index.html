@@ -73,6 +73,7 @@
       <li><a href="#inputModalP" data-toggle="modal" data-target="#inputModalP">Generate Self-Signed Certificate</a></li>
       <li><a href="#inputRa" data-toggle="modal" data-target="#inputRa">Generate Certificate for CA</a></li>
       <li><a href="#inputU" data-toggle="modal" data-target="#inputU">Generate Certificate for Users</a></li>
+      <li><a href="#inputU" data-toggle="modal" data-target="#inputRC">Revoke a Certificate</a></li>
     </ul>
 
 	
@@ -199,6 +200,47 @@
 		    </div>
 		  </div>
 		</div>
+
+
+		<div class="modal fade" id="inputRC" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Revoke Certificate a Certificate</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <form id="inputForm" role="form">
+		      <div class="modal-body">
+					<input type="hidden" name="id" id="id" />
+				<p>
+					<label for="snumber">Issuer Serial number:</label> <input type="text"  name="isnumber" id="isnumber">
+				</p>
+				<p>
+					<label for="pasword">Issuer Password:</label> <input type="text" name="ipasword" id="ipassword">
+				</p>
+				<p>
+					<label for="pasword">Serial Number:</label> <input type="text" name="snumber" id="snumber">
+				</p>
+				
+						
+		      </div>
+		   
+       
+		      <div class="modal-footer">
+		       
+		        <button type="button" class="btn btn-primary" id="add">Revoke</button>
+		      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		
+
+
+
+
 
 
 </body>
