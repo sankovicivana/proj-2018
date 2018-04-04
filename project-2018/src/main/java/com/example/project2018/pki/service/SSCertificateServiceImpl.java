@@ -66,7 +66,7 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 	@Value("${keystore.path}")
 	private String ksFile;
 	
-	//@Value("${crl.file}")
+	@Value("${crl.file}")
 	private String crlFile;
 	
 	@Autowired
@@ -148,8 +148,7 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 		Security.addProvider(new BouncyCastleProvider());
 		DataUtil du = new DataUtil();
 		
-		//Jer je Intermediate Certificate Authority
-		cert.setCA(true);
+		
 		
 		
 		
@@ -161,6 +160,8 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 		
 		//za test
 		cert.setSerialNumber(subjectData.getSerialNumber());
+		
+		subjectData.setCA(cert.isCA());
 		
 		//Putanja do sertifikata issuera
 		subjectData.setAia(cPath+issuerAlias);

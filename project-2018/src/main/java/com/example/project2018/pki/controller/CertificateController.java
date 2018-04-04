@@ -147,7 +147,18 @@ public class CertificateController {
 		
 		return new ResponseEntity<>("Validacija je usepsna", HttpStatus.OK);
 	}
-
+	@RequestMapping(value="/revoke", method=RequestMethod.POST, consumes="application/json")
+	
+	public ResponseEntity<String> revokeCert(@RequestBody SSCertificate cert) throws CRLException, OperatorCreationException, IOException{
+		System.out.println("test revoke");
+		System.out.println(cert.getSerialNumber());
+		System.out.println(cert.getIssuerSerialNumber());
+		System.out.println(cert.getIssuerPassword());
+		
+		Certificate c = service.revoke(cert.getSerialNumber(), cert.getIssuerSerialNumber(), cert.getIssuerPassword());
+		
+	return new ResponseEntity<>(c.toString(), HttpStatus.OK);
+	}
 
 	
 }
