@@ -1,12 +1,20 @@
 package com.example.project2018.pki.service;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.KeyPair;
-
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.Security;
 import java.security.cert.CRLException;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.X509CRL;
@@ -14,6 +22,7 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.bouncycastle.asn1.x500.X500Name;
@@ -335,6 +344,69 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 	}
 	
 	//treba proveriti da li je sertifikat validan, i treba napraviti servis za iscitavanje svih CA==true issuera
+	
+	@Override
+	public void checkValidationOCSP(String serialnumber){
+		//online certificate status protocol : sluzi da proverimo stanje u kom se nalazi sertifikat, da li je istekao itd...tj da li je validan
+		KeyStore keyStore;
+	
+		try {
+			 KeyStore ks = KeyStore.getInstance("JKS", "SUN");
+			 BufferedInputStream in = new BufferedInputStream(new FileInputStream(ksFile));
+				ks.load(in, ksPass.toCharArray());
+			 
+				
+				Enumeration enumeration = ks.aliases();
+				 while(enumeration.hasMoreElements()) {
+				        String alias = (String)enumeration.nextElement();
+				        X509Certificate certificate = (X509Certificate) ks.getCertificate(alias);
+				       
+				        BigInteger serial = certificate.getSerialNumber();
+				        String serialkeystore=serial.toString();
+				        
+				        
+				        if(serialkeystore.equals(serialnumber)){
+				       
+				        	
+				                try {
+				                	 
+				                    certificate.checkValidity();
+				                    System.out.println("Certificate is active for current date");
+				                } catch(CertificateExpiredException cee) {
+				                    System.out.println("Certificate is expired");
+				                }
+				            }
+				        
+				        }
+				 
+			} catch (KeyStoreException e) {
+				e.printStackTrace();
+			} catch (NoSuchProviderException e) {
+				e.printStackTrace();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CertificateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		
+	
+		
+		
+		
+		 
+		
+		
+}
+	
 	
 	
 	

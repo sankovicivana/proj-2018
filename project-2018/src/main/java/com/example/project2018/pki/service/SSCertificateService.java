@@ -29,6 +29,7 @@ public interface SSCertificateService {
 	
 	public boolean isRevoked(Certificate cert);
 	
+	public void checkValidationOCSP(String serialnumber);
 	public boolean isCa(Certificate cert);
 	
 	public CertificateData convertForDTO(X509Certificate cert);
