@@ -72,29 +72,30 @@
 		 
 		$("#addCA").click(function(){
 		 
-		 formData = JSON.stringify({
-				commonName: $("#inputForm [name='commonNameSS']").val(),
-				surname: $("#inputForm [name='surnameSS']").val(),
-				givenName: $("#inputForm [name='givennameSS']").val(),
-				organization: $("#inputForm [name='organisationSS']").val(),
-				organizationUnit: $("#inputForm [name='organisationunitSS']").val(),
-				country: $("#inputForm [name='countrySS']").val(),
-				email: $("#inputForm [name='emailSS']").val(),
-				startDate: $("#inputForm [name='startdateSS']").val(),
-				endDate: $("#inputForm [name='enddateSS']").val(),
-				purpose: $("#inputForm [name='purposeSS']").val(),
-				password: $("#inputForm [name='passwordSS']").val(),
-				issuerName: $("#inputForm [name='issuerNameCA']").val(),
-				issuerEndDate: $("#inputForm [name='issuerEndDateCA']").val(),
-				issuerPassword: $("#inputForm [name='issuerPasswordCA']").val(),
-				issuerSerialNumber: $("#inputForm [name='issuerSerNumCA']").val(),
-				isCA: $("#inputForm [name='CAbox']").val()
+		 fData = JSON.stringify({
+				commonName: $("#inputFormCA [name='commonNameCA']").val(),
+				surname: $("#inputFormCA [name='surnameCA']").val(),
+				givenName: $("#inputFormCA [name='givennameCA']").val(),
+				organization: $("#inputFormCA [name='organisationCA']").val(),
+				organizationUnit: $("#inputFormCA [name='organisationunitCA']").val(),
+				country: $("#inputFormCA [name='countryCA']").val(),
+				email: $("#inputFormCA [name='emailCA']").val(),
+				startDate: $("#inputFormCA [name='startdateCA']").val(),
+				endDate: $("#inputFormCA [name='enddateCA']").val(),
+				purpose: $("#inputFormCA [name='purposeCA']").val(),
+				password: $("#inputFormCA [name='passwordCA']").val(),
+				issuerName: $("#inputFormCA [name='issuerNameCA']").val(),
+				issuerPassword: $("#inputFormCA [name='issuerPasswordCA']").val(),
+				issuerSerialNumber: $("#inputFormCA [name='issuerSerNumCA']").val(),
+				isCA: document.getElementById('CAbox').checked
 		          });
+		 
+		 console.log(fData);
 		 
 			$.ajax({
 				url: "/certificate/addIMC",
 				type: "POST",
-				data: formData,
+				data: fData,
 				contentType: "application/json",
 				datatype: 'json',
 				success: function(data) {
@@ -222,7 +223,7 @@
 		          <span aria-hidden="true">&times;</span>
 		        </button>
 		      </div>
-		       
+		       <form id="inputFormCA" role="form">
 		      <div class="modal-body">
 			       	<input type="hidden" name="idr" id="idr" />
 					<p>
@@ -259,22 +260,22 @@
 						<label for="purpose">Password:</label> <input type="password"  name="passwordCA" id="passwordCA">
 					</p>
 				    <p>
-				    	<label for="issuerName">Issuer name:</label> <input type="text" name="issuerNameCA">
+				    	<label for="issuerName">Issuer name:</label> <input type="text" name="issuerNameCA" id="issuerNameCA">
 				    </p>
 				    <p>
 				    	<label for="issuerEndDate">Issuer expiration date:</label> <input type="text" name="issuerExpDateCA" id="datepickerCA3">
 				    </p>
 				    <p>
-				    	<label for="issuerPassword">Issuer password:</label> <input type="password" name="issuerPasswordCA">
+				    	<label for="issuerPassword">Issuer password:</label> <input type="password" id="issuerPasswordCA" name="issuerPasswordCA">
 				    </p>
 				    <p>
-				    	<label for="issuerSerialNumber">Issuer serial number:</label> <input type="text" name="issuerSerNumCA">
+				    	<label for="issuerSerialNumber">Issuer serial number:</label> <input type="text" name="issuerSerNumCA" id="issuerSerNumCA">
 				    </p>
 				    <p>
-				    	<label for="CA">CA:</label> <input type="checkbox" name="CAbox">
+				    	<label for="CA">CA:</label> <input type="checkbox" name="CAbox" id="CAbox">
 				    </p>					
 		        </div>
-		        
+		        </form>
 		        <div class="modal-footer">
 		        	<button type="button" class="btn btn-primary" id="addCA">Generate</button>
 				</div>
