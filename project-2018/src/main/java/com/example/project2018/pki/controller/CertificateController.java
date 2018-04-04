@@ -1,6 +1,7 @@
 package com.example.project2018.pki.controller;
 
 import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,9 +103,12 @@ public class CertificateController {
 		
 		 
 		Certificate cert = service.getCertificate(id);
-		System.out.println(cert);
+		System.out.println("CERTIFICATE \n"+cert);
 		
-	return new ResponseEntity<>(cert.toString(), HttpStatus.OK);
+		X509Certificate c = (X509Certificate) cert;
+		//Certificate
+		
+	return new ResponseEntity<>(c.toString(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/getAll", method=RequestMethod.GET)

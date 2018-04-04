@@ -9,15 +9,21 @@ import java.security.cert.X509Certificate;
 import java.security.cert.X509Extension;
 
 import org.bouncycastle.asn1.ASN1OctetString;
+import org.bouncycastle.asn1.DERIA5String;
 import org.bouncycastle.asn1.DEROctetString;
+import org.bouncycastle.asn1.x509.AccessDescription;
 import org.bouncycastle.asn1.x509.AuthorityInformationAccess;
 import org.bouncycastle.asn1.x509.BasicConstraints;
 import org.bouncycastle.asn1.x509.CRLDistPoint;
+import org.bouncycastle.asn1.x509.DistributionPoint;
+import org.bouncycastle.asn1.x509.DistributionPointName;
 import org.bouncycastle.asn1.x509.ExtendedKeyUsage;
 import org.bouncycastle.asn1.x509.Extension;
 import org.bouncycastle.asn1.x509.Extensions;
 import org.bouncycastle.asn1.x509.GeneralName;
+import org.bouncycastle.asn1.x509.GeneralNames;
 import org.bouncycastle.asn1.x509.KeyUsage;
+import org.bouncycastle.asn1.x509.ReasonFlags;
 import org.bouncycastle.cert.CertIOException;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
@@ -55,7 +61,21 @@ public class CertificateGenerator {
 					subjectData.getEndDate(),
 					subjectData.getX500name(),
 					subjectData.getKeyPair().getPublic());
+			//Parametar CA, true ili false
 			certGen.addExtension(Extension.basicConstraints, false, new BasicConstraints(subjectData.isCA()));
+			//URL za AIA u formatu "http://localhost:8080/certificate/{SERIJSKIBROJ}" vraca trazeni sertifikat
+			GeneralName generalNameAIA = new GeneralName(GeneralName.uniformResourceIdentifier, new DERIA5String(subjectData.getAia()));
+			AccessDescription accessDescription = new AccessDescription(AccessDescription.id_ad_caIssuers, generalNameAIA);
+			AuthorityInformationAccess aia = new AuthorityInformationAccess(accessDescription);
+			certGen.addExtension(Extension.authorityInfoAccess, false, aia);
+			
+			//CRP putanja do DRL fajla
+			GeneralName generalNameCDP = new GeneralName(GeneralName.uniformResourceIdentifier, new DERIA5String(subjectData.getCdp()));
+			DistributionPointName distributionPointName = new DistributionPointName(new GeneralNames(generalNameCDP) );
+			DistributionPoint distributionPoint = new DistributionPoint(distributionPointName, new ReasonFlags(ReasonFlags.unused), null);
+			//CRLDistPoint crlDistPoint = new CRLDistPoint(distributionPoint);
+			
+			
 			//Extension ext1 = new Extension(Extension.basicConstraints,true, new DEROctetString(new BasicConstraints(subjectData.isCA())));
 			//CRLDistPoint cdp = new CRLDistPoint();
 			//ExtendedKeyUsage = new ExtendedKeyUsage(Extensions.)

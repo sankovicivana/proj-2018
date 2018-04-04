@@ -144,12 +144,22 @@ public class KeyStoreReader {
 	public List<String> getAliases(){
 		
 		try {
-			
+				BufferedInputStream in = new BufferedInputStream(new FileInputStream(ksFile));
+				keyStore.load(in, ksPass.toCharArray());
 				Enumeration<String> aliases = keyStore.aliases();
 				List<String> retVal = Collections.list(aliases);
 				return retVal;
 			} catch (KeyStoreException e) {
 				System.out.println("Greska pri citanju iz jks-a.");
+				e.printStackTrace();
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CertificateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		

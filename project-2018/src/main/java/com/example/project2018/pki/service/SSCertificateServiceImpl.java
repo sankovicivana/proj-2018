@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.asn1.x509.Extension;
 import org.bouncycastle.cert.X509CRLHolder;
 import org.bouncycastle.cert.X509v2CRLBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CRLConverter;
@@ -32,6 +33,8 @@ import com.example.project2018.pki.data.IssuerData;
 import com.example.project2018.pki.data.SubjectData;
 import com.example.project2018.pki.keystores.KeyStoreReader;
 import com.example.project2018.pki.keystores.KeyStoreWriter;
+import com.example.project2018.pki.model.CertificateData;
+import com.example.project2018.pki.model.CertificateType;
 import com.example.project2018.pki.model.SSCertificate;
 import com.example.project2018.pki.util.CRLUtils;
 import com.example.project2018.pki.util.CertificateGenerator;
@@ -83,6 +86,9 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 			//IssuerData issuerData = du.generateIssuerData(keyPairSubject.getPrivate(), cert);
 			IssuerData issuerData = new IssuerData(subjectData.getX500name(), keyPairSubject.getPrivate());
 			
+			subjectData.setAia(cPath+subjectData.getSerialNumber());
+			subjectData.setCdp("PROBA");
+			
 			CertificateGenerator cg = new CertificateGenerator();
 			X509Certificate certificate = cg.generateCertificate(subjectData, issuerData);
 			
@@ -101,14 +107,14 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 			keyStoreWriter.write(alias, keyPairSubject.getPrivate(), subjectData.getPassword().toCharArray(), certificate);
 			
 			//Citanje sertifikata, prosledjujemo putanju fajla, password keystora i alias sertifikata			
-			Certificate certt = keyStoreReader.readCertificate(ksFile, ksPass, alias);
+			//Certificate certt = keyStoreReader.readCertificate(ksFile, ksPass, alias);
 			
 			
 			//Za citanje kljuca prosledjujemo putanju dofajla, pass keystora, alias serifikata, i pass kljuca koju je korisnik prosledio
-			PrivateKey pk = keyStoreReader.readPrivateKey(ksFile, ksPass, alias, subjectData.getPassword());
+			//PrivateKey pk = keyStoreReader.readPrivateKey(ksFile, ksPass, alias, subjectData.getPassword());
 			
 			//Citanje issuera
-			IssuerData issuerDat = keyStoreReader.readIssuerFromStore(ksFile, alias, ksPass.toCharArray(),subjectData.getPassword().toCharArray() );
+			//IssuerData issuerDat = keyStoreReader.readIssuerFromStore(ksFile, alias, ksPass.toCharArray(),subjectData.getPassword().toCharArray() );
 			
 			
 			System.out.println("\n===== Podaci o izdavacu sertifikata =====");
@@ -146,6 +152,10 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 		
 		//za test
 		cert.setSerialNumber(subjectData.getSerialNumber());
+		
+		//Putanja do sertifikata issuera
+		subjectData.setAia(cPath+issuerAlias);
+		subjectData.setCdp("PROBA");
 		
 		CertificateGenerator cg = new CertificateGenerator();
 		X509Certificate certificate = cg.generateCertificate(subjectData, issuerData);
@@ -296,6 +306,32 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 			return true;
 		}
 
+	}
+	/**
+	 * Funkcija transformise X509 sertifikat u podatke potrebne korisniku
+	 */
+	@Override
+	public CertificateData convertForDTO(X509Certificate cert) {
+		// TODO Auto-generated method stub
+		CertificateData certData = new CertificateData();
+		certData.setSerialNumber(cert.getSerialNumber().toString());
+		certData.setSubject(cert.getSubjectX500Principal().toString());
+		certData.setIssuer(cert.getIssuerX500Principal().toString());
+		certData.setValidFrom(cert.getNotBefore().toString());
+		certData.setValidUntil(cert.getNotAfter().toString());
+		certData.setPublicKey(cert.getPublicKey().getAlgorithm());
+		certData.setSignatureAlgorithm(cert.getSigAlgName());
+		certData.setAia(cert.getExtensionValue("1.3.6.1.5.5.5.7.1.1").toString());
+		if (isCa(cert)) {
+			if (cert.getIssuerX500Principal().equals(cert.getSubjectX500Principal())) {
+				certData.setType(CertificateType.SSC);
+			}else {
+				certData.setType(CertificateType.IMC);
+			}
+		} else {
+			certData.setType(CertificateType.EEC);
+		}
+		return certData;
 	}
 	
 	//treba proveriti da li je sertifikat validan, i treba napraviti servis za iscitavanje svih CA==true issuera

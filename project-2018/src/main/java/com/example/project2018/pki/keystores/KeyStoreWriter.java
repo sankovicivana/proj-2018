@@ -50,7 +50,8 @@ public class KeyStoreWriter {
 		
 		if(new File(ksFile).exists()){
 			System.out.println(ksFile + "****T E S T****");
-			loadKeyStore(ksFile, ksPass.toCharArray());			
+			loadKeyStore(ksFile, ksPass.toCharArray());
+			
 		} else
 			loadKeyStore(null, ksPass.toCharArray());
 	}

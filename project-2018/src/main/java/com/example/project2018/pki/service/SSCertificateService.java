@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.bouncycastle.operator.OperatorCreationException;
 
+import com.example.project2018.pki.model.CertificateData;
 import com.example.project2018.pki.model.SSCertificate;
 
 
@@ -29,6 +30,8 @@ public interface SSCertificateService {
 	public boolean isRevoked(Certificate cert);
 	
 	public boolean isCa(Certificate cert);
+	
+	public CertificateData convertForDTO(X509Certificate cert);
 }
 
 
