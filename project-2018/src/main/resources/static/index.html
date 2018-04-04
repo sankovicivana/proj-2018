@@ -17,6 +17,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="jquery-ui.css">
+<script type="text/javascript" src="stylesheets/checkStatus.js"></script>
 
 <title>pocetna</title>
  <script>
@@ -74,9 +75,35 @@
       <li><a href="#inputRa" data-toggle="modal" data-target="#inputRa">Generate Certificate for CA</a></li>
       <li><a href="#inputU" data-toggle="modal" data-target="#inputU">Generate Certificate for Users</a></li>
       <li><a href="#inputU" data-toggle="modal" data-target="#inputRC">Revoke a Certificate</a></li>
+       <li><a href="#inputCheck" data-toggle="modal" data-target="#inputCheck">Check certificate status</a></li>
     </ul>
 
+	<div class="modal fade" id="inputCheck" tabindex="-1" role="dialog">
+		 <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabelReg">Check certificate status</h5>
+		         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		       </div>
+		     
+		       <form class="searchForm">
+		       	<input type="hidden" id="id" name="id">
+		       	<p>
+		       		<label for="certificateNumber">Certificate serial number</label>
+    				<input type="text"  name="searchField" id="searchField">
+    				<button type="button" class="btn btn-primary" id="check">Check</button>
+		       	</p>
+		       
+		        	
+			
+				</form>
+		     </div>
+		</div>
+		
 	
+	</div>
 
 		<div class="modal fade" id="inputModalP" tabindex="-1" role="dialog">
 		  <div class="modal-dialog" role="document">
