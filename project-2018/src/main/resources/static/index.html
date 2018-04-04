@@ -27,38 +27,83 @@
 	 $( function() {
 		    $( "#datepicker1" ).datepicker();
 		  } );
+	 $( function() {
+		    $( "#datepickerCA1" ).datepicker();
+		  } );
+	 $( function() {
+		    $( "#datepickerCA2" ).datepicker();
+		  } );
+	 $( function() {
+		    $( "#datepickerCA3" ).datepicker();
+		  } );
 	 
 	 
 	 $(document).ready(function(){
 		
-		 $("#addRootC").click(function(){
-			 
-			 formData = JSON.stringify({
-					commonName: $("#inputForm [name='commonNameSS']").val(),
-					surname: $("#inputForm [name='surnameSS']").val(),
-					givenName: $("#inputForm [name='givennameSS']").val(),
-					organization: $("#inputForm [name='organisationSS']").val(),
-					organizationUnit: $("#inputForm [name='organisationunitSS']").val(),
-					country: $("#inputForm [name='countrySS']").val(),
-					email: $("#inputForm [name='emailSS']").val(),
-					startDate: $("#inputForm [name='startdateSS']").val(),
-					endDate: $("#inputForm [name='enddateSS']").val(),
-					purpose: $("#inputForm [name='purposeSS']").val()
-	            });
-			 
-				$.ajax({
-					url: "/certificate/addSSC",
-					type: "POST",
-					data: formData,
-					contentType: "application/json",
-					datatype: 'json',
-					success: function(data) {
-						
-					  }
-					});
-				$('#inputModalP').modal('toggle');
-				
-		 });
+		$("#addRootC").click(function(){
+		 
+		 formData = JSON.stringify({
+				commonName: $("#inputForm [name='commonNameSS']").val(),
+				surname: $("#inputForm [name='surnameSS']").val(),
+				givenName: $("#inputForm [name='givennameSS']").val(),
+				organization: $("#inputForm [name='organisationSS']").val(),
+				organizationUnit: $("#inputForm [name='organisationunitSS']").val(),
+				country: $("#inputForm [name='countrySS']").val(),
+				email: $("#inputForm [name='emailSS']").val(),
+				startDate: $("#inputForm [name='startdateSS']").val(),
+				endDate: $("#inputForm [name='enddateSS']").val(),
+				purpose: $("#inputForm [name='purposeSS']").val(),
+				password: $("#inputForm [name='passwordSS']").val()
+		          });
+		 
+			$.ajax({
+				url: "/certificate/addSSC",
+				type: "POST",
+				data: formData,
+				contentType: "application/json",
+				datatype: 'json',
+				success: function(data) {
+					
+				  }
+				});
+			$('#inputModalP').modal('toggle');
+			
+		});
+		 
+		$("#addCA").click(function(){
+		 
+		 formData = JSON.stringify({
+				commonName: $("#inputForm [name='commonNameSS']").val(),
+				surname: $("#inputForm [name='surnameSS']").val(),
+				givenName: $("#inputForm [name='givennameSS']").val(),
+				organization: $("#inputForm [name='organisationSS']").val(),
+				organizationUnit: $("#inputForm [name='organisationunitSS']").val(),
+				country: $("#inputForm [name='countrySS']").val(),
+				email: $("#inputForm [name='emailSS']").val(),
+				startDate: $("#inputForm [name='startdateSS']").val(),
+				endDate: $("#inputForm [name='enddateSS']").val(),
+				purpose: $("#inputForm [name='purposeSS']").val(),
+				password: $("#inputForm [name='passwordSS']").val(),
+				issuerName: $("#inputForm [name='issuerNameCA']").val(),
+				issuerEndDate: $("#inputForm [name='issuerEndDateCA']").val(),
+				issuerPassword: $("#inputForm [name='issuerPasswordCA']").val(),
+				issuerSerialNumber: $("#inputForm [name='issuerSerNumCA']").val(),
+				isCA: $("#inputForm [name='CAbox']").val()
+		          });
+		 
+			$.ajax({
+				url: "/certificate/addIMC",
+				type: "POST",
+				data: formData,
+				contentType: "application/json",
+				datatype: 'json',
+				success: function(data) {
+					
+				  }
+				});
+			$('#inputRa').modal('toggle');
+			
+		});
 		 
 	 });
 	 
@@ -151,6 +196,9 @@
 				<p>
 					<label for="purpose">Purpose:</label> <input type="text"  name="purposeSS" id="purpose">
 				</p>
+				<p>
+					<label for="purpose">Password:</label> <input type="password"  name="passwordSS" id="passwordSS">
+				</p>
 		      </div>
 		   		
        
@@ -167,29 +215,68 @@
 		<div class="modal fade" id="inputRa" tabindex="-1" role="dialog">
 		 <div class="modal-dialog" role="document">
 		    <div class="modal-content">
+		    
 		      <div class="modal-header">
 		        <h5 class="modal-title" id="exampleModalLabelReg">Generate Certificate for CA</h5>
 		         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		          <span aria-hidden="true">&times;</span>
 		        </button>
-		       </div>
-		       <div class="modal-body">
-		       	<input type="hidden" id="idr" name="ide">
-		       	<p>
-		       		<label for="inputEmail1">Email address</label>
-    				<input type="email"  id="inputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-		       	</p>
-		       	<p>
-		       		<label for="passregistration">Password</label>
-		       		<input type="password"  id="passwordR" aria-describedby="passHelp" placeholder="Password">
-		       	</p>
+		      </div>
 		       
-		       
-		  		
-		       </div>
-		       <div class="modal-footer">
-		       
-		        	<button type="button" class="btn btn-primary" id="add">Generate</button>
+		      <div class="modal-body">
+			       	<input type="hidden" name="idr" id="idr" />
+					<p>
+						<label for="commonname">Common name(CN):</label> <input type="text"  name="commonNameCA" id="commonNameCA"  >
+					</p>
+					<p>
+						<label for="surname">Surname:</label> <input type="text"  name="surnameCA" id="surnameCA"  >
+					</p>
+					<p>
+						<label for="givenname">Given name:</label> <input type="text"  name="givennameCA" id="givennameCA"  >
+					</p>
+					<p>
+						<label for="organisation">Organisation(O):</label> <input type="text"  name="organisationCA" id="organisationCA"  >
+					</p>
+					<p>
+						<label for="organisationunit">Organisation unit(OU):</label> <input type="text"  name="organisationunitCA" id="organisationunitCA"  >
+					</p>
+					<p>
+						<label for="country">Country(C):</label> <input type="text"  name="countryCA" id="countryCA"  >
+					</p>
+					<p>
+						<label for="email">Email:</label> <input type="email"  name="emailCA" id="emailCA" placeholder="Enter email" >
+					</p>
+					<p>
+						<label for="datumi">Start date:</label> <input type="text" name="startdateCA" id="datepickerCA1">
+					</p>
+					<p>
+						<label for="datumv">Expiration date:</label> <input type="text" name="enddateCA" id="datepickerCA2">
+					</p>
+					<p>
+						<label for="purpose">Purpose:</label> <input type="text"  name="purposeCA" id="purposeCA">
+					</p>
+					<p>
+						<label for="purpose">Password:</label> <input type="password"  name="passwordCA" id="passwordCA">
+					</p>
+				    <p>
+				    	<label for="issuerName">Issuer name:</label> <input type="text" name="issuerNameCA">
+				    </p>
+				    <p>
+				    	<label for="issuerEndDate">Issuer expiration date:</label> <input type="text" name="issuerExpDateCA" id="datepickerCA3">
+				    </p>
+				    <p>
+				    	<label for="issuerPassword">Issuer password:</label> <input type="password" name="issuerPasswordCA">
+				    </p>
+				    <p>
+				    	<label for="issuerSerialNumber">Issuer serial number:</label> <input type="text" name="issuerSerNumCA">
+				    </p>
+				    <p>
+				    	<label for="CA">CA:</label> <input type="checkbox" name="CAbox">
+				    </p>					
+		        </div>
+		        
+		        <div class="modal-footer">
+		        	<button type="button" class="btn btn-primary" id="addCA">Generate</button>
 				</div>
 		     </div>
 		</div>
