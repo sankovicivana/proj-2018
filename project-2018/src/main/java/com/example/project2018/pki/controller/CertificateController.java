@@ -1,5 +1,6 @@
 package com.example.project2018.pki.controller;
 
+import java.awt.PageAttributes.MediaType;
 import java.io.IOException;
 import java.security.cert.CRLException;
 import java.security.cert.Certificate;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.project2018.pki.data.SubjectData;
+import com.example.project2018.pki.model.CertificateData;
 import com.example.project2018.pki.model.SSCertificate;
 import com.example.project2018.pki.service.SSCertificateService;
 
@@ -110,11 +112,11 @@ public class CertificateController {
 		 
 		Certificate cert = service.getCertificate(id);
 		System.out.println("CERTIFICATE \n"+cert);
-		
+		CertificateData cd = service.convertForDTO((X509Certificate) cert);
 		X509Certificate c = (X509Certificate) cert;
 		//Certificate
 		
-	return new ResponseEntity<>(c, HttpStatus.OK);
+	return new ResponseEntity<>(cd, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/getAll", method=RequestMethod.GET)

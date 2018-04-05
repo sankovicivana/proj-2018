@@ -79,12 +79,12 @@ public class CertificateGenerator {
 			//Extension ext1 = new Extension(Extension.basicConstraints,true, new DEROctetString(new BasicConstraints(subjectData.isCA())));
 			//CRLDistPoint cdp = new CRLDistPoint();
 			//ExtendedKeyUsage = new ExtendedKeyUsage(Extensions.)
-			KeyUsage keyUsage = new KeyUsage(KeyUsage.dataEncipherment);
+			//KeyUsage keyUsage = new KeyUsage(KeyUsage.dataEncipherment);
 			//
-			Extension extension = new Extension( Extension.keyUsage, true, keyUsage.getEncoded());
+			//Extension extension = new Extension( Extension.keyUsage, true, keyUsage.getEncoded());
 			//Extension extension = new Extension( Extension.keyUsage, true, new byte[] {16} );
 			//Extension extension = new Extension( Extension.cRLDistributionPoints, true, new CRLDistPoint() );
-			certGen.addExtension(extension);
+			//certGen.addExtension(extension);
 			//certGen.addExtension(ext1);
 			//*******************
 			// Treba ubaciti parametar za AIA chasing. Za ovo se koristi endpoint koji je naveden pod tačkom 4. stavke specifikacije 2.1. 

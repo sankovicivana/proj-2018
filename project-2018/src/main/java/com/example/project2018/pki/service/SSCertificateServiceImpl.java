@@ -30,6 +30,7 @@ import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.asn1.x500.style.IETFUtils;
 import org.bouncycastle.asn1.x509.Extension;
+import org.bouncycastle.asn1.x509.Extensions;
 import org.bouncycastle.cert.X509CRLHolder;
 import org.bouncycastle.cert.X509v2CRLBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CRLConverter;
@@ -150,15 +151,15 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 	public SSCertificate createIMCertificate(SSCertificate cert) {
 		
 		Security.addProvider(new BouncyCastleProvider());
-		DataUtil du = new DataUtil();
-		
-		
-		
-		
+		DataUtil du = new DataUtil();		
 		
 		String issuerPassword = cert.getIssuerPassword();
 		String issuerAlias = cert.getIssuerSerialNumber();
 		
+		Certificate issuer = keyStoreReader.readCertificate(ksFile, ksPass, issuerAlias);
+		if (!isCa(issuer) | !isValid(issuerAlias)) {
+			return null;
+		}
 		IssuerData issuerData = keyStoreReader.readIssuerFromStore(ksFile, issuerAlias, ksPass.toCharArray(), issuerPassword.toCharArray());
 		SubjectData subjectData = du.generateSubjectData(cert);
 		
@@ -168,7 +169,7 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 		
 		//Putanja do sertifikata issuera
 		subjectData.setAia(cPath+issuerAlias);
-		subjectData.setCdp("PROBA");
+		subjectData.setCdp("Putanja do CRL liste issuera");
 		
 		CertificateGenerator cg = new CertificateGenerator();
 		X509Certificate certificate = cg.generateCertificate(subjectData, issuerData);
@@ -339,7 +340,11 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 		certData.setValidUntil(cert.getNotAfter().toString());
 		certData.setPublicKey(cert.getPublicKey().getAlgorithm());
 		certData.setSignatureAlgorithm(cert.getSigAlgName());
-		certData.setAia(cert.getExtensionValue("1.3.6.1.5.5.5.7.1.1").toString());
+		//certData.setAia(cert.getExtensionValue("2.5.29.35").toString());
+				
+				
+				
+		//oid za aia		("1.3.6.1.5.5.5.7.1.1")
 		if (isCa(cert)) {
 			if (cert.getIssuerX500Principal().equals(cert.getSubjectX500Principal())) {
 				certData.setType(CertificateType.SSC);
