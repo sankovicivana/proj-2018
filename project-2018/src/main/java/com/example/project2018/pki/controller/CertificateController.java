@@ -104,7 +104,7 @@ public class CertificateController {
 	 
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<String> getCert(@PathVariable String id){
+	public ResponseEntity<?> getCert(@PathVariable String id){
 		System.out.println("test getCert ");               
 		
 		 
@@ -114,7 +114,7 @@ public class CertificateController {
 		X509Certificate c = (X509Certificate) cert;
 		//Certificate
 		
-	return new ResponseEntity<>(c.toString(), HttpStatus.OK);
+	return new ResponseEntity<>(c, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/getAll", method=RequestMethod.GET)
