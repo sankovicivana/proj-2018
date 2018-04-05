@@ -25,7 +25,10 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.bouncycastle.asn1.x500.RDN;
 import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.asn1.x500.style.BCStyle;
+import org.bouncycastle.asn1.x500.style.IETFUtils;
 import org.bouncycastle.asn1.x509.Extension;
 import org.bouncycastle.cert.X509CRLHolder;
 import org.bouncycastle.cert.X509v2CRLBuilder;
@@ -103,7 +106,8 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 			
 			cert.setAIA(cPath + subjectData.getSerialNumber());
 			cert.setCDP("Putanja do CRL liste issuera");
-			
+			RDN cn = issuerData.getX500Name().getRDNs(BCStyle.CN)[0];		
+			cert.setIssuerName(IETFUtils.valueToString(cn.getFirst().getValue()));
 			cert.setSerialNumber(subjectData.getSerialNumber());
 			
 			//certificate treba da se sacuva u jks kao i privatni kljuc
@@ -158,8 +162,7 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 		IssuerData issuerData = keyStoreReader.readIssuerFromStore(ksFile, issuerAlias, ksPass.toCharArray(), issuerPassword.toCharArray());
 		SubjectData subjectData = du.generateSubjectData(cert);
 		
-		//za test
-		cert.setSerialNumber(subjectData.getSerialNumber());
+		
 		
 		subjectData.setCA(cert.isCA());
 		
@@ -174,6 +177,11 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 		//za testiranje
 		
 		cert.setIssuerSerialNumber(issuerAlias);
+		cert.setAIA(cPath + issuerAlias);
+		cert.setCDP("Putanja do CRL liste issuera");
+		RDN cn = issuerData.getX500Name().getRDNs(BCStyle.CN)[0];		
+		cert.setIssuerName(IETFUtils.valueToString(cn.getFirst().getValue()));
+		cert.setSerialNumber(subjectData.getSerialNumber());
 		
 		System.out.println("\n===== Podaci o izdavacu sertifikata =====");
 		System.out.println(certificate.getIssuerX500Principal().getName());
