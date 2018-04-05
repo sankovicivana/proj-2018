@@ -89,11 +89,13 @@ public class CertificateController {
 	
 	@RequestMapping(value="/addIMC", method=RequestMethod.POST, consumes="application/json")
 	
-	public ResponseEntity<SSCertificate> addIMCert(@RequestBody SSCertificate cert){
+	public ResponseEntity<?> addIMCert(@RequestBody SSCertificate cert){
 		System.out.println("test");               
 		
 		SSCertificate generatedCert  = service.createIMCertificate(cert);
-		
+		if (generatedCert == null) {
+			return new ResponseEntity<>("Sertifikat nije kreiran.", HttpStatus.FORBIDDEN);
+		}
 	return new ResponseEntity<>(generatedCert, HttpStatus.OK);
 	}
 	
