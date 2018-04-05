@@ -157,9 +157,13 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 		String issuerAlias = cert.getIssuerSerialNumber();
 		
 		Certificate issuer = keyStoreReader.readCertificate(ksFile, ksPass, issuerAlias);
-		if (!isCa(issuer) | !isValid(issuerAlias)) {
+		
+		System.out.println("Da li je " +issuerAlias+" CA "+isCa(issuer));
+		System.out.println("Da li je validan "+ isValid(issuerAlias));
+		if (!isCa(issuer)) 
 			return null;
-		}
+		if(!isValid(issuerAlias))
+			return null;
 		IssuerData issuerData = keyStoreReader.readIssuerFromStore(ksFile, issuerAlias, ksPass.toCharArray(), issuerPassword.toCharArray());
 		SubjectData subjectData = du.generateSubjectData(cert);
 		
@@ -201,15 +205,15 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 		
 		X509Certificate cert = (X509Certificate) keyStoreReader.readCertificate(ksFile, ksPass, serialNumber);
 		
-		X509CRL crl = CRLUtils.openFromFile(crlFile);
+		//X509CRL crl = CRLUtils.openFromFile(crlFile);
 		
 		try {
 			cert.checkValidity();
-		if(crl.isRevoked(cert))
+		//if(crl.isRevoked(cert))
 		
-			return false;
-		else
-					return true;
+			return true;
+		//else
+		//			return true;
 				}
 				catch (CertificateExpiredException e) {
 					return false;
@@ -360,7 +364,7 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 	//treba proveriti da li je sertifikat validan, i treba napraviti servis za iscitavanje svih CA==true issuera
 	
 	@Override
-	public void checkValidationOCSP(String serialnumber){
+	public boolean checkValidationOCSP(String serialnumber){
 		//online certificate status protocol : sluzi da proverimo stanje u kom se nalazi sertifikat, da li je istekao itd...tj da li je validan
 		KeyStore keyStore;
 	
@@ -385,9 +389,13 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 				                try {
 				                	 
 				                    certificate.checkValidity();
+				                    
 				                    System.out.println("Certificate is active for current date");
+				                    return true;
 				                } catch(CertificateExpiredException cee) {
+				                	
 				                    System.out.println("Certificate is expired");
+				                    return false;
 				                }
 				            }
 				        
@@ -412,7 +420,7 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 			}
 		
 		
-	
+	return true;
 		
 		
 		

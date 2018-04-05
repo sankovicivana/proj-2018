@@ -92,9 +92,9 @@ public class CertificateController {
 	public ResponseEntity<SSCertificate> addIMCert(@RequestBody SSCertificate cert){
 		System.out.println("test");               
 		
-		service.createIMCertificate(cert);
+		SSCertificate generatedCert  = service.createIMCertificate(cert);
 		
-	return new ResponseEntity<>(cert, HttpStatus.OK);
+	return new ResponseEntity<>(generatedCert, HttpStatus.OK);
 	}
 	
 	
