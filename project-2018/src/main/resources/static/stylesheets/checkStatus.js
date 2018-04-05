@@ -1,5 +1,19 @@
-var url="certificate/checkStatus";
-
-$(document).on('click','.searchForm',function(event){
-	console.log('Testing console');
+$(document).ready(function(){
+	
+	$('#checkBut').click(function(){
+		var url = "certificate/" + $("#searchField").val();
+		console.log(url);
+	
+		$.ajax({
+			url: url,
+			success: function(data){
+				
+				console.log(data);
+				
+			}
+		});
+	});
+	
+	
+	 
 });
