@@ -64,9 +64,24 @@
 				datatype: 'json',
 				success: function(data) {
 					
+					$("#exampleModalLabelReg1").append(data.commonName);
+					
+					newCertificate = "<div><label>Surname:</label>"  + data.surname + "</div>"
+									+"<div><label>Given name:</label>"  + data.givenName + "</div>"
+									+"<div><label>Organization:</label>"  + data.organization + "</div>"
+									+"<div><label>Organization unit:</label>"  + data.organizationUnit + "</div>"
+									+"<div><label>Country:</label>"  + data.country + "</div>"
+									+"<div><label>Email:</label>"  + data.email + "</div>"
+									+"<div><label>Start date:</label>"  + data.startDate + "</div>"
+									+"<div><label>End date:</label>"  + data.endDate + "</div>"
+									+"<div><label>Purpose:</label>"  + data.purpose + "</div>"
+									+"<div><label>AIA:</label>"  + data.aia + "</div>";
+									
+					$("#resultDiv").append(newCertificate);
 				  }
 				});
 			$('#inputModalP').modal('toggle');
+			$('#resultCertificate').modal('toggle');
 			
 		});
 		 
@@ -84,7 +99,6 @@
 				endDate: $("#inputFormCA [name='enddateCA']").val(),
 				purpose: $("#inputFormCA [name='purposeCA']").val(),
 				password: $("#inputFormCA [name='passwordCA']").val(),
-				issuerName: $("#inputFormCA [name='issuerNameCA']").val(),
 				issuerPassword: $("#inputFormCA [name='issuerPasswordCA']").val(),
 				issuerSerialNumber: $("#inputFormCA [name='issuerSerNumCA']").val(),
 				isCA: document.getElementById('CAbox').checked
@@ -123,6 +137,26 @@
       <li><a href="#inputU" data-toggle="modal" data-target="#inputRC">Revoke a Certificate</a></li>
        <li><a href="#inputCheck" data-toggle="modal" data-target="#inputCheck">Check certificate status</a></li>
     </ul>
+    
+	<div class="modal fade" id="resultCertificate" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		    
+			    <div class="modal-header">
+			    	<h3 class="modal-title" id="exampleModalLabelReg1">Created certificate </h3>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			        	<span aria-hidden="true">&times;</span>
+			    	</button>
+			    </div>
+			    
+			    <div class="modal-body" id="resultDiv">
+			    	
+			    </div>
+			    
+			</div>
+		</div>
+	</div>
+
 
 	<div class="modal fade" id="inputCheck" tabindex="-1" role="dialog">
 		 <div class="modal-dialog" role="document">
@@ -259,12 +293,6 @@
 					<p>
 						<label for="purpose">Password:</label> <input type="password"  name="passwordCA" id="passwordCA">
 					</p>
-				    <p>
-				    	<label for="issuerName">Issuer name:</label> <input type="text" name="issuerNameCA" id="issuerNameCA">
-				    </p>
-				    <p>
-				    	<label for="issuerEndDate">Issuer expiration date:</label> <input type="text" name="issuerExpDateCA" id="datepickerCA3">
-				    </p>
 				    <p>
 				    	<label for="issuerPassword">Issuer password:</label> <input type="password" id="issuerPasswordCA" name="issuerPasswordCA">
 				    </p>
