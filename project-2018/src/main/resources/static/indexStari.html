@@ -52,11 +52,9 @@
 				email: $("#inputForm [name='emailSS']").val(),
 				startDate: $("#inputForm [name='startdateSS']").val(),
 				endDate: $("#inputForm [name='enddateSS']").val(),
+				purpose: $("#inputForm [name='purposeSS']").val(),
 				password: $("#inputForm [name='passwordSS']").val()
 		          });
-		 
-		 $("#resultDiv").empty();
-		 $("#exampleModalLabelReg1").empty();
 		 
 			$.ajax({
 				url: "/certificate/addSSC",
@@ -66,19 +64,20 @@
 				datatype: 'json',
 				success: function(data) {
 					
-					$("#exampleModalLabelReg1").append("Created certificate " + data.commonName);
+					$("#exampleModalLabelReg1").append(data.commonName);
 					
-					newCertificate = "<div><label>Serial number:</label>"  + data.serialNumber + "</div>"
-									+"<div><label>Surname:</label>"  + data.surname + "</div>"
+					newCertificate = "<div><label>Surname:</label>"  + data.surname + "</div>"
 									+"<div><label>Given name:</label>"  + data.givenName + "</div>"
 									+"<div><label>Organization:</label>"  + data.organization + "</div>"
 									+"<div><label>Organization unit:</label>"  + data.organizationUnit + "</div>"
 									+"<div><label>Country:</label>"  + data.country + "</div>"
 									+"<div><label>Email:</label>"  + data.email + "</div>"
-									+"<div><label>Valid from:</label>"  + data.startDate + "<strong> to </strong>" + data.endDate + "</div>"
+									+"<div><label>Start date:</label>"  + data.startDate + "</div>"
+									+"<div><label>End date:</label>"  + data.endDate + "</div>"
+									+"<div><label>Purpose:</label>"  + data.purpose + "</div>"
 									+"<div><label>AIA:</label>"  + data.aia + "</div>";
 									
-					$("#resultDiv").empty().append(newCertificate);
+					$("#resultDiv").append(newCertificate);
 				  }
 				});
 			$('#inputModalP').modal('toggle');
@@ -98,14 +97,14 @@
 				email: $("#inputFormCA [name='emailCA']").val(),
 				startDate: $("#inputFormCA [name='startdateCA']").val(),
 				endDate: $("#inputFormCA [name='enddateCA']").val(),
+				purpose: $("#inputFormCA [name='purposeCA']").val(),
 				password: $("#inputFormCA [name='passwordCA']").val(),
 				issuerPassword: $("#inputFormCA [name='issuerPasswordCA']").val(),
 				issuerSerialNumber: $("#inputFormCA [name='issuerSerNumCA']").val(),
-				ca: document.getElementById('CAbox').checked
+				isCA: document.getElementById('CAbox').checked
 		          });
 		 
-		 $("#resultDiv").empty();
-		 $("#exampleModalLabelReg1").empty();
+		 console.log(fData);
 		 
 			$.ajax({
 				url: "/certificate/addIMC",
@@ -115,26 +114,9 @@
 				datatype: 'json',
 				success: function(data) {
 					
-					$("#exampleModalLabelReg1").append("Created certificate " + data.commonName);
-					
-					newCertificate = "<div><label>Serial number:</label>"  + data.serialNumber + "</div>"
-									+"<div><label>Issuer serial number:</label>"  + data.issuerSerialNumber + "</div>"
-									+"<div><label>Issuer name:</label>"  + data.issuerName + "</div>"
-									+"<div><label>Surname:</label>"  + data.surname + "</div>"
-									+"<div><label>Given name:</label>"  + data.givenName + "</div>"
-									+"<div><label>Organization:</label>"  + data.organization + "</div>"
-									+"<div><label>Organization unit:</label>"  + data.organizationUnit + "</div>"
-									+"<div><label>Country:</label>"  + data.country + "</div>"
-									+"<div><label>Email:</label>"  + data.email + "</div>"
-									+"<div><label>Valid from:</label>"  + data.startDate + "<strong> to </strong>" + data.endDate + "</div>"
-									+"<div><label>AIA:</label>"  + data.aia + "</div>";
-									
-					$("#resultDiv").empty().append(newCertificate);
-					
 				  }
 				});
 			$('#inputRa').modal('toggle');
-			$('#resultCertificate').modal('toggle');
 			
 		});
 		 
@@ -161,32 +143,13 @@
 		    <div class="modal-content">
 		    
 			    <div class="modal-header">
-			    	<h3 class="modal-title" id="exampleModalLabelReg1"></h3>
+			    	<h3 class="modal-title" id="exampleModalLabelReg1">Created certificate </h3>
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			        	<span aria-hidden="true">&times;</span>
 			    	</button>
 			    </div>
 			    
 			    <div class="modal-body" id="resultDiv">
-			    	
-			    </div>
-			    
-			</div>
-		</div>
-	</div>
-	
-	<div class="modal fade" id="checkCertificate" tabindex="-1" role="dialog">
-		<div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		    
-			    <div class="modal-header">
-			    	<h3 class="modal-title" id="exampleModalLabelReg2"></h3>
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			        	<span aria-hidden="true">&times;</span>
-			    	</button>
-			    </div>
-			    
-			    <div class="modal-body" id="checkDiv">
 			    	
 			    </div>
 			    
@@ -210,7 +173,7 @@
 		       	<p>
 		       		<label for="certificateNumber">Certificate serial number</label>
     				<input type="text"  name="searchField" id="searchField">
-    				<button type="button" class="btn btn-primary" id="checkBut">Check</button>
+    				<button type="button" class="btn btn-primary" id="check">Check</button>
 		       	</p>
 		       
 		        	
@@ -255,11 +218,18 @@
 				<p>
 					<label for="email">Email:</label> <input type="email"  name="emailSS" id="emailSS" placeholder="Enter email" >
 				</p>
+			
+					<p>
+					<label for="datumi">Datum izdavanja:</label> <input type="text" name="startdateSS" id="datepicker"></p>
+				
 				<p>
-					<label for="datumi">Datum izdavanja:</label> <input type="text" name="startdateSS" id="datepicker">
 				</p>
+			
 				<p>
-					<label for="datumv">Datum vazenja:</label> <input type="text" name="enddateSS" id="datepicker1">
+					<label for="datumv">Datum vazenja:</label> <input type="text" name="enddateSS" id="datepicker1"></p>
+				
+				<p>
+					<label for="purpose">Purpose:</label> <input type="text"  name="purposeSS" id="purpose">
 				</p>
 				<p>
 					<label for="purpose">Password:</label> <input type="password"  name="passwordSS" id="passwordSS">
@@ -318,7 +288,10 @@
 						<label for="datumv">Expiration date:</label> <input type="text" name="enddateCA" id="datepickerCA2">
 					</p>
 					<p>
-						<label for="password">Password:</label> <input type="password"  name="passwordCA" id="passwordCA">
+						<label for="purpose">Purpose:</label> <input type="text"  name="purposeCA" id="purposeCA">
+					</p>
+					<p>
+						<label for="purpose">Password:</label> <input type="password"  name="passwordCA" id="passwordCA">
 					</p>
 				    <p>
 				    	<label for="issuerPassword">Issuer password:</label> <input type="password" id="issuerPasswordCA" name="issuerPasswordCA">
