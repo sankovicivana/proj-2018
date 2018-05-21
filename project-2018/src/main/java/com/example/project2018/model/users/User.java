@@ -1,4 +1,4 @@
-package com.example.project2018.pki.model.users;
+package com.example.project2018.model.users;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
