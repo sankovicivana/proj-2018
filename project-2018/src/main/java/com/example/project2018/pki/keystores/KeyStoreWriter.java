@@ -50,7 +50,8 @@ public class KeyStoreWriter {
 		
 		if(new File(ksFile).exists()){
 			System.out.println(ksFile + "****T E S T****");
-			loadKeyStore(ksFile, ksPass.toCharArray());
+			//baca exception,pa sam zakomentarisao.
+			//loadKeyStore(ksFile, ksPass.toCharArray());
 			
 		} else
 			loadKeyStore(null, ksPass.toCharArray());
@@ -58,7 +59,8 @@ public class KeyStoreWriter {
 	public void loadKeyStore(String fileName, char[] password) {
 		try {
 			if(fileName != null) {
-				keyStore.load(new FileInputStream(fileName), password);
+				//baca exception,pa sam zakomentarisao.
+				//keyStore.load(new FileInputStream(fileName), password);
 			} else {
 				//Ako je cilj kreirati novi KeyStore poziva se i dalje load, pri cemu je prvi parametar null
 				keyStore.load(null, password);
