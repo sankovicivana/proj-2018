@@ -1,6 +1,6 @@
 package com.example.project2018.pki.controller;
 
-import java.awt.PageAttributes.MediaType;
+
 import java.io.IOException;
 import java.security.cert.CRLException;
 import java.security.cert.Certificate;
@@ -13,13 +13,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.project2018.pki.data.SubjectData;
+
 import com.example.project2018.pki.model.CertificateData;
 import com.example.project2018.pki.model.SSCertificate;
 import com.example.project2018.pki.service.SSCertificateService;

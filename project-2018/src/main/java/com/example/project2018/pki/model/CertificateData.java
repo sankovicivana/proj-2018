@@ -1,7 +1,23 @@
 package com.example.project2018.pki.model;
 
-public class CertificateData {
 
+
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "certificateData")
+public class CertificateData  implements Serializable{
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	
 	private String serialNumber;
 	private String subject;
 	private String issuer;
@@ -13,6 +29,43 @@ public class CertificateData {
 	private String aia;
 	private String cdp;
 	private CertificateType type;
+	private boolean status;
+	
+	
+	public CertificateData() {
+		super();
+		
+	}
+	
+	public CertificateData(String serialNumber,String subject,String issuer,String validForm,
+			String publicKey,String signatureAlgorithm,String purpose,String aia,String cdp,CertificateType type,
+	boolean status) {
+		super();
+	
+		this.serialNumber = serialNumber;
+		this.subject = subject;
+		this.issuer = issuer;
+		this.validFrom = validForm;
+		this.publicKey = publicKey;
+		this.signatureAlgorithm = signatureAlgorithm;
+		this.purpose = purpose;
+		this.aia = aia;
+		this.cdp = cdp;
+		this.type = type;
+		this.status = status;
+		
+	}
+	
+	
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getSerialNumber() {
 		return serialNumber;
 	}
@@ -79,8 +132,14 @@ public class CertificateData {
 	public void setType(CertificateType type) {
 		this.type = type;
 	}
+	public boolean getStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 
-
+	
 
 
 

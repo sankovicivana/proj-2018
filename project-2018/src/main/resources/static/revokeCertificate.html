@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Revoke certificate</title>
+<script type="text/javascript" src="stylesheets/jquery.min.js"></script>
+<script type="text/javascript" src="stylesheets/revoke.js"></script>
+<link rel="stylesheet" type="text/css" href="css/index.css">
+
+</head>
+<body>
+
+<!-- toolbar -->
+<ul class="header">
+</ul>
+
+
+<div id="revokeCertificate_div">
+<form id = "revokeCertificate" method="post">
+	<h3>Revoke Certificate</h3>
+			<div>
+				<label>Certificate serial number: </label>
+			<div>
+			<div>
+				<input type="text" name="serialNumber" id = "serialNumber" style="width: 280px;">
+			</div>
+			</div>
+			</div>
+				<br>
+
+				<input  id="revoke" onclick="revokeCert()" type="button" value="Revoke">
+	</form>
+</div>	
+
+</body>
+</html>

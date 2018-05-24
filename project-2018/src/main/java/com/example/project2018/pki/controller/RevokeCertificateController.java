@@ -2,7 +2,6 @@ package com.example.project2018.pki.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,18 +12,15 @@ import com.example.project2018.pki.model.CertificateData;
 import com.example.project2018.pki.model.ResponseText;
 import com.example.project2018.pki.repository.CertificateDataRepository;
 
-
 @RestController
-@RequestMapping("/checkStatus")
-public class CheckStatusController {
+@RequestMapping("/revokecontroller")
+public class RevokeCertificateController {
 
 	@Autowired
-	private CertificateDataRepository certificateDR;
+	private CertificateDataRepository repository;
 	
-	
-	@RequestMapping(value = "/ocspRevoke", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity ocspRevoke(@RequestBody CertificateData cd) {
+	@RequestMapping(value = "/revokeCertificate", method = RequestMethod.POST, headers = { "content-type=application/json" })
+	public ResponseEntity revokeCertificate(@RequestBody CertificateData cd) {
 		String serialNumber = "";
 		System.out.println("---------------------");
 		System.out.println(cd.getSerialNumber());
@@ -38,22 +34,17 @@ public class CheckStatusController {
 		}
 		try {
 			System.out.println(serialNumber);
-			CertificateData cda = certificateDR.findBySerialNumber(serialNumber);
-			if(cda.getStatus()) {
-				System.out.println("Povucen");
-				return new ResponseEntity(new ResponseText("Povucen"), HttpStatus.OK);
-				
-			}else {
-				return new ResponseEntity(new ResponseText("Nije povucen"), HttpStatus.OK);
-			}
+			CertificateData cda = repository.findBySerialNumber(serialNumber);
+			//cda.setStatus(true);
+			repository.save(cda);
+	
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity(new ResponseText("OK"), HttpStatus.OK);
 
+		return new ResponseEntity(new ResponseText("Sertifikat je uspesno povucen"),HttpStatus.OK);
 	}
-
+	
+	
 }
-
-

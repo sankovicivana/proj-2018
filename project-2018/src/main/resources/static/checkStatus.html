@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Check Certificate Status</title>
+<script type="text/javascript" src="stylesheets/jquery.min.js"></script>
+<script type="text/javascript" src="stylesheets/check.js"></script>
+<link rel="stylesheet" type="text/css" href="css/index.css">
+
+</head>
+<body>
+
+<!-- toolbar -->
+<ul class="header">
+</ul>
+
+
+<div id="checkStatus_div">
+<form id = "checkStatus" method="post">
+	<h3>Check Certificate Status</h3>
+			<div>
+				<label>Certificate serial number: </label>
+			<div>
+			<div>
+				<input type="text" name="serialNumber" id = "serialNumber" style="width: 280px;">
+			</div>
+			</div>
+			</div>
+				<br>
+
+				<input  id="check" onclick="checkStatus()" type="button" value="Check">
+	</form>
+	
+	<div id = "status"></div>
+</div>
+</body>
+</html>
