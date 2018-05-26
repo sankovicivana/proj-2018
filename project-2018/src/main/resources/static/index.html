@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="jquery-ui.css">
 <script type="text/javascript" src="stylesheets/checkStatus.js"></script>
 
+
 <title>pocetna</title>
  <script>
 	 $( function() {
@@ -39,7 +40,134 @@
 	 
 	 
 	 $(document).ready(function(){
-		
+					 var TOKEN_KEY = "jwtToken";
+					 if (getJwtToken()) {
+						 $('#logOutBtn').show();
+						 $('#regBtn').hide();
+						 $('#logInBtn').hide();
+					 
+			        } else {
+				        $('#logOutBtn').hide();
+				        $('#logInBtn').show();
+				        $('#regBtn').show();
+				      
+			        } 
+		 
+				 
+					 
+				 function isLoggedIn() {
+					 if (getJwtToken()) {
+							 $('#logOutBtn').show();
+							 $('#regBtn').hide();
+							 $('#logIntBtn').hide();
+						 return true;
+				        } else {
+					        $('#logOutBtn').hide();
+					        $('#logInBtn').show();
+					        $('#regBtn').show();
+					        return false;
+				        } 
+				        
+				    }
+				 function getJwtToken() {
+				        return localStorage.getItem(TOKEN_KEY);
+				    }		 
+				 function setJwtToken(token) {
+						localStorage.setItem(TOKEN_KEY, token);
+				    }
+				 function removeJwtToken() {
+				        localStorage.removeItem(TOKEN_KEY);
+				    }
+				 function doLogOut() {
+				        removeJwtToken();
+				        
+				    }
+				 $("#logOutBtn").click(function(){
+					 doLogOut();
+					 $('#logOutBtn').hide();
+				     $('#logInBtn').show();
+				     $('#regBtn').show();
+					 $('#inputModal').modal('toggle');
+				 });
+				 function createAuthorizationTokenHeader() {
+				        var token = getJwtToken();
+				        if (token) {
+				            return {"Authorization": "Bearer " + token};
+				        } else {
+				            return {};
+				        }
+				    }
+				$("#register").click(function(){
+					
+					 
+					 formData = JSON.stringify({
+						 	username: $("#inputForm [name='usernameRegistration']").val(),
+							email: $("#inputForm [name='emailRegistration']").val(),
+							name: $("#inputForm [name='nameRegistration']").val(),
+							surname: $("#inputForm [name='surnameRegistration']").val(),
+							password: $("#inputForm [name='passwordRegistration']").val(),
+							city: $("#inputForm [name='cityRegistration']").val(),
+							phoneNumber: $("#inputForm [name='phoneNumberRegistration']").val(),
+					          });
+					 
+					 var pass=$("#inputForm [name='passwordRegistration']").val();
+					 var confPass=$("#inputForm [name='confirmPasswordRegistration']").val();
+					 if(pass==confPass)
+					 { 
+			
+							 $.ajax({
+								url: "http://localhost:8080/auth/register",
+								type: "POST",
+								data: formData,
+								contentType: "application/json",
+								datatype: "json",
+								success: function(data) {
+										alert("Poslat je mail za aktivaciju.");
+								  },
+								 error: function(error) {
+							            alert("Greska!");
+							        }
+								});
+							 
+					}else{
+						alert("Passwords must match");
+					}
+					$('#inputR').modal('toggle');
+					 
+				});
+				
+				
+				$("#login").click(function(){
+					
+					 formData = JSON.stringify({
+						username: $("#inputFormLogin [name='username']").val(),
+						password: $("#inputFormLogin [name='password']").val(),
+						
+					 });
+					$.ajax({
+						
+					
+						url: "http://localhost:8080/auth",
+						type: "POST",
+						data: formData,
+						contentType: "application/json",
+						datatype: "json",
+						success: function(data) {
+								$("#logOutBtn").show();
+								$("#logInBtn").hide();
+								$("#regBtn").hide();
+								$('#inputModal').modal('toggle');
+								console.log(data);
+			                	setJwtToken(data.token);					
+								
+								 
+						  },
+						error : function(error) {
+							alert("Neispravni email i sifra ");
+						}
+						});
+					
+					});
 		$("#addRootC").click(function(){
 		 
 		 formData = JSON.stringify({
@@ -64,6 +192,7 @@
 				data: formData,
 				contentType: "application/json",
 				datatype: 'json',
+				headers: createAuthorizationTokenHeader(),
 				success: function(data) {
 					
 					$("#exampleModalLabelReg1").append("Created certificate " + data.commonName);
@@ -144,11 +273,152 @@
  
 </head>
 
-
+<script>
+	$(document).ready(function(){
+		
+			
+		
+		
+		
+		});
+		
+		
+		
+		
+	
+</script>
 <body>
 
 
-    <ul >
+
+<!-- Large modal -->
+
+<nav class="navbar">
+  <div class="container-fluid">
+  	
+    <ul class="nav navbar-nav navbar-right">
+    	
+<!--     	<li><a id="logInLogOutBtn" href="#inputModal" data-toggle="modal" data-target="#inputModal">Prijava</a></li> -->
+<!--     	<li><a id="regBtn" href="#inputR" data-toggle="modal" data-target="#inputR">Registracija</a></li> -->
+    	<li><button id="logInBtn" class="btn btn-primary" data-toggle="modal" data-target="#inputModal"">Prijava </button></li>
+    	<li><button id="regBtn" class="btn btn-primary" data-toggle="modal" data-target="#inputR">Registracija </button></li>
+    	<li><button id="logOutBtn" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Odjavi se </button></li>
+    </ul>
+  </div>
+</nav>
+
+	<div class="modal fade" id="inputModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Log in</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <form id="inputFormLogin" data-toggle="validator" role="form" data-disable="true">
+		      <div class="modal-body">
+					<input type="hidden" name="id" id="id" />
+					
+				<div class="form-group ">
+					<label for="username"  class="control-label">Username:</label> <input type="text" class="form-control" name="username" id="username" placeholder="Enter username" data-error="Unesitekorisnicko ime" required/>
+					<div class="help-block with-errors"></div>
+				</div>
+				
+				<div class="form-group ">
+					<label for="password"  class="control-label">Password:</label> <input type="password" class="form-control" name="password" id="password" placeholder="Password" data-error="Unesite sifru" required/>
+					<div class="help-block with-errors"></div>
+				</div>	
+				
+		      </div>
+		      <div class="row">
+       			 <div class="col-xs-6 col-sm-6 col-md-6">
+         			 <a href="#" class="btn btn-lg btn-primary btn-block">Facebook</a>
+       			 </div>
+       			 <div class="col-xs-6 col-sm-6 col-md-6">
+         			 <a href="#" class="btn btn-lg btn-info btn-block">Google</a>
+       			 </div>
+      </div>
+       <div class="login-or">
+        <hr class="hr-or">
+        <span class="span-or">or</span>
+      </div>
+       <div >
+      	<button type="button" class="btn btn-primary btn-lg btn-block">Registration</button>
+      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary" id="login" >Log in</button>
+		      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		
+		
+		<div class="modal fade" id="inputR" tabindex="-1" role="dialog">
+		 <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabelReg">Registration</h5>
+		       </div>
+		       <form id="inputForm" data-toggle="validator" role="form" data-disable="true">
+		       <div class="modal-body">
+		       	<input type="hidden" id="idr" name="idr">
+		       	<div class="form-group ">
+		       		<label for="username">Username</label>
+		       		<input type="text" name="usernameRegistration" class="form-control" id="usernameRegistration" aria-describedby="usernameHelp" placeholder="Name" data-error="Unesite username" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       <div class="form-group ">
+		       		<label for="inputEmail1">Email address</label>
+    				<input type="email" name="emailRegistration" class="form-control" id="emailRegistration" aria-describedby="emailHelp" placeholder="Enter email" data-error="Unesite email" required/>
+		       		<div class="help-block with-errors"></div>
+		       </div>
+		       <div class="form-group ">
+		       		<label for="passregistration">Password</label>
+		       		<input type="password"  name="passwordRegistration" class="form-control" id="passwordR" aria-describedby="passHelp" placeholder="Password" data-error="Unesite sifru"  required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       <div class="form-group ">
+		       		<label for="confirmpass">Confirm password</label>
+		       		<input type="password" name="confirmPasswordRegistration"class="form-control" id="confirmPasswordRegistration" aria-describedby="passHelp" placeholder="Confirm password" data-error="Ponovite sifru" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       	<div class="form-group ">
+		       		<label for="ime">Name</label>
+		       		<input type="text" name="nameRegistration" class="form-control" id="nameRegistration" aria-describedby="nameHelp" placeholder="Name" data-error="Unesite ime" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       	<div class="form-group ">
+		       		<label for="surname">Surname</label>
+		       		<input type="text" name="surnameRegistration" class="form-control" id="surnameRegistration" aria-describedby="nameHelp" placeholder="Surname" data-error="Unesite prezime" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       	
+		       	<div class="form-group ">
+		       		<label for="grad">Town</label>
+		       		<input type="text" name="cityRegistration" class="form-control" id="cityRegistration" aria-describedby="townHelp" placeholder="Town" data-error="Unesite naziv grada" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       	
+		  		<div class="form-group ">
+		       		<label for="grad">Phone number</label>
+		       		<input type="text" name="phoneNumberRegistration" class="form-control" id="phoneNumberRegistration" aria-describedby="numberHelp" placeholder="Phone number"  pattern="[0-9]{1,}"  data-error="Unesite broj telefona" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       </div>
+		       <div class="modal-footer">
+		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        	<button type="button" class="btn btn-primary" id="register">Submit</button>
+				</div>
+				</form>
+		     </div>
+		</div>
+
+		</div>
+
+    <ul id= "certMenu" >
       <li><a href="#inputModalP" data-toggle="modal" data-target="#inputModalP">Generate Self-Signed Certificate</a></li>
       <li><a href="#inputRa" data-toggle="modal" data-target="#inputRa">Generate Certificate for CA</a></li>
       <li><a href="#inputU" data-toggle="modal" data-target="#inputU">Generate Certificate for Users</a></li>
