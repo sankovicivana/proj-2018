@@ -1,5 +1,9 @@
 package com.example.project2018.server.model;
 
+import java.security.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,7 +21,9 @@ import com.example.project2018.server.model.users.User;
 
 @Entity
 public class Token {
-
+	
+	private static final int EXPIRATION = 60 * 24;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -31,7 +37,15 @@ public class Token {
 	
 	@Enumerated(EnumType.STRING)
     private TokenType type;
-
+	
+	private Date expiryDate;
+    
+	private Date calculateExpiryDate(final int expiryTimeInMinutes) {
+        final Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(new Date().getTime());
+        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+        return new Date(cal.getTime().getTime());
+    }
 	public Token() {
 		super();
 	}
@@ -66,6 +80,12 @@ public class Token {
 
 	public void setType(TokenType type) {
 		this.type = type;
+	}
+	public Date getExpiryDate() {
+		return expiryDate;
+	}
+	public void setExpiryDate(Date expiryDate) {
+		this.expiryDate = expiryDate;
 	}
 	
 	

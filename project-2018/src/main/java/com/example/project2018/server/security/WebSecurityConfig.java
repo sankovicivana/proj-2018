@@ -72,7 +72,7 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter{
             .authorizeRequests()
 
            
-
+            .antMatchers("/certficate/**").hasAuthority("ADMIN")
             .antMatchers("/auth/**").permitAll()
             .anyRequest().authenticated();
 

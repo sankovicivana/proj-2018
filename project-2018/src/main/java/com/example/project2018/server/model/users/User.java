@@ -35,11 +35,12 @@ public class User {
 	
 
 	private String city; 	
-	
+	@Column(nullable = false, unique = true)
 	private String username;
 	
 
 	@ValidEmail
+	@Column(nullable = false, unique = true)
 	private String email;
 	
 
