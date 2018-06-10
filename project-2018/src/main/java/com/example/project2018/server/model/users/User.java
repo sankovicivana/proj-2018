@@ -28,7 +28,8 @@ public class User {
 	
 
 	private String lastname;
-	
+	//za mail da li je potvrdjen
+	private boolean confirmed;
 
 	//@ValidPassword
 	private String password;
@@ -171,6 +172,14 @@ public class User {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
 	}
 	
 	
