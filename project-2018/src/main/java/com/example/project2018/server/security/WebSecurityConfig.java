@@ -73,7 +73,7 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter{
 
            
             .antMatchers("/certficate/**").hasAuthority("ADMIN")
-            .antMatchers("/login/**","/register/**").permitAll()
+            .antMatchers("/login/**","/register/**","/confirmation/{encoded}/**").permitAll()
             .anyRequest().authenticated();
 
         JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader);

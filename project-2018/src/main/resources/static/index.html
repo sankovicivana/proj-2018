@@ -40,6 +40,13 @@
 	 
 	 
 	 $(document).ready(function(){
+			 var url = window.location.href;
+		  		  if (url.indexOf("?encoded") > -1){
+		       		var newUrl = new URL(url);
+		        	var encoded = newUrl.searchParams.get("encoded");
+		       		mailConfirmation(encoded);
+		    	}
+		 
 					 var TOKEN_KEY = "jwtToken";
 					 if (getJwtToken()) {
 						 $('#logOutBtn').show();
@@ -103,11 +110,10 @@
 					 formData = JSON.stringify({
 						 	username: $("#inputForm [name='usernameRegistration']").val(),
 							email: $("#inputForm [name='emailRegistration']").val(),
-							name: $("#inputForm [name='nameRegistration']").val(),
-							surname: $("#inputForm [name='surnameRegistration']").val(),
+							firstname: $("#inputForm [name='nameRegistration']").val(),
+							lastname: $("#inputForm [name='surnameRegistration']").val(),
 							password: $("#inputForm [name='passwordRegistration']").val(),
-							city: $("#inputForm [name='cityRegistration']").val(),
-							phoneNumber: $("#inputForm [name='phoneNumberRegistration']").val(),
+							phone: $("#inputForm [name='phoneNumberRegistration']").val(),
 					          });
 					 
 					 var pass=$("#inputForm [name='passwordRegistration']").val();
@@ -135,6 +141,19 @@
 					$('#inputR').modal('toggle');
 					 
 				});
+				function mailConfirmation(encoded){
+				    $.ajax({
+				        type: 'GET',
+				        url:'/confirmation/' + encoded,
+				        contentType:'application/json',
+				        dataType: 'json',
+				        success: function(data){
+				            setTimeout(function() { alert("You have successfully registered"); }, 1000);
+				            setTimeout(function() { window.location.replace("index.html"); }, 1000);
+				        }
+				    })
+				}
+				
 				
 				
 				$("#login").click(function(){
@@ -385,13 +404,7 @@
 		       		<input type="text" name="surnameRegistration" class="form-control" id="surnameRegistration" aria-describedby="nameHelp" placeholder="Surname" data-error="Unesite prezime" required/>
 		       		<div class="help-block with-errors"></div>
 		       	</div>
-		       	
-		       	<div class="form-group ">
-		       		<label for="grad">Town</label>
-		       		<input type="text" name="cityRegistration" class="form-control" id="cityRegistration" aria-describedby="townHelp" placeholder="Town" data-error="Unesite naziv grada" required/>
-		       		<div class="help-block with-errors"></div>
-		       	</div>
-		       	
+		       
 		  		<div class="form-group ">
 		       		<label for="grad">Phone number</label>
 		       		<input type="text" name="phoneNumberRegistration" class="form-control" id="phoneNumberRegistration" aria-describedby="numberHelp" placeholder="Phone number"  pattern="[0-9]{1,}"  data-error="Unesite broj telefona" required/>

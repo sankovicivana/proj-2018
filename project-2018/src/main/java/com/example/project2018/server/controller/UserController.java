@@ -90,11 +90,12 @@ public class UserController {
     public ResponseEntity<User> sentMail(@PathVariable String encoded){
     	 byte[] bytesDec = Base64.decodeBase64(encoded);
          String email = new String(bytesDec);
-         System.out.println(email);
+         System.out.println("mail"+email);
     	
     	User user= userRepository.getUserByEmail(email);
     	if(user!=null){
-    		user.setConfirmed(true);
+    			user.setConfirmed(true);
+    			user.setEnabled(true);
     		 System.out.println(user.isConfirmed());
     		userRepository.save(user);
     		return new ResponseEntity<>(user, HttpStatus.OK);

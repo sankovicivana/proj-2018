@@ -1,4 +1,4 @@
-package com.example.project2018.server.model;
+/*package com.example.project2018.server.model;
 
 import java.util.List;
 
@@ -162,3 +162,4 @@ public class Accommodation {
 	}
 	
 }
+*/
