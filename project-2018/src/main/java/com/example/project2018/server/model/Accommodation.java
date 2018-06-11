@@ -1,6 +1,6 @@
 package com.example.project2018.server.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Accommodation {
@@ -28,7 +27,7 @@ public class Accommodation {
 	private AccommodationCategory category;
 	
 	@OneToMany
-	private ArrayList<Service> services;
+	private List<Service> services;
 	
 	@Column
 	private float grade;
@@ -43,7 +42,7 @@ public class Accommodation {
 	private String picture;
 	
 	@OneToMany
-	private ArrayList<Price> prices;
+	private List<Price> prices;
 	
 	@Column
 	private String addressPlace;
@@ -90,11 +89,11 @@ public class Accommodation {
 		this.category = category;
 	}
 
-	public ArrayList<Service> getServices() {
+	public List<Service> getServices() {
 		return services;
 	}
 
-	public void setServices(ArrayList<Service> services) {
+	public void setServices(List<Service> services) {
 		this.services = services;
 	}
 
@@ -130,11 +129,11 @@ public class Accommodation {
 		this.picture = picture;
 	}
 
-	public ArrayList<Price> getPrices() {
+	public List<Price> getPrices() {
 		return prices;
 	}
 
-	public void setPrices(ArrayList<Price> prices) {
+	public void setPrices(List<Price> prices) {
 		this.prices = prices;
 	}
 
