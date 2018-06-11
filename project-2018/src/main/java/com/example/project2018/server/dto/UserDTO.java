@@ -10,7 +10,7 @@ public class UserDTO {
 	private String firstname;
 	private String lastname;
 	private List<String> roles;
-	
+
 	
 	public UserDTO(String username, List<String> roles) {
 		super();

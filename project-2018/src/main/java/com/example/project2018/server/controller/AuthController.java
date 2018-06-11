@@ -96,7 +96,7 @@ public class AuthController {
 				System.out.println(perm.getName());
 			}
     	}*/
-
+        System.out.println("Korisnik " +userDetails.getUsername() + "je "+ userDetails.isEnabled());
         UserDTO userDto = new UserDTO(userDetails.getUsername(), roles);
         // Return the token
         return ResponseEntity.ok(new JwtAuthenticationResponse(userDto, token));
