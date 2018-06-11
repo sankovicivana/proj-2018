@@ -21,13 +21,36 @@ import com.example.project2018.server.model.users.User;
 public class Controller {
 
 
-	@PreAuthorize("hasAuthority('ADMIN')")
-	@RequestMapping(value="/test", method=RequestMethod.GET)
-	public ResponseEntity<String> test(){
+	@PreAuthorize("hasAuthority('CREATE_CERTIFICATE')")
+	@RequestMapping(value="/createCert", method=RequestMethod.GET)
+	public ResponseEntity<String> createCert(){
 		
 		
-	return new ResponseEntity<>("Hello ", HttpStatus.OK);
+	return new ResponseEntity<>("Create certificate ", HttpStatus.OK);
 	}
+
+	@PreAuthorize("hasAuthority('READ_CERTIFICATE')")
+	@RequestMapping(value="/readCert", method=RequestMethod.GET)
+	public ResponseEntity<String> readCert(){
+		
+		
+	return new ResponseEntity<>("Read certificate ", HttpStatus.OK);
+	}
+	@PreAuthorize("hasRole('ADMIN')")
+	@RequestMapping(value="/admin", method=RequestMethod.GET)
+	public ResponseEntity<String> admin(){
+		
+		
+	return new ResponseEntity<>("Admin ", HttpStatus.OK);
+	}
+	@PreAuthorize("hasRole('AGENT')")
+	@RequestMapping(value="/agent", method=RequestMethod.GET)
+	public ResponseEntity<String> agent(){
+		
+		
+	return new ResponseEntity<>("Agent ", HttpStatus.OK);
+	}
+	
 	
 	
 }

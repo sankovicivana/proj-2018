@@ -1,9 +1,12 @@
 package com.example.project2018.server.model.users;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
@@ -17,7 +20,10 @@ public class Permission {
 
 	@NotNull
 	private String name;
-
+	
+	@ManyToMany(mappedBy = "permissions")
+	private Collection<Role> roles;
+	
 	public Permission() {
 		super();
 	}
@@ -36,6 +42,14 @@ public class Permission {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Collection<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Collection<Role> roles) {
+		this.roles = roles;
 	}
 	
 	
