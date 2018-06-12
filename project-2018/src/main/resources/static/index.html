@@ -182,7 +182,9 @@
 								 
 						  },
 						error : function(error) {
-							alert("Neispravni email i sifra ");
+						
+							console.log(error.responseText);
+							$("#loginErrorStatus").text(error.responseText);
 						}
 						});
 					
@@ -346,7 +348,7 @@
 				
 				<div class="form-group ">
 					<label for="password"  class="control-label">Lozinka:</label> <input type="password" class="form-control" name="password" id="password" placeholder="Password" data-error="Unesite sifru" required/>
-					<div class="help-block with-errors"></div>
+					<div id="loginErrorStatus"class="help-block with-errors"></div>
 					<div><a href="#">Zaboravljena lozinka?</a></div>
 				</div>	
 				

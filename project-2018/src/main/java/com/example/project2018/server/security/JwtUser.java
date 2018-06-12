@@ -19,7 +19,9 @@ public class JwtUser implements UserDetails {
     private final String email;
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean enabled;
-
+    private final boolean accountNonLocked;
+/*    private final Date lastLoginAttempt;
+    private final int loginAttemts;*/
 
     public JwtUser(
           Long id,
@@ -28,7 +30,8 @@ public class JwtUser implements UserDetails {
           String lastname,
           String email,
           String password, Collection<? extends GrantedAuthority> authorities,
-          boolean enabled
+          boolean enabled,
+          boolean accountNonLocked
 
     ) {
         this.id = id;
@@ -39,6 +42,7 @@ public class JwtUser implements UserDetails {
         this.password = password;
         this.authorities = authorities;
         this.enabled = enabled;
+        this.accountNonLocked = accountNonLocked;
 
     }
 
@@ -58,10 +62,9 @@ public class JwtUser implements UserDetails {
         return true;
     }
 
-    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return accountNonLocked;
     }
 
     @JsonIgnore
@@ -97,6 +100,8 @@ public class JwtUser implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+
 
    
 }

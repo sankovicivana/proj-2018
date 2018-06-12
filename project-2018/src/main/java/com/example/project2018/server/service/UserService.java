@@ -14,4 +14,9 @@ public interface UserService {
 	User getByEmail(String email);
 	User getByUsername(String username);
 	User createUser(UserDTO userDTO);
+	boolean checkLockedExpired(String username);
+	int getLoginAttempts(String username);
+	User lockUser(String username);
+	User badLoginAttempt(String username);
+	User succesLogIn(String username);
 }

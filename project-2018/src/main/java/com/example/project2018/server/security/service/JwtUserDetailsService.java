@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +26,7 @@ import com.example.project2018.server.model.users.Role;
 import com.example.project2018.server.model.users.User;
 import com.example.project2018.server.repository.UserRepository;
 import com.example.project2018.server.security.JwtUser;
+import com.example.project2018.server.service.UserService;
 
 
 @Service
@@ -35,23 +37,28 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
     
-    
+    @Autowired
+    private UserService userService;
     
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, LockedException  {
         User user = userRepository.findByUsername(username);
 
         if (user == null) {
-        	logger.info("No user found with username: {}", username);
+        	logger.info("Ne postoji korisnik sa imenom: {}", username);
             throw new UsernameNotFoundException(String.format("No user found with username: '%s'.", username));
         } else {
+    	//if(!user.isAccountNonLocked()) {
+    	//	throw new LockedException(String.format("User with username: '%s' is locked.", username));
+    	//}else
+        	logger.info("Postoji korisnik sa imenom: {}", username);
             return getUserDetails(user);
         }
     }
     private JwtUser getUserDetails(User user) {
 		
-		return new JwtUser(user.getId(), user.getUsername(),user.getFirstname(), user.getLastname(), user.getEmail(),user.getPassword(), getAuthorities(user.getRoles()), user.getEnabled());
+		return new JwtUser(user.getId(), user.getUsername(),user.getFirstname(), user.getLastname(), user.getEmail(),user.getPassword(), getAuthorities(user.getRoles()), user.getEnabled(),user.isAccountNonLocked());
 	}
 	private final Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
     	List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();

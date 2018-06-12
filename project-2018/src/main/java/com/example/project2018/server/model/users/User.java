@@ -1,5 +1,6 @@
 package com.example.project2018.server.model.users;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -49,7 +50,7 @@ public class User {
 	
 	private boolean enabled;
 	
-	private boolean locked;
+	private boolean accountNonLocked;
 	
 	private String  token;
 	
@@ -59,6 +60,9 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
 	private Set<Role> roles;
+	
+	private int loginAttempts;
+	private Date lastLoginAttempt;
 	
 	public User() {
 		
@@ -142,13 +146,7 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	public boolean isLocked() {
-		return locked;
-	}
 
-	public void setLocked(boolean locked) {
-		this.locked = locked;
-	}
 
 	public String getToken() {
 		return token;
@@ -180,6 +178,30 @@ public class User {
 
 	public void setConfirmed(boolean confirmed) {
 		this.confirmed = confirmed;
+	}
+
+	public int getLoginAttempts() {
+		return loginAttempts;
+	}
+
+	public void setLoginAttempts(int loginAttempts) {
+		this.loginAttempts = loginAttempts;
+	}
+
+	public Date getLastLoginAttempt() {
+		return lastLoginAttempt;
+	}
+
+	public void setLastLoginAttempt(Date lastLoginAttempt) {
+		this.lastLoginAttempt = lastLoginAttempt;
+	}
+
+	public boolean isAccountNonLocked() {
+		return accountNonLocked;
+	}
+
+	public void setAccountNonLocked(boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
 	}
 	
 	

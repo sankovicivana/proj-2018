@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -77,10 +78,10 @@ public class AuthController {
     	Authentication authentication = authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
        
         // Reload password post-security so we can generate the token
-        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        JwtUser userDetails = (JwtUser)userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         String token = jwtTokenUtil.generateToken(userDetails);
         logger.info("{} logged in.", userDetails.getUsername());
-        
+        userService.succesLogIn(userDetails.getUsername());
         List<String> roles = authentication.getAuthorities().stream()
 				.map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList());
@@ -113,15 +114,30 @@ public class AuthController {
     private Authentication authenticate(String username, String password) {
         Objects.requireNonNull(username);
         Objects.requireNonNull(password);
-
+        Authentication authentication;
         try {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             return authentication;
         } catch (DisabledException e) {
-            throw new AuthenticationException("User is disabled!", e);
+        	
+            throw new AuthenticationException("Nalog nije aktiviran!", e);
+            
+        }catch (LockedException e) {
+        	if (userService.checkLockedExpired(username)) {
+        		authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+                System.out.println("Authentication: " + authentication.isAuthenticated());
+        		return authentication;
+			} else {
+				throw new AuthenticationException("Nalog je zakljucan! Pokusajte ponovo za 5 minuta.", e);
+			}
         } catch (BadCredentialsException e) {
-            throw new AuthenticationException("Bad credentials!", e);
-        }
+        	
+        	if(userService.getByUsername(username)!=null) 
+        		userService.badLoginAttempt(username);
+        	       	
+        	throw new AuthenticationException("Pogresno korisnicko ime i lozinka!", e);
+        }    
+        	
     }
     @RequestMapping(value = "/reset_password", method = RequestMethod.POST)
     public ResponseEntity<String> resetPassword(@RequestBody @Valid PasswordRequest passwordReset){
