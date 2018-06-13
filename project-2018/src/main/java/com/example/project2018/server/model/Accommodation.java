@@ -1,4 +1,4 @@
-/*package com.example.project2018.server.model;
+package com.example.project2018.server.model;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class Accommodation {
 	private AccommodationCategory category;
 	
 	@OneToMany
-	private List<Service> services;
+	private List<AccService> services;
 	
 	@Column
 	private float grade;
@@ -89,11 +89,11 @@ public class Accommodation {
 		this.category = category;
 	}
 
-	public List<Service> getServices() {
+	public List<AccService> getServices() {
 		return services;
 	}
 
-	public void setServices(List<Service> services) {
+	public void setServices(List<AccService> services) {
 		this.services = services;
 	}
 
@@ -162,4 +162,3 @@ public class Accommodation {
 	}
 	
 }
-*/
