@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xs:element name="Dodatna_usluga">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="DU_ID">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:long"/>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="DU_Naziv">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element default="false" name="DU_dostupna">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:boolean"/>
+                    </xs:simpleType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

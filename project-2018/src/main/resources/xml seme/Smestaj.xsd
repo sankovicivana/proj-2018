@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="DodatnaUsluga.xsd"/>
+    <xs:include schemaLocation="TipSmestaja.xsd"/>
+    <xs:include schemaLocation="Kategorija.xsd"/>
+    <xs:element name="Smestaj">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Naziv">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element ref="Tip_Smestaja"/>
+                <xs:element ref="Kategorija"/>
+                <xs:element name="Dodatne_usluge">
+                    <xs:complexType>
+                        <xs:sequence maxOccurs="unbounded">
+                            <xs:element ref="Dodatna_usluga"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Ocena">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:float"/>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="Opis">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="Broj_mesta">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:positiveInteger"/>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="Slika">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="Cenovnik">
+                    <xs:complexType>
+                        <xs:sequence maxOccurs="unbounded">
+                            <xs:element name="Cena" type="TCena"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Adresa">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Mesto">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string"/>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="Ulica">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string"/>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="Broj">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:positiveInteger"/>
+                                </xs:simpleType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="TCena">
+        <xs:sequence>
+            <xs:element name="Vrednost">
+                <xs:simpleType>
+                    <xs:restriction base="xs:int"/>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Pocetni_datum">
+                <xs:simpleType>
+                    <xs:restriction base="xs:date"/>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Krajnji_datum">
+                <xs:simpleType>
+                    <xs:restriction base="xs:date"/>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
