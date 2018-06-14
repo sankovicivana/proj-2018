@@ -81,12 +81,15 @@ public class Token {
 	public void setType(TokenType type) {
 		this.type = type;
 	}
-	public Date getExpiryDate() {
-		return expiryDate;
-	}
-	public void setExpiryDate(Date expiryDate) {
-		this.expiryDate = expiryDate;
-	}
 	
-	
+
+    public void setExpiryDate(int minutes){
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.MINUTE, minutes);
+        this.expiryDate = now.getTime();
+    }
+
+    public boolean isExpired() {
+        return new Date().after(this.expiryDate);
+    }
 }

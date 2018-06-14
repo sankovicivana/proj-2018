@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.project2018.server.dto.PasswordForgotDTO;
 import com.example.project2018.server.dto.UserDTO;
 import com.example.project2018.server.model.users.User;
 import com.example.project2018.server.repository.UserRepository;
@@ -139,5 +140,7 @@ public class UserServiceImpl implements UserService{
 		user.setAccountNonLocked(true);
 		return userRepository.save(user);
 	}
+
+	
 	
 }

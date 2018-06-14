@@ -4,6 +4,7 @@ package com.example.project2018.server.service;
 
 import org.springframework.stereotype.Service;
 
+import com.example.project2018.server.dto.PasswordForgotDTO;
 import com.example.project2018.server.dto.UserDTO;
 import com.example.project2018.server.model.users.User;
 
@@ -19,4 +20,5 @@ public interface UserService {
 	User lockUser(String username);
 	User badLoginAttempt(String username);
 	User succesLogIn(String username);
+
 }
