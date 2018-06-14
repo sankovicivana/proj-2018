@@ -12,6 +12,7 @@ function revokeCert() {
 		contentType : 'application/json',
 		dataType : "json",
 		data : s,
+		headers: createAuthorizationTokenHeader(),
 		success : function(data) {
 			alert("Uradjen je revoke");
 		},

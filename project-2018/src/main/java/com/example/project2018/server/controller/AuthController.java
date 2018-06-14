@@ -139,6 +139,7 @@ public class AuthController {
         }    
         	
     }
+    
     @RequestMapping(value = "/reset_password", method = RequestMethod.POST)
     public ResponseEntity<String> resetPassword(@RequestBody @Valid PasswordRequest passwordReset){
     	

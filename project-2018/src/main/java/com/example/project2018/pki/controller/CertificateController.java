@@ -11,6 +11,7 @@ import org.bouncycastle.operator.OperatorCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -76,6 +77,7 @@ public class CertificateController {
     "cdp": "Putanja do CRL liste issuera"
 }
 */
+	//@PreAuthorize("hasAuthority('CREATE_CERTIFICATE')")
 	@RequestMapping(value="/addSSC", method=RequestMethod.POST, consumes="application/json")
 	
 	public ResponseEntity<SSCertificate> addSSCert(@RequestBody SSCertificate cert){
@@ -86,7 +88,7 @@ public class CertificateController {
 		//service.save(generatedCert);
 		return new ResponseEntity<>(generatedCert, HttpStatus.OK);
 	}
-	
+	@PreAuthorize("hasAuthority('CREATE_CERTIFICATE')")
 	@RequestMapping(value="/addIMC", method=RequestMethod.POST, consumes="application/json")
 	
 	public ResponseEntity<?> addIMCert(@RequestBody SSCertificate cert){
@@ -106,8 +108,8 @@ public class CertificateController {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	 
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	@PreAuthorize("hasRole('REGULAR')")
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)	
 	public ResponseEntity<?> getCert(@PathVariable String id){
 		System.out.println("test getCert ");               
 		
@@ -120,7 +122,7 @@ public class CertificateController {
 		
 	return new ResponseEntity<>(cd, HttpStatus.OK);
 	}
-	
+	@PreAuthorize("hasAuthority('READ_CERTIFICATE')")
 	@RequestMapping(value="/getAll", method=RequestMethod.GET)
 	public ResponseEntity<String> getCerts(){
 		

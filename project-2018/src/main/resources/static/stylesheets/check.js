@@ -11,6 +11,7 @@ function checkStatus(){
 		contentType : 'application/json',
 		dataType : "text",
 		data : s,
+		headers: createAuthorizationTokenHeader(),
 		success : function(data) {
 			alert(data)
 			if(data == "{\"text\":\"Povucen\"}"){

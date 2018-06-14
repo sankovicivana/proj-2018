@@ -8,9 +8,10 @@ $(document).ready(function(){
 		
 		$("#checkDiv").empty();
 		$("#exampleModalLabelReg2").empty();
-	
+		header = createAuthorizationTokenHeader();
 		$.ajax({
 			url: url,
+			headers: createAuthorizationTokenHeader(),
 			success: function(data){
 				
 				$("#exampleModalLabelReg2").append("Certificate with serial number: " + data.serialNumber);
