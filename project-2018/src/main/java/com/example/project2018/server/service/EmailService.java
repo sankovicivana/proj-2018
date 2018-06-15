@@ -12,7 +12,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import com.example.project2018.server.model.Mail;
 import com.example.project2018.server.model.users.User;
@@ -26,8 +27,8 @@ public class EmailService {
 	 @Autowired
 	 private Environment env;
 	 
-	// @Autowired
-	// private SpringTemplateEngine templateEngine;
+	 @Autowired
+	 private SpringTemplateEngine templateEngine;
 	 
 	 @Async
 	 public void sentMail(User user){
@@ -44,29 +45,29 @@ public class EmailService {
 		 
 	 }
 	 
-	 public void sendMailForgot(Mail mail) {
-		 
-		 
-		 
-	       /* try {
+	 @Async
+	 public void sendMailForgot(Mail mail,String send) {
+	
+	       try {
 	            MimeMessage message = javaMailSender.createMimeMessage();
 	            MimeMessageHelper helper = new MimeMessageHelper(message,
 	                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
 	                    StandardCharsets.UTF_8.name());
 
-	           // Context context = new Context();
-	           // context.setVariables(mail.getModel());
-	            //String html = templateEngine.process("email/email-template", context);
-
+	          //Context context = new Context();
+	          //context.setVariables(mail.getModel());
+	         // String html = templateEngine.process("email/email-template", context);
+	            message.setContent(send, "text/html");
 	            helper.setTo(mail.getTo());
-	            helper.setText("ddd", true);
+	            //helper.setText(send, true);
+	           // mail.setText("Hi! " + user.getFirstname() + " " + user.getLastname()+",\n\n You must follow this link to activate your account:\n\n http://localhost:8080/index.html?encoded="+ encoded +"\n\n");
 	            helper.setSubject(mail.getSubject());
 	            helper.setFrom(mail.getFrom());
 
 	            javaMailSender.send(message);
 	        } catch (Exception e){
 	            throw new RuntimeException(e);
-	        }*/
+	        }
 	    }
 	 
 }
