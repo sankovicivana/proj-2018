@@ -17,6 +17,7 @@ function loadCertificate(){
 			$("#issuer").empty();
 			$("#subject").empty();
 			$("#serialNumber").empty();
+			$("#purpose").empty();
 			$("#sa").empty();
 			$("#type").empty();
 			$("#pk").empty();
@@ -24,6 +25,7 @@ function loadCertificate(){
 			$("#issuer").append("<hr><div><label>Issuer:</label><label id= \"issuer\">"+data.issuer+"</label></div>");
 			$("#subject").append("<div><label>Subject:</label><label id =\"subject\">"+data.subject+"</label></div>");
 			$("#serialNumber").append("<div> <label>Serial Number:</label><label id = \"serialNumber\">"+data.serialNumber+"</label></div>");
+			$("#purpose").append("<div> <label>Purpose:</label><label id = \"purpose\">"+data.purpose+"</label></div>");
 			$("#sa").append("<div><label>Signature Algorithm:</label><label id = \"sa\">"+data.signatureAlgorithm+"</label></div>");
 			$("#type").append("<div><label>Type:</label><label id = \"type\">"+data.type+"</label></div>");
 			$("#pk").append("<div><label>Public Key:</label><label id = \"pk\">"+data.publicKey+"</label></div><hr>");
