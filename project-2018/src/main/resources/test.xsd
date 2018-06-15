@@ -1,0 +1,28 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://server.project2018.example.com/soap"
+           targetNamespace="http://server.project2018.example.com/soap"
+           elementFormDefault="qualified">
+
+    <xs:element name="getAccommodationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getAccommodationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="accommodation" type="tns:accommodation"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="accommodation">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

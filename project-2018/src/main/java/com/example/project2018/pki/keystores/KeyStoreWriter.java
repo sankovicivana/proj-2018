@@ -51,7 +51,7 @@ public class KeyStoreWriter {
 		if(new File(ksFile).exists()){
 			System.out.println(ksFile + "****T E S T****");
 			//baca exception,pa sam zakomentarisao.
-			//loadKeyStore(ksFile, ksPass.toCharArray());
+			loadKeyStore(ksFile, ksPass.toCharArray());
 			
 		} else
 			loadKeyStore(null, ksPass.toCharArray());
@@ -60,10 +60,10 @@ public class KeyStoreWriter {
 		try {
 			if(fileName != null) {
 				//baca exception,pa sam zakomentarisao.
-				//keyStore.load(new FileInputStream(fileName), password);
+				keyStore.load(new FileInputStream(fileName), password);
 			} else {
 				//Ako je cilj kreirati novi KeyStore poziva se i dalje load, pri cemu je prvi parametar null
-				keyStore.load(null, password);
+				keyStore.load(null, null);
 			}
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();

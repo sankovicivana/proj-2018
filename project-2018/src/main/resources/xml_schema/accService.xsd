@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
-    <xs:element name="Dodatna_usluga">
+    <xs:element name="accService">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="DU_ID">
+                <xs:element name="id">
                     <xs:simpleType>
                         <xs:restriction base="xs:long"/>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element name="DU_Naziv">
+                <xs:element name="name">
                     <xs:simpleType>
                         <xs:restriction base="xs:string"/>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element default="false" name="DU_dostupna">
+                <xs:element default="false" name="available">
                     <xs:simpleType>
                         <xs:restriction base="xs:boolean"/>
                     </xs:simpleType>

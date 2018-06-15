@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:include schemaLocation="accService.xsd"/>
+    <xs:include schemaLocation="accommodationType.xsd"/>
+    <xs:include schemaLocation="accommodationCategory.xsd"/>
+    <xs:element name="accommodation">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element ref="accommodationType"/>
+                <xs:element ref="category"/>
+                <xs:element name="services">
+                    <xs:complexType>
+                        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                            <xs:element ref="accService"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="grade">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:float"/>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="description">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="maxPeople">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:positiveInteger"/>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="pictures">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="prices">
+                    <xs:complexType>
+                        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                            <xs:element name="price" type="price"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="addresPlace">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="addressStreet">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="addressNumber">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                    </xs:simpleType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="price">
+        <xs:sequence>
+            <xs:element name="price">
+                <xs:simpleType>
+                    <xs:restriction base="xs:int"/>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="startingDate">
+                <xs:simpleType>
+                    <xs:restriction base="xs:date"/>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="endDate">
+                <xs:simpleType>
+                    <xs:restriction base="xs:date"/>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
