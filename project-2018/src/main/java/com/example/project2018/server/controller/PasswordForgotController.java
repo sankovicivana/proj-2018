@@ -52,7 +52,7 @@ public class PasswordForgotController {
         token.setUser(user);
         token.setExpiryDate(30);
         tokenRepository.save(token);
-        
+       
         Mail mail = new Mail();
         mail.setFrom("timalek3@gmail.com");
         mail.setTo(user.getEmail());
@@ -60,9 +60,9 @@ public class PasswordForgotController {
     
         
         String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-        String send= url + "/reset-password?token=" + token.getToken()+"";
+        String send= url + "/reset-password?token="+ token.getToken();
         String mailString="<h3>Reset password!</h3><br>";
-        mailString+="<div>If you want reset password click  <a href ="+send+ "\">"
+        mailString+="<div>If you want reset password click  <a href ="+send+ ">"
                 + "<u>here</u></a>.</div>";
        // Map<String, Object> model = new HashMap<>();
        // model.put("token", token);
