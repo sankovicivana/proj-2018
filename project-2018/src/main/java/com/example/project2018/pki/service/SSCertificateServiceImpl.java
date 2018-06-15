@@ -97,7 +97,7 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 	
 			//generisemo podatke issuera koji potpisuje sa svojim privatnim kljucem
 			//IssuerData issuerData = du.generateIssuerData(keyPairSubject.getPrivate(), cert);
-			IssuerData issuerData = new IssuerData(subjectData.getX500name(), keyPairSubject.getPrivate());
+			IssuerData issuerData = new IssuerData(subjectData.getX500name(), subjectData.getKeyPair().getPrivate());
 			
 			subjectData.setAia(cPath+subjectData.getSerialNumber());
 			subjectData.setCdp("PROBA");

@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="jquery-ui.css">
 <script type="text/javascript" src="stylesheets/checkStatus.js"></script>
+<script type="text/javascript" src="stylesheets/FileSaver.js"></script>
 <script type="text/javascript" src="stylesheets/jwt-decode.min.js"></script>
 
 <script type="text/javascript" src="stylesheets/client.js"></script>
@@ -93,6 +94,20 @@
 				        removeJwtToken();
 				        
 				    }
+				 function download(filename, text) {
+					    var pom = document.createElement('a');
+					    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+					    pom.setAttribute('download', filename);
+
+					    if (document.createEvent) {
+					        var event = document.createEvent('MouseEvents');
+					        event.initEvent('click', true, true);
+					        pom.dispatchEvent(event);
+					    }
+					    else {
+					        pom.click();
+					    }
+					}
 				 $("#logOutBtn").click(function(){
 					 doLogOut();
 					 $('#logOutBtn').hide();
@@ -239,7 +254,26 @@
 			$('#resultCertificate').modal('toggle');
 			
 		});
-		 
+		$('#downloadBtn').click(function(){
+			var id = $("#searchField").val();
+			var url = "certificate/download/" + id;
+		
+			header = createAuthorizationTokenHeader();
+			$.ajax({
+				url: url,
+				headers: createAuthorizationTokenHeader(),
+				success: function(data){
+				
+					
+					download(id +'.cer', data);
+				},
+				error : function(error) {
+					alert("File not found");
+				}
+			});
+			
+			$("#checkCertificate").modal("toggle");
+		}); 
 		$("#addCA").click(function(){
 		 
 		 fData = JSON.stringify({
@@ -490,6 +524,7 @@
 		       		<label for="certificateNumber">Certificate serial number</label>
     				<input type="text"  name="searchField" id="searchField">
     				<button type="button" class="btn btn-primary" id="checkBut">Check</button>
+    				<button type="button" class="btn btn-primary" id="downloadBtn">Download</button>
 		       	</p>
 		       
 		        	

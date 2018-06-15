@@ -67,14 +67,18 @@ public class CertificateGenerator {
 			GeneralName generalNameAIA = new GeneralName(GeneralName.uniformResourceIdentifier, new DERIA5String(subjectData.getAia()));
 			AccessDescription accessDescription = new AccessDescription(AccessDescription.id_ad_caIssuers, generalNameAIA);
 			AuthorityInformationAccess aia = new AuthorityInformationAccess(accessDescription);
-			certGen.addExtension(Extension.authorityInfoAccess, false, aia);
+			certGen.addExtension(Extension.authorityInfoAccess, subjectData.isCA(), aia);
 			
 			//CRP putanja do DRL fajla
 			GeneralName generalNameCDP = new GeneralName(GeneralName.uniformResourceIdentifier, new DERIA5String(subjectData.getCdp()));
 			DistributionPointName distributionPointName = new DistributionPointName(new GeneralNames(generalNameCDP) );
 			DistributionPoint distributionPoint = new DistributionPoint(distributionPointName, new ReasonFlags(ReasonFlags.unused), null);
 			//CRLDistPoint crlDistPoint = new CRLDistPoint(distributionPoint);
-			
+			if (subjectData.isCA()) {
+                certGen.addExtension(Extension.keyUsage, true, new KeyUsage(KeyUsage.keyCertSign));
+            } else {
+                certGen.addExtension(Extension.keyUsage, true, new KeyUsage(KeyUsage.digitalSignature));
+            }
 			
 			//Extension ext1 = new Extension(Extension.basicConstraints,true, new DEROctetString(new BasicConstraints(subjectData.isCA())));
 			//CRLDistPoint cdp = new CRLDistPoint();

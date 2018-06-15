@@ -25,7 +25,8 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
-
+//306454.cer
+// booking
 @EnableWs
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {
@@ -55,7 +56,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         return wsdl11Definition;
     }
 	
-	/*@Bean
+	@Bean
     public KeyStoreCallbackHandler securityCallbackHandler(){
         KeyStoreCallbackHandler callbackHandler = new KeyStoreCallbackHandler();
         callbackHandler.setPrivateKeyPassword("password");
@@ -67,21 +68,23 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		Wss4jSecurityInterceptor securityInterceptor = new Wss4jSecurityInterceptor();
 
         // validate incoming request
-        securityInterceptor.setValidationActions("Timestamp Signature Encrypt");
-		securityInterceptor.setValidationActions("");
-        securityInterceptor.setValidationSignatureCrypto(getCryptoFactoryBean().getObject());
-        securityInterceptor.setValidationDecryptionCrypto(getCryptoFactoryBean().getObject());
-        securityInterceptor.setValidationCallbackHandler(securityCallbackHandler());
+        //securityInterceptor.setValidationActions("Timestamp Signature Encrypt");
+//		securityInterceptor.setValidationActions("NoSecurity");
+//        securityInterceptor.setValidationSignatureCrypto(getCryptoFactoryBean().getObject());
+//        securityInterceptor.setValidationDecryptionCrypto(getCryptoFactoryBean().getObject());
+//        securityInterceptor.setValidationCallbackHandler(securityCallbackHandler());
 
         // encrypt the response
-        securityInterceptor.setSecurementEncryptionUser("client-public");
-        securityInterceptor.setSecurementEncryptionParts("{Content}{http://server.project2018.example.com/soap}getAccommodationResponse");
-        securityInterceptor.setSecurementEncryptionCrypto(getCryptoFactoryBean().getObject());
+//        securityInterceptor.setSecurementEncryptionUser("client-public");
+//        //content enkriptuje ceo sadrzaj odgovora
+//        
+//        securityInterceptor.setSecurementEncryptionParts("{Content}{http://server.project2018.example.com/soap}getAccommodationResponse");
+//        securityInterceptor.setSecurementEncryptionCrypto(getCryptoFactoryBean().getObject());
 
         // sign the response
         securityInterceptor.setSecurementActions("Signature Encrypt");
-        securityInterceptor.setSecurementUsername("server");
-        securityInterceptor.setSecurementPassword("password");
+        securityInterceptor.setSecurementUsername("root");
+        securityInterceptor.setSecurementPassword("root");
         securityInterceptor.setSecurementSignatureCrypto(getCryptoFactoryBean().getObject());
 
         return securityInterceptor;
@@ -99,9 +102,9 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	public CryptoFactoryBean getCryptoFactoryBean() throws IOException {
         CryptoFactoryBean cryptoFactoryBean = new CryptoFactoryBean();
         cryptoFactoryBean.setKeyStorePassword("password");
-        cryptoFactoryBean.setKeyStoreLocation(new ClassPathResource("keyStore.jks"));
+        cryptoFactoryBean.setKeyStoreLocation(new ClassPathResource("keystore.jks"));
         return cryptoFactoryBean;
-	}*/
+	}
 	@Bean
     public XsdSchema empSchema() {
         return new SimpleXsdSchema(new ClassPathResource("test.xsd"));
