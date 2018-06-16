@@ -75,16 +75,20 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 //        securityInterceptor.setValidationCallbackHandler(securityCallbackHandler());
 
         // encrypt the response
-//        securityInterceptor.setSecurementEncryptionUser("client-public");
+		// klijent treba da posalje svoj sertifikat i da pomocu njegovog privatnog kljuca server enkriptuje podatke
+        
+		//securityInterceptor.setSecurementEncryptionUser("client-public");
 //        //content enkriptuje ceo sadrzaj odgovora
 //        
-//        securityInterceptor.setSecurementEncryptionParts("{Content}{http://server.project2018.example.com/soap}getAccommodationResponse");
-//        securityInterceptor.setSecurementEncryptionCrypto(getCryptoFactoryBean().getObject());
+        securityInterceptor.setSecurementEncryptionParts("{Content}{http://server.project2018.example.com/soap}getAccommodationResponse");
+        securityInterceptor.setSecurementEncryptionCrypto(getCryptoFactoryBean().getObject());
 
         // sign the response
+        //securityInterceptor.setSecurementActions("Signature Encrypt");
         securityInterceptor.setSecurementActions("Signature Encrypt");
-        securityInterceptor.setSecurementUsername("root");
-        securityInterceptor.setSecurementPassword("root");
+
+        securityInterceptor.setSecurementUsername("306454");
+        securityInterceptor.setSecurementPassword("booking");
         securityInterceptor.setSecurementSignatureCrypto(getCryptoFactoryBean().getObject());
 
         return securityInterceptor;

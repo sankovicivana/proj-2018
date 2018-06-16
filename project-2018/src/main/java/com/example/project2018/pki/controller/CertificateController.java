@@ -2,10 +2,14 @@ package com.example.project2018.pki.controller;
 
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.security.cert.CRLException;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 import java.util.List;
+
+import javax.xml.bind.DatatypeConverter;
 
 import org.bouncycastle.operator.OperatorCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,7 +111,6 @@ public class CertificateController {
 			service.isValid(id);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
-	 
 	@PreAuthorize("hasRole('REGULAR')")
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)	
 	public ResponseEntity<?> getCert(@PathVariable String id){
@@ -121,6 +124,37 @@ public class CertificateController {
 		//Certificate
 		
 	return new ResponseEntity<>(cd, HttpStatus.OK);
+	}
+	@PreAuthorize("hasRole('REGULAR')")
+	@RequestMapping(value="/download/{id}", method=RequestMethod.GET)	
+	public ResponseEntity<?> downloadCert(@PathVariable String id){
+/*		System.out.println("test getCert ");               
+		
+		 
+		Certificate cert = service.getCertificate(id);
+		System.out.println("CERTIFICATE \n"+cert);
+		CertificateData cd = service.convertForDTO((X509Certificate) cert);
+		X509Certificate c = (X509Certificate) cert;
+		//Certificate
+*/			
+		X509Certificate cert = (X509Certificate) service.getCertificate(id);
+        if (cert == null) {
+        	System.out.println("Not found ");
+        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        StringWriter certificate = new StringWriter();
+
+        try {
+        	certificate.write("-----BEGIN CERTIFICATE-----\n");
+        	certificate.write(DatatypeConverter.printBase64Binary(cert.getEncoded()).replaceAll("(.{64})", "$1\n"));
+        	certificate.write("\n-----END CERTIFICATE-----\n");
+        } catch (CertificateEncodingException e) {
+            e.printStackTrace();
+        }
+       
+	        return new ResponseEntity<>(certificate.toString(), HttpStatus.OK);
+	  
+
 	}
 	@PreAuthorize("hasAuthority('READ_CERTIFICATE')")
 	@RequestMapping(value="/getAll", method=RequestMethod.GET)
