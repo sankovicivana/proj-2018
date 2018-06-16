@@ -77,7 +77,11 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter{
             .antMatchers("/", "/*.html").permitAll()
             .antMatchers("/login/**","/register/**","/confirmation/{encoded}/**","/forgot_password/**","/reset-password/**","/ws/**").permitAll()
             .anyRequest().authenticated();
-
+        httpSecurity.requiresChannel().antMatchers("/", "/*.html","/login/**","/register/**","/confirmation/{encoded}/**","/forgot_password/**","/reset-password/**","/ws/**").requiresSecure();
+        httpSecurity.requiresChannel().anyRequest().requiresSecure();
+        
+        httpSecurity.sessionManagement().sessionFixation().none();
+        
         JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader);
         httpSecurity
             .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
