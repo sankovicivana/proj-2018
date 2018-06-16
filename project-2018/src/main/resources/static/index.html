@@ -18,7 +18,6 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="jquery-ui.css">
 <script type="text/javascript" src="stylesheets/checkStatus.js"></script>
-<script type="text/javascript" src="stylesheets/FileSaver.js"></script>
 <script type="text/javascript" src="stylesheets/jwt-decode.min.js"></script>
 
 <script type="text/javascript" src="stylesheets/client.js"></script>
@@ -185,7 +184,7 @@
 					$.ajax({
 						
 					
-						url: "http://localhost:8080/login",
+						url: "/login",
 						type: "POST",
 						data: formData,
 						contentType: "application/json",
