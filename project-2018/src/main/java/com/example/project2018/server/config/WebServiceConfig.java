@@ -66,28 +66,29 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	@Bean
 	public Wss4jSecurityInterceptor securityInterceptor() throws Exception {
 		Wss4jSecurityInterceptor securityInterceptor = new Wss4jSecurityInterceptor();
-
+/*
         // validate incoming request
         //securityInterceptor.setValidationActions("Timestamp Signature Encrypt");
-//		securityInterceptor.setValidationActions("NoSecurity");
-//        securityInterceptor.setValidationSignatureCrypto(getCryptoFactoryBean().getObject());
-//        securityInterceptor.setValidationDecryptionCrypto(getCryptoFactoryBean().getObject());
-//        securityInterceptor.setValidationCallbackHandler(securityCallbackHandler());
-
+		securityInterceptor.setValidationActions("NoSecurity");
+        securityInterceptor.setValidationSignatureCrypto(getCryptoFactoryBean().getObject());
+        securityInterceptor.setValidationDecryptionCrypto(getCryptoFactoryBean().getObject());
+        securityInterceptor.setValidationCallbackHandler(securityCallbackHandler());
+*/
         // encrypt the response
 		// klijent treba da posalje svoj sertifikat i da pomocu njegovog privatnog kljuca server enkriptuje podatke
         
 		//securityInterceptor.setSecurementEncryptionUser("client-public");
-//        //content enkriptuje ceo sadrzaj odgovora
-//        
-        securityInterceptor.setSecurementEncryptionParts("{Content}{http://server.project2018.example.com/soap}getAccommodationResponse");
+        //content enkriptuje ceo sadrzaj odgovora
+        //securityInterceptor.setSecurementEncryptionParts("{Content}{http://server.project2018.example.com/soap}getAccommodationResponse");
+		
+        securityInterceptor.setSecurementEncryptionParts("{Element}{http://server.project2018.example.com/soap}name");
         securityInterceptor.setSecurementEncryptionCrypto(getCryptoFactoryBean().getObject());
 
         // sign the response
         //securityInterceptor.setSecurementActions("Signature Encrypt");
         securityInterceptor.setSecurementActions("Signature Encrypt");
 
-        securityInterceptor.setSecurementUsername("306454");
+        securityInterceptor.setSecurementUsername("tomcat");
         securityInterceptor.setSecurementPassword("booking");
         securityInterceptor.setSecurementSignatureCrypto(getCryptoFactoryBean().getObject());
 
@@ -106,7 +107,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	public CryptoFactoryBean getCryptoFactoryBean() throws IOException {
         CryptoFactoryBean cryptoFactoryBean = new CryptoFactoryBean();
         cryptoFactoryBean.setKeyStorePassword("password");
-        cryptoFactoryBean.setKeyStoreLocation(new ClassPathResource("keystore.jks"));
+        cryptoFactoryBean.setKeyStoreLocation(new ClassPathResource("bookingKeyStore.jks"));
         return cryptoFactoryBean;
 	}
 	@Bean
