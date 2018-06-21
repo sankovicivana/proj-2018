@@ -77,10 +77,11 @@ public class UserController {
   //registracija usera
     @RequestMapping(value="/register",method=RequestMethod.POST)
     public ResponseEntity<User> registrate(@RequestBody UserDTO userDTO){
-  
+ 
     	if ((userRepository.findByUsername(userDTO.getUsername()) != null)|| (userRepository.findByEmail(userDTO.getEmail()) != null) ) {
              return new ResponseEntity<>(HttpStatus.FORBIDDEN);
          }
+    	
     	
     	System.out.println("Ovde"+userDTO.getEmail());
     	User user=userRepository.findByEmail(userDTO.getEmail());

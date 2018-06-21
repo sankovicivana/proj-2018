@@ -122,9 +122,15 @@
 				            return {};
 				        }
 				    }
-				$("#register").click(function(){
+				$("#register").click(function(e){
+					 e.stopPropagation();
+					e.preventDefault();
+					var username= $("#inputForm [name='usernameRegistration']").val()
+					var email= $("#inputForm [name='emailRegistration']").val()
+					var firstname= $("#inputForm [name='nameRegistration']").val()
+					var lastname= $("#inputForm [name='surnameRegistration']").val()
+					var phone= $("#inputForm [name='phoneNumberRegistration']").val()
 					
-					 
 					 formData = JSON.stringify({
 						 	username: $("#inputForm [name='usernameRegistration']").val(),
 							email: $("#inputForm [name='emailRegistration']").val(),
@@ -357,14 +363,14 @@
     <ul class="nav navbar-nav navbar-right">
     	
 <!--     	<li><a id="logInLogOutBtn" href="#inputModal" data-toggle="modal" data-target="#inputModal">Prijava</a></li> -->
-<!--     	<li><a id="regBtn" href="#inputR" data-toggle="modal" data-target="#inputR">Registracija</a></li> -->
+<!--     	<li><a id="regBtn" href="#inputR" data-toggle="modal" data-target="#">Registracija</a></li> -->
     	<li><button id="logInBtn" class="btn btn-primary" data-toggle="modal" data-target="#inputModal"">Prijava </button></li>
     	<li><button id="regBtn" class="btn btn-primary" data-toggle="modal" data-target="#inputR">Registracija </button></li>
     	<li><button id="logOutBtn" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Odjavi se </button></li>
     </ul>
   </div>
 </nav>
-
+<a id="regBtn" class="btn btn-primary" href="registration.html">Registracija </a>
 	<div class="modal fade" id="inputModal" tabindex="-1" role="dialog">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
@@ -409,6 +415,9 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <h5 class="modal-title" id="exampleModalLabelReg">Registration</h5>
+		          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
 		       </div>
 		       <form id="inputForm" data-toggle="validator" role="form" data-disable="true">
 		       <div class="modal-body">

@@ -3,34 +3,278 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Registracija</title>
-	<link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+
+	  <link rel="stylesheet" href="stylesheets/registration.css">
+	  
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="jquery-ui.css">
+<script type="text/javascript" src="stylesheets/checkStatus.js"></script>
+<script type="text/javascript" src="stylesheets/jwt-decode.min.js"></script>
+
+<script type="text/javascript" src="stylesheets/client.js"></script>
+
+<script>
+	$(document).ready(function(){
+		/* $("#register").click(function(e){
+			
+			e.stopPropagation();
+			e.preventDefault();
+			var username= $("#inputForm [name='usernameRegistration']").val()
+			var email= $("#inputForm [name='emailRegistration']").val()
+			var firstname= $("#inputForm [name='nameRegistration']").val()
+			var lastname= $("#inputForm [name='surnameRegistration']").val()
+			var phone= $("#inputForm [name='phoneNumberRegistration']").val()
+			 var pass=$("#inputForm [name='passwordRegistration']").val()
+			 var confPass=$("#inputForm [name='confirmPasswordRegistration']").val()
+			 
+			 formData = JSON.stringify({
+				 	username: $("#inputForm [name='usernameRegistration']").val(),
+					email: $("#inputForm [name='emailRegistration']").val(),
+					firstname: $("#inputForm [name='nameRegistration']").val(),
+					lastname: $("#inputForm [name='surnameRegistration']").val(),
+					password: $("#inputForm [name='passwordRegistration']").val(),
+					phone: $("#inputForm [name='phoneNumberRegistration']").val(),
+			          });
+			 
+			
+			 
+			// if(checkForm(username,email,firstname,lastname,phone)){}
+			 if(checkForm(username,email,firstname,lastname,phone))
+			 { 
+
+					 $.ajax({
+						url: "/register",
+						type: "POST",
+						data: formData,
+						contentType: "application/json",
+						datatype: "json",
+						success: function(data) {
+								alert("Poslat je mail za aktivaciju.");
+								 window.location.replace("index.html");
+						  },
+						 error: function(error) {
+					            alert("Greska!");
+					        }
+						});
+					 
+			}else{
+				 alert("This email already exists!");
+			}
+		
+			 
+		});
+		
+		
+		function checkForm(username,email,firstname,lastname,phone,pass,confPass){
+			 	if (username==="") {
+			        alert("Please enter your username.");
+			        document.getElementById('usernameRegistration').focus();
+			        return false;
+			    }
+				if (firstname==="") {
+			        alert("Please enter your firstname.");
+			        document.getElementById('nameRegistration').focus();
+			        return false;
+			    }
+			    if (lastname==="") {
+			        alert("Please enter your lastname.");
+			        document.getElementById('surnameRegistration').focus();
+			        return false;
+			    }
+			    if (email==="") {
+			        alert("Please enter your email.");
+			        document.getElementById('emailRegistration').focus();
+			        return false;
+			    }
+			    if (phone==="") {
+			        alert("Please enter your phone.");
+			        document.getElementById('phoneNumberRegistration').focus();
+			        return false;
+			    }
+			    // check if password has 6 characters and at least 1 number
+			    if(pass !== "" && pass === confPass) {
+			        if(pass.length < 6) {
+			            alert("Error: Password must contain at least six characters!");
+			            document.getElementById('passwordRegistration').focus();
+			            return false;
+			        }
+			        re = /[0-9]/;
+			        if(!re.test(pass)) {
+			            alert("Error: password must contain at least one number (0-9)!");
+			            document.getElementById('passwordRegistration').focus();
+			            return false;
+			        }
+			    } else {
+			        alert("Error: Please check that you've entered and confirmed your password!");
+			        document.getElementById('passwordRegistration').focus();
+			        return false;
+			    }
+			    return true;
+		}
+			 */
+		$("#register").click(function(e){
+			 e.stopPropagation();
+			e.preventDefault();
+			var username= $("#inputForm [name='usernameRegistration']").val()
+			var email= $("#inputForm [name='emailRegistration']").val()
+			var firstname= $("#inputForm [name='nameRegistration']").val()
+			var lastname= $("#inputForm [name='surnameRegistration']").val()
+			var phone= $("#inputForm [name='phoneNumberRegistration']").val()
+			
+			 formData = JSON.stringify({
+				 	username: $("#inputForm [name='usernameRegistration']").val(),
+					email: $("#inputForm [name='emailRegistration']").val(),
+					firstname: $("#inputForm [name='nameRegistration']").val(),
+					lastname: $("#inputForm [name='surnameRegistration']").val(),
+					password: $("#inputForm [name='passwordRegistration']").val(),
+					phone: $("#inputForm [name='phoneNumberRegistration']").val(),
+			          });
+			 
+			 var pass=$("#inputForm [name='passwordRegistration']").val();
+			 var confPass=$("#inputForm [name='confirmPasswordRegistration']").val();
+			 
+			if(checkForm(username,email,firstname,lastname,phone)){
+				
+			}
+			 if(pass==confPass)
+			 { 
+	
+					 $.ajax({
+						url: "/register",
+						type: "POST",
+						data: formData,
+						contentType: "application/json",
+						datatype: "json",
+						success: function(data) {
+								alert("Poslat je mail za aktivaciju.");
+								 window.location.replace("index.html");
+						  },
+						 error: function(error) {
+					            alert("Proveri podatke!!");
+					        }
+						});
+					 
+			}else{
+				alert("Passwords must match");
+			}
+			
+			 
+		});
+		function checkForm(username,email,firstname,lastname,phone){
+		 	if (username==="") {
+		        alert("Please enter your username.");
+		        document.getElementById('usernameRegistration').focus();
+		        return false;
+		    }
+			if (firstname==="") {
+		        alert("Please enter your firstname.");
+		        document.getElementById('nameRegistration').focus();
+		        return false;
+		    }
+		    if (lastname==="") {
+		        alert("Please enter your lastname.");
+		        document.getElementById('surnameRegistration').focus();
+		        return false;
+		    }
+		    if (email==="") {
+		        alert("Please enter your email.");
+		        document.getElementById('emailRegistration').focus();
+		        return false;
+		    }
+		    if (phone==="") {
+		        alert("Please enter your phone.");
+		        document.getElementById('phoneNumberRegistration').focus();
+		        return false;
+		    }
+		    // check if password has 6 characters and at least 1 number
+		   
+	}
+			
+			
+});
+			
+			
+			
+
+	
+</script>
+
+
 </head>
 <body>
-	<div class="container">
-		<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-			<h1>Registracija</h1>
-			
-			<form action="#"  method="POST" enctype="utf8">
-					<input type="text" placeholder="Email" class="form-control input-lg" />
-					<br>
-					<input type="text" placeholder="Ime" class="form-control input-lg"/>
-					<br>
-					<input type="text" placeholder="Prezime" class="form-control input-lg" />
-					<br>
-					<input type="text" placeholder="Grad" class="form-control input-lg" />
-					<br>
-					<input type="text" placeholder="Telefon" class="form-control input-lg" />
-					<br>
-					<input type="password" placeholder="Lozinka" class="form-control input-lg" />
-					<br>
-					<input type="password" placeholder="Potvrda lozinke" class="form-control input-lg" />
-					<br>
-					<input type="submit" value="Potvrda " class="btn btn-lg btn-primary btn-block"/>
-			</form>
+
+
+		 <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabelReg">Registration</h5>
+		        
+		       </div>
+		       <form id="inputForm" data-toggle="validator" role="form" data-disable="true">
+		       <div class="modal-body">
+		       	<input type="hidden" id="idr" name="idr">
+		       	<div class="form-group ">
+		       		<label for="username">Username</label>
+		       		<input type="text" name="usernameRegistration" class="form-control" id="usernameRegistration" aria-describedby="usernameHelp" placeholder="Name" data-error="Unesite username" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       <div class="form-group ">
+		       		<label for="inputEmail1">Email address</label>
+    				<input type="email" name="emailRegistration" class="form-control" id="emailRegistration" aria-describedby="emailHelp" placeholder="Enter email" data-error="Unesite email" required/>
+		       		<div class="help-block with-errors"></div>
+		       </div>
+		       <div class="form-group ">
+		       		<label for="passregistration">Password</label>
+		       		<input type="password"  name="passwordRegistration" class="form-control" id="passwordR" aria-describedby="passHelp" placeholder="Password" data-error="Unesite sifru"  required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       <div class="form-group ">
+		       		<label for="confirmpass">Confirm password</label>
+		       		<input type="password" name="confirmPasswordRegistration"class="form-control" id="confirmPasswordRegistration" aria-describedby="passHelp" placeholder="Confirm password" data-error="Ponovite sifru" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       	<div class="form-group ">
+		       		<label for="ime">Name</label>
+		       		<input type="text" name="nameRegistration" class="form-control" id="nameRegistration" aria-describedby="nameHelp" placeholder="Name" data-error="Unesite ime" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       	<div class="form-group ">
+		       		<label for="surname">Surname</label>
+		       		<input type="text" name="surnameRegistration" class="form-control" id="surnameRegistration" aria-describedby="nameHelp" placeholder="Surname" data-error="Unesite prezime" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       
+		  		<div class="form-group ">
+		       		<label for="grad">Phone number</label>
+		       		<input type="text" name="phoneNumberRegistration" class="form-control" id="phoneNumberRegistration" aria-describedby="numberHelp" placeholder="Phone number"  pattern="[0-9]{1,}"  data-error="Unesite broj telefona" required/>
+		       		<div class="help-block with-errors"></div>
+		       	</div>
+		       </div>
+		       <div class="modal-footer">
+		        
+		        	<button type="button" class="btn btn-primary" id="register">Submit</button>
+				</div>
+				</form>
+		     </div>
 		</div>
-	</div>
+
 	
-	<script src="/scripts/jquery-3.2.1.min.js"></script>
-	<script src="/bootstrap-3.3.7/bootstrap.min.js"></script>
+
+
+
+
+	
+
 </body>
 </html>
