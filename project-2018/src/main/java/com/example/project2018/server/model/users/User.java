@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotEmpty;
 
 import com.example.project2018.server.validation.ValidEmail;
 import com.example.project2018.server.validation.ValidPassword;
@@ -24,14 +25,14 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 	
-
+	@NotEmpty
 	private String firstname;
 	
-
+	@NotEmpty
 	private String lastname;
 	//za mail da li je potvrdjen
 	private boolean confirmed;
-
+	@NotEmpty
 	//@ValidPassword
 	private String password;
 	
@@ -40,7 +41,7 @@ public class User {
 	@Column(nullable = false, unique = true)
 	private String username;
 	
-
+	@NotEmpty
 	@ValidEmail
 	@Column(nullable = false, unique = true)
 	private String email;

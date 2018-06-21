@@ -1,16 +1,24 @@
 package com.example.project2018.server.controller;
 
 import java.awt.PageAttributes.MediaType;
-
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.project2018.server.dto.UserDTO;
+import com.example.project2018.server.exception.AuthenticationException;
 import com.example.project2018.server.model.users.User;
 import com.example.project2018.server.repository.UserRepository;
 import com.example.project2018.server.security.JwtTokenUtil;
@@ -50,6 +59,11 @@ public class UserController {
     
     @Autowired
     private EmailService emailService;
+    
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @RequestMapping(value = "user", method = RequestMethod.GET)
     public JwtUser getAuthenticatedUser(HttpServletRequest request) {
@@ -63,7 +77,11 @@ public class UserController {
   //registracija usera
     @RequestMapping(value="/register",method=RequestMethod.POST)
     public ResponseEntity<User> registrate(@RequestBody UserDTO userDTO){
-    	System.out.println("Ovde");
+  
+    	if ((userRepository.findByUsername(userDTO.getUsername()) != null)|| (userRepository.findByEmail(userDTO.getEmail()) != null) ) {
+             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+         }
+    	
     	System.out.println("Ovde"+userDTO.getEmail());
     	User user=userRepository.findByEmail(userDTO.getEmail());
     	System.out.println("Ovde"+userDTO.getEmail());
@@ -105,4 +123,9 @@ public class UserController {
     	}
     }
     	
+    
+  
+    
+    
+    
 }
