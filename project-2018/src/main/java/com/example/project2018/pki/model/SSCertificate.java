@@ -1,30 +1,38 @@
 package com.example.project2018.pki.model;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 public class SSCertificate {
 
 	
 	private Long id;
 	private String serialNumber;
+	
+	@NotEmpty
 	private String commonName;
+	@NotEmpty
 	private String	surname;
+	@NotEmpty
 	private String givenName;
+	@NotEmpty
 	private String organization;
+	@NotEmpty
 	private String organizationUnit;
+	@NotEmpty
 	private String country;
+	
+	@NotEmpty
+	@Email
 	private String email;
+	@NotEmpty
 	private String startDate;
+	@NotEmpty
 	private String endDate;
 	private String purpose;
 	private String AIA;
 	private String CDP;
+	@NotEmpty
 	private String password;
 	private String issuerName;
 	private String issuerEndDate;

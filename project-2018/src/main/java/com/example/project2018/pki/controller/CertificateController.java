@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -84,9 +86,13 @@ public class CertificateController {
 	//@PreAuthorize("hasAuthority('CREATE_CERTIFICATE')")
 	@RequestMapping(value="/addSSC", method=RequestMethod.POST, consumes="application/json")
 	
-	public ResponseEntity<SSCertificate> addSSCert(@RequestBody SSCertificate cert){
+	public ResponseEntity<?> addSSCert(@Validated @RequestBody SSCertificate cert, Errors errors){
 		System.out.println("test");
 		System.out.println(cert.getStartDate());
+		
+		if(errors.hasErrors()) {
+			return new ResponseEntity<String>(errors.getAllErrors().toString(), HttpStatus.BAD_REQUEST);
+		}
 		
 		SSCertificate generatedCert = service.createSSCertificate(cert);
 		//service.save(generatedCert);

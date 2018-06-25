@@ -37,7 +37,7 @@ public class RevokeCertificateController {
 		try {
 			System.out.println(serialNumber);
 			CertificateData cda = repository.findBySerialNumber(serialNumber);
-			//cda.setStatus(true);
+			cda.setStatus(true);
 			repository.save(cda);
 	
 

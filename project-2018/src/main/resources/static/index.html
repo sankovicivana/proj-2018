@@ -213,6 +213,36 @@
 						});
 					
 					});
+				
+				$("#revoke").click(function(){	
+					
+					formData = JSON.stringify({
+						//issuerSerialNumber: $("#revokeForm [name='isnumber']").val(),
+						//issuerPassword: $("#revokeForm [name='ipassword']").val(),
+					    serialNumber: $("#revokeForm [name='snumber']").val()
+				          
+					});
+				 
+				 //$("#resultDiv").empty();
+				 $("#exampleModalLabelReg").empty();
+				 
+					$.ajax({
+						url: "/revokecontroller/revokeCertificate",
+						type: "POST",
+						data: formData,
+						contentType: "application/json",
+						datatype: 'json',
+						headers: createAuthorizationTokenHeader(),
+						success: function(data) {
+							alert("Uradjen je revoke");
+						 }
+										
+						});
+					$('#inputRC').modal('toggle');
+					//$('#resultCertificate').modal('toggle');
+					
+				});
+				
 		$("#addRootC").click(function(){
 		 
 		 formData = JSON.stringify({
@@ -253,6 +283,9 @@
 									+"<div><label>AIA:</label>"  + data.aia + "</div>";
 									
 					$("#resultDiv").empty().append(newCertificate);
+				  },
+				  error: function(data) {
+					  alert('Nevalidan unos! Doslo je do greske prilikom unosa podataka!')
 				  }
 				});
 			$('#inputModalP').modal('toggle');
@@ -337,20 +370,6 @@
  
 </head>
 
-<script>
-	$(document).ready(function(){
-		
-			
-		
-		
-		
-		});
-		
-		
-		
-		
-	
-</script>
 <body>
 
 
@@ -703,17 +722,12 @@
 		          <span aria-hidden="true">&times;</span>
 		        </button>
 		      </div>
-		      <form id="inputForm" role="form">
+		      <form id="revokeForm" role="form">
 		      <div class="modal-body">
 					<input type="hidden" name="id" id="id" />
+				
 				<p>
-					<label for="snumber">Issuer Serial number:</label> <input type="text"  name="isnumber" id="isnumber">
-				</p>
-				<p>
-					<label for="pasword">Issuer Password:</label> <input type="text" name="ipasword" id="ipassword">
-				</p>
-				<p>
-					<label for="pasword">Serial Number:</label> <input type="text" name="snumber" id="snumber">
+					<label for="serialnumber">Serial Number:</label> <input type="text" name="snumber" id="snumber">
 				</p>
 				
 						
@@ -722,7 +736,7 @@
        
 		      <div class="modal-footer">
 		       
-		        <button type="button" class="btn btn-primary" id="add">Revoke</button>
+		        <button type="button" class="btn btn-primary" id="revoke">Revoke</button>
 		      </div>
 		      </form>
 		    </div>
