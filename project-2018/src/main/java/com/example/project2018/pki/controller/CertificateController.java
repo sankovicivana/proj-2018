@@ -101,13 +101,18 @@ public class CertificateController {
 	@PreAuthorize("hasAuthority('CREATE_CERTIFICATE')")
 	@RequestMapping(value="/addIMC", method=RequestMethod.POST, consumes="application/json")
 	
-	public ResponseEntity<?> addIMCert(@RequestBody SSCertificate cert){
+	public ResponseEntity<?> addIMCert(@Validated @RequestBody SSCertificate cert, Errors errors){
 		System.out.println("test");               
 		
 		SSCertificate generatedCert  = service.createIMCertificate(cert);
 		if (generatedCert == null) {
 			return new ResponseEntity<>("Sertifikat nije kreiran.", HttpStatus.FORBIDDEN);
 		}
+		
+		if(errors.hasErrors()) {
+			return new ResponseEntity<String>(errors.getAllErrors().toString(), HttpStatus.BAD_REQUEST);
+		}
+		
 	return new ResponseEntity<>(generatedCert, HttpStatus.OK);
 	}
 	

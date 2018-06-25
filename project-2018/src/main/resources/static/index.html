@@ -357,7 +357,11 @@
 									
 					$("#resultDiv").empty().append(newCertificate);
 					
+				  },
+				  error: function(data) {
+					  alert('Nevalidan unos! Doslo je do greske prilikom unosa podataka!')
 				  }
+				  
 				});
 			$('#inputRa').modal('toggle');
 			$('#resultCertificate').modal('toggle');

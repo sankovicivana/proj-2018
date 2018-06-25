@@ -36,8 +36,11 @@ public class SSCertificate {
 	private String password;
 	private String issuerName;
 	private String issuerEndDate;
+	@NotEmpty
 	private String issuerPassword;
+	@NotEmpty
 	private String issuerSerialNumber;
+	
 	private boolean isCA;
 	
 
