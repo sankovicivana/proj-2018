@@ -23,8 +23,10 @@ public class TestEndpoint {
 	public GetAccommodationResponse getAccomodation(@RequestPayload GetAccommodationRequest request) {
 		GetAccommodationResponse response = new GetAccommodationResponse();
 		Accommodation acc = new Accommodation();
-		acc.setId(1);
-		acc.setName("Smestaj 1");
+		System.out.println("Stigao:");
+		System.out.println("id: " + request.getId());
+		acc.setId(request.getId());
+		acc.setName("Smestaj broj " + request.getId());
 		response.setAccommodation(acc);
 		return response;
 	}

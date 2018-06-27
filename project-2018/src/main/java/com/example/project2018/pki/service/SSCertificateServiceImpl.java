@@ -113,6 +113,7 @@ public class SSCertificateServiceImpl implements SSCertificateService {
 			
 			//certificate treba da se sacuva u jks kao i privatni kljuc
 			//alias ce biti serijski broj, da li je to dobro resenje?
+			//alias bi trebalo da bude CN
 			String alias = subjectData.getSerialNumber();
 			
 			//password za privatni kljuc koji je zadao korisnik

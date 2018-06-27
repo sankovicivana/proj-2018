@@ -83,7 +83,7 @@ public class CertificateController {
     "cdp": "Putanja do CRL liste issuera"
 }
 */
-	//@PreAuthorize("hasAuthority('CREATE_CERTIFICATE')")
+	@PreAuthorize("hasAuthority('CREATE_CERTIFICATE')")
 	@RequestMapping(value="/addSSC", method=RequestMethod.POST, consumes="application/json")
 	
 	public ResponseEntity<?> addSSCert(@Validated @RequestBody SSCertificate cert, Errors errors){
@@ -109,9 +109,9 @@ public class CertificateController {
 			return new ResponseEntity<>("Sertifikat nije kreiran.", HttpStatus.FORBIDDEN);
 		}
 		
-		if(errors.hasErrors()) {
+/*		if(errors.hasErrors()) {
 			return new ResponseEntity<String>(errors.getAllErrors().toString(), HttpStatus.BAD_REQUEST);
-		}
+		}*/
 		
 	return new ResponseEntity<>(generatedCert, HttpStatus.OK);
 	}

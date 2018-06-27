@@ -3,6 +3,8 @@ package com.example.project2018.pki.model;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+import com.example.project2018.server.validation.ValidPassword;
+
 public class SSCertificate {
 
 	
@@ -33,12 +35,13 @@ public class SSCertificate {
 	private String AIA;
 	private String CDP;
 	@NotEmpty
+	@ValidPassword
 	private String password;
 	private String issuerName;
 	private String issuerEndDate;
-	@NotEmpty
+
+	
 	private String issuerPassword;
-	@NotEmpty
 	private String issuerSerialNumber;
 	
 	private boolean isCA;

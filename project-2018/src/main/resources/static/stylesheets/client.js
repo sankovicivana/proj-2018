@@ -18,13 +18,13 @@ function showTokenInformation() {
         $loggedIn.show();
     }
 function getJwtToken() {
-    return localStorage.getItem(TOKEN_KEY);
+    return sessionStorage.getItem(TOKEN_KEY);
 	}		 
 function setJwtToken(token) {
-	localStorage.setItem(TOKEN_KEY, token);
+	sessionStorage.setItem(TOKEN_KEY, token);
 }
 function removeJwtToken() {
-    localStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
 }
 function createAuthorizationTokenHeader() {
     var token = getJwtToken();
