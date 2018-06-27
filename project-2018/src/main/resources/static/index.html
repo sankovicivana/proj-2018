@@ -65,7 +65,14 @@
 			        } 
 		 
 				 
-					 
+				 function htmlEscape(str) {
+					    return String(str)
+					            .replace(/&/g, '&amp;')
+					            .replace(/"/g, '&quot;')
+					            .replace(/'/g, '&#39;')
+					            .replace(/</g, '&lt;')
+					            .replace(/>/g, '&gt;');
+					}	 
 				 function isLoggedIn() {
 					 if (getJwtToken()) {
 							 $('#logOutBtn').show();
@@ -81,13 +88,13 @@
 				        
 				    }
 				 function getJwtToken() {
-				        return localStorage.getItem(TOKEN_KEY);
+				        return sessionStorage.getItem(TOKEN_KEY);
 				    }		 
 				 function setJwtToken(token) {
-						localStorage.setItem(TOKEN_KEY, token);
+						sessionStorage.setItem(TOKEN_KEY, token);
 				    }
 				 function removeJwtToken() {
-				        localStorage.removeItem(TOKEN_KEY);
+				        sessionStorage.removeItem(TOKEN_KEY);
 				    }
 				 function doLogOut() {
 				        removeJwtToken();
@@ -270,17 +277,17 @@
 				headers: createAuthorizationTokenHeader(),
 				success: function(data) {
 					
-					$("#exampleModalLabelReg1").append("Created certificate " + data.commonName);
+					$("#exampleModalLabelReg1").append("Created certificate " + htmlEscape(data.commonName));
 					
-					newCertificate = "<div><label>Serial number:</label>"  + data.serialNumber + "</div>"
-									+"<div><label>Surname:</label>"  + data.surname + "</div>"
-									+"<div><label>Given name:</label>"  + data.givenName + "</div>"
-									+"<div><label>Organization:</label>"  + data.organization + "</div>"
-									+"<div><label>Organization unit:</label>"  + data.organizationUnit + "</div>"
-									+"<div><label>Country:</label>"  + data.country + "</div>"
-									+"<div><label>Email:</label>"  + data.email + "</div>"
-									+"<div><label>Valid from:</label>"  + data.startDate + "<strong> to </strong>" + data.endDate + "</div>"
-									+"<div><label>AIA:</label>"  + data.aia + "</div>";
+					newCertificate = "<div><label>Serial number:</label>"  + htmlEscape(data.serialNumber) + "</div>"
+									+"<div><label>Surname:</label>"  + htmlEscape(data.surname) + "</div>"
+									+"<div><label>Given name:</label>"  + htmlEscape(data.givenName) + "</div>"
+									+"<div><label>Organization:</label>"  + htmlEscape(data.organization) + "</div>"
+									+"<div><label>Organization unit:</label>"  + htmlEscape(data.organizationUnit) + "</div>"
+									+"<div><label>Country:</label>"  + htmlEscape(data.country) + "</div>"
+									+"<div><label>Email:</label>"  + htmlEscape(data.email) + "</div>"
+									+"<div><label>Valid from:</label>"  + htmlEscape(data.startDate) + "<strong> to </strong>" + data.endDate + "</div>"
+									+"<div><label>AIA:</label>"  + htmlEscape(data.aia) + "</div>";
 									
 					$("#resultDiv").empty().append(newCertificate);
 				  },
@@ -339,6 +346,7 @@
 				data: fData,
 				contentType: "application/json",
 				datatype: 'json',
+				headers: createAuthorizationTokenHeader(),
 				success: function(data) {
 					
 					$("#exampleModalLabelReg1").append("Created certificate " + data.commonName);
@@ -397,7 +405,7 @@
 	<div class="modal fade" id="inputModal" tabindex="-1" role="dialog">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
-		      <div class="modal-header">
+		      <div class="modal-header" id="container">
 		        <h5 class="modal-title" id="exampleModalLabel">Prijava</h5>
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		          <span aria-hidden="true">&times;</span>
