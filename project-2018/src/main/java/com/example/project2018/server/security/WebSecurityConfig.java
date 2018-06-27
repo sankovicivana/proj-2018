@@ -76,9 +76,9 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter{
             .antMatchers("/loadCertificate/**").hasRole("ADMIN")
             .antMatchers("/", "/*.html").permitAll()
             .antMatchers("/", "registration.html").permitAll()
-            .antMatchers("/login/**","/register/**","/confirmation/{encoded}/**","/forgot_password/**","/reset-password/**","/ws/**").permitAll()
+            .antMatchers("/login/**","/register/**","/confirmation/{encoded}/**","/forgot-password/**","/reset-password/**","/ws/**").permitAll()
             .anyRequest().authenticated();
-        httpSecurity.requiresChannel().antMatchers("/", "/*.html","/login/**","/register/**","/confirmation/{encoded}/**","/forgot_password/**","/reset-password/**","/ws/**").requiresSecure();
+        httpSecurity.requiresChannel().antMatchers("/", "/*.html","/login/**","/register/**","/confirmation/{encoded}/**","/forgot-password/**","/reset-password/**","/ws/**").requiresSecure();
         httpSecurity.requiresChannel().anyRequest().requiresSecure();
         
         httpSecurity.sessionManagement().sessionFixation().none();

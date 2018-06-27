@@ -37,7 +37,7 @@ public class PasswordForgotController {
 	
     //@PreAuthorize("hasRole('REGULAR')") 
   
-	@RequestMapping(value="/forgot_password",method=RequestMethod.POST)
+	@RequestMapping(value="/forgot-password",method=RequestMethod.POST)
     public ResponseEntity<User> procesForgotPasswordForm(HttpServletRequest request,@RequestBody PasswordForgotDTO passwordDTO){
     	
     	User user = userService.getByEmail(passwordDTO.getEmail());
@@ -75,6 +75,7 @@ public class PasswordForgotController {
         emailService.sendMailForgot(mail,mailString);
     
     	return new ResponseEntity<User>(HttpStatus.OK);
+    	
     }
     
     
