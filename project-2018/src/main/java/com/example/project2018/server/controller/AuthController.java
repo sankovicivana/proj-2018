@@ -128,7 +128,7 @@ public class AuthController {
                 System.out.println("Authentication: " + authentication.isAuthenticated());
         		return authentication;
 			} else {
-				throw new AuthenticationException("Nalog je zakljucan! Pokusajte ponovo za 5 minuta.", e);
+				throw new AuthenticationException("Nalog je zakljucan! Pokusajte ponovo za 10 minuta.", e);
 			}
         } catch (BadCredentialsException e) {
         	

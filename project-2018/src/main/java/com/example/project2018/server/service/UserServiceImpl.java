@@ -1,6 +1,7 @@
 package com.example.project2018.server.service;
 
 import java.util.Date;
+import java.util.HashSet;
 
 import javax.mail.UIDFolder;
 
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.project2018.server.dto.PasswordForgotDTO;
 import com.example.project2018.server.dto.UserDTO;
+import com.example.project2018.server.model.users.RoleEnum;
 import com.example.project2018.server.model.users.User;
+import com.example.project2018.server.repository.RoleRepository;
 import com.example.project2018.server.repository.UserRepository;
 import com.example.project2018.server.security.service.JwtUserDetailsService;
 
@@ -21,12 +24,13 @@ public class UserServiceImpl implements UserService{
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	@Autowired
 	private UserRepository userRepository;
-	
+	@Autowired
+	private RoleService roleService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	private final int MAX_ATTEMPTS = 3;
-	private final long LOCKED_TIME = 300000; //5 minuta
+	private final long LOCKED_TIME = 600000; //10 minuta
 	@Override
 	public User registerNewUser(User user) {
 	
@@ -52,8 +56,11 @@ public class UserServiceImpl implements UserService{
 		  user.setUsername(userDTO.getUsername());
 		  user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		  user.setEmail(userDTO.getEmail());
-		
-		  
+		  user.setAccountNonLocked(true);
+		  user.setConfirmed(false);
+		  user.setEnabled(false);
+		  user.setRoles(new HashSet<>());
+		  user.getRoles().add(roleService.getByName(RoleEnum.ROLE_REGULAR.name()));
 		  userRepository.save(user);
 		  return user;
 	  }

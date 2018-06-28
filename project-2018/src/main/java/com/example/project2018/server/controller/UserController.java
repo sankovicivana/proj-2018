@@ -91,6 +91,7 @@ public class UserController {
     		try
     		{
     			User user1=userService.createUser(userDTO);
+    			
     			emailService.sentMail(user1);
     			return new ResponseEntity<User>(HttpStatus.OK);
     		} catch (Exception e) 

@@ -1,5 +1,5 @@
 package com.example.project2018.server.model.users;
 
 public enum RoleEnum {
-	REGULAR,AGENT,ADMIN
+	ROLE_REGULAR,ROLE_AGENT,ROLE_ADMIN
 }
