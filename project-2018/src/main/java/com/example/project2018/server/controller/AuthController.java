@@ -140,16 +140,4 @@ public class AuthController {
         	
     }
     
-    @RequestMapping(value = "/reset_password", method = RequestMethod.POST)
-    public ResponseEntity<String> resetPassword(@RequestBody @Valid PasswordRequest passwordReset){
-    	
-    	//TODO Resetovanje zaboravljene lozinke
-    return  ResponseEntity.status( HttpStatus.OK).body("Password reseted");
-    }
-    @RequestMapping(value = "/change_password", method = RequestMethod.POST)
-    public ResponseEntity<String> changePassword(@RequestBody @Valid PasswordRequest passwordReset){
-    	//TODO Promena lozinke korisnika, mora biti ulogovan i ne sme biti admin.
-    	
-    return  ResponseEntity.status( HttpStatus.OK).body("Password changed");
-    }
 }

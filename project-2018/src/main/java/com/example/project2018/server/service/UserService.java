@@ -20,5 +20,6 @@ public interface UserService {
 	User lockUser(String username);
 	User badLoginAttempt(String username);
 	User succesLogIn(String username);
+	
 
 }
