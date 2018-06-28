@@ -141,6 +141,13 @@ public class UserServiceImpl implements UserService{
 		return userRepository.save(user);
 	}
 
+	@Override
+	public User updatePassword(String Password,String username) {
+		// TODO Auto-generated method stub
+		User user = userRepository.findByUsername(username);
+		return userRepository.save(user);
+	}
+
 	
 
 	

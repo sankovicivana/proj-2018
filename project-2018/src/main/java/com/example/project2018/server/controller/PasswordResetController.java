@@ -2,6 +2,7 @@ package com.example.project2018.server.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.project2018.server.dto.PasswordResetDTO;
 import com.example.project2018.server.model.Token;
@@ -38,7 +40,7 @@ public class PasswordResetController {
 	    }
 	
 	@RequestMapping(value="/reset-password", method = RequestMethod.GET)
-	public String displayResetPasswordPage(@RequestParam(value="token",required = true) String token, HttpServletResponse httpResponse,Model model)throws Exception{
+	public String displayResetPasswordPage(@RequestParam(value="token",required = true) String token, HttpServletResponse httpResponse,HttpSession session)throws Exception{
 		Token resetToken = tokenRepository.findByToken(token);
 		if (resetToken == null){
             //model.addAttribute("error", "Could not find password reset token.");
@@ -48,8 +50,10 @@ public class PasswordResetController {
         	return "Token has expired, please request a new password reset.";
         } else {
            // model.addAttribute("token", resetToken.getToken());
-        	 model.addAttribute("token",  resetToken.getToken());
-        	httpResponse.sendRedirect("/reset-password.html?token="+token);
+        	// model.addAttribute("token",  resetToken.getToken());
+        	// HttpSession session = request.getSession();
+        	 session.setAttribute("token",token); 
+        	httpResponse.sendRedirect("/reset-password.html");
         	//return "redirect:/reset-password.html/{token}";
         	// return "redirect:/reset-password.html?token=" +token;
         }
@@ -59,13 +63,17 @@ public class PasswordResetController {
 	}
 	
 	@RequestMapping(value="/reset-password", method = RequestMethod.POST)
-	public void handlePasswordReset(@RequestParam(value="token",required = false) String token,@RequestBody PasswordResetDTO passwordResetDTO,HttpServletResponse response){
-		//Token tokenn = tokenRepository.findByToken(token);
-		//System.out.println("token"+token);
-		//User user = token.getUser();
+	public void handlePasswordReset(@RequestBody PasswordResetDTO passwordResetDTO,HttpSession session){
+		String token=(String) session.getAttribute("token");
+		//request.getSession().getAttribute("name")
+		Token tokenn = tokenRepository.findByToken(token);
+		System.out.println("token"+token);
+		System.out.println("token"+tokenn);
+		User user = tokenn.getUser();
+		System.out.println("user"+user.getId());
 		String updatedPassword = passwordEncoder.encode(passwordResetDTO.getPassword());
-		//userService.updatePassword(updatedPassword, user.getId());
-		//tokenRepository.delete(token);
-		response.setStatus(HttpServletResponse.SC_OK);
+		userService.updatePassword(updatedPassword, user.getUsername());
+	//tokenRepository.delete(token);
+		//response.setStatus(HttpServletResponse.SC_OK);
 	}
 }
