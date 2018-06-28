@@ -8,5 +8,6 @@ import com.example.project2018.server.model.Token;
 public interface PasswordResetTokenRepository  extends JpaRepository<Token, Long>{
 		
 	Token findByToken(String token);
-	
+
+		
 }
