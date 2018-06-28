@@ -44,12 +44,12 @@
 	 
 	 
 	 $(document).ready(function(){
-			 var url = window.location.href;
-		  		  if (url.indexOf("?encoded") > -1){
-		       		var newUrl = new URL(url);
-		        	var encoded = newUrl.searchParams.get("encoded");
-		       		mailConfirmation(encoded);
-		    	}
+ 			 var url = window.location.href;
+ 		  		  if (url.indexOf("?encoded") > -1){
+ 		       		var newUrl = new URL(url);
+ 		        	var encoded = newUrl.searchParams.get("encoded");
+ 		       		mailConfirmation(encoded);
+ 		    	}
 		 
 					 var TOKEN_KEY = "jwtToken";
 					 if (getJwtToken()) {
@@ -165,25 +165,27 @@
 							            alert("Greska!");
 							        }
 								});
-							 
+							 $('#inputR').modal('toggle');
 					}else{
 						alert("Passwords must match");
 					}
-					$('#inputR').modal('toggle');
+					
 					 
 				});
-				function mailConfirmation(encoded){
-				    $.ajax({
-				        type: 'GET',
-				        url:'/confirmation/' + encoded,
-				        contentType:'application/json',
-				        dataType: 'json',
-				        success: function(data){
-				            setTimeout(function() { alert("You have successfully registered"); }, 1000);
-				            setTimeout(function() { window.location.replace("index.html"); }, 1000);
-				        }
-				    })
-				}
+ 				function mailConfirmation(encoded){
+ 				    $.ajax({
+ 				        type: 'GET',
+ 				        url:'/confirmation/' + encoded,
+ 				       // contentType:'application/json',
+ 				       // dataType: 'json',
+ 				        success: function(data){
+ 				            setTimeout(function() { alert("You have successfully registered"); }, 1000);
+ 				            setTimeout(function() { window.location.replace("index.html"); }, 1000);
+				        	// window.location.replace("index.html");
+ 				        }
+				        
+ 				    })
+				} 
 				
 				
 				

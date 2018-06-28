@@ -1,9 +1,11 @@
 package com.example.project2018.server.controller;
 
 import java.awt.PageAttributes.MediaType;
+import java.io.IOException;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
@@ -83,9 +85,8 @@ public class UserController {
          }
     	
     	
-    	System.out.println("Ovde"+userDTO.getEmail());
     	User user=userRepository.findByEmail(userDTO.getEmail());
-    	System.out.println("Ovde"+userDTO.getEmail());
+    	
     	if(user==null)
     	{
     		try
@@ -108,6 +109,7 @@ public class UserController {
             value = "/confirmation/{encoded}",
             method = RequestMethod.GET)
     public ResponseEntity<User> sentMail(@PathVariable String encoded){
+    	
     	 byte[] bytesDec = Base64.decodeBase64(encoded);
          String email = new String(bytesDec);
          System.out.println("mail"+email);
@@ -118,11 +120,15 @@ public class UserController {
     			user.setEnabled(true);
     		 System.out.println(user.isConfirmed());
     		userRepository.save(user);
-    		return new ResponseEntity<>(user, HttpStatus.OK);
+    		return new ResponseEntity<>(HttpStatus.OK);
+    		
+		
     	}else {
-    		return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+    		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     		
     	}
+    	
+    	
     }
     	
     

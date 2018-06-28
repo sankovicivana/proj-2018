@@ -74,6 +74,6 @@ public class PasswordResetController {
 		String updatedPassword = passwordEncoder.encode(passwordResetDTO.getPassword());
 		userService.updatePassword(updatedPassword, user.getUsername());
 		tokenRepository.delete(tokenn);
-		//response.setStatus(HttpServletResponse.SC_OK);
+		
 	}
 }
