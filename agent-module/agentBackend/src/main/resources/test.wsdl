@@ -1,0 +1,55 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://server.project2018.example.com/soap" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://server.project2018.example.com/soap" targetNamespace="http://server.project2018.example.com/soap">
+<wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://server.project2018.example.com/soap">
+<xs:element name="getAccommodationRequest">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="getAccommodationResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="accommodation" type="tns:accommodation"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="accommodation">
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="name" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+</wsdl:types>
+<wsdl:message name="getAccommodationRequest">
+<wsdl:part element="tns:getAccommodationRequest" name="getAccommodationRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="getAccommodationResponse">
+<wsdl:part element="tns:getAccommodationResponse" name="getAccommodationResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:portType name="AccomodationPort">
+<wsdl:operation name="getAccommodation">
+<wsdl:input message="tns:getAccommodationRequest" name="getAccommodationRequest"> </wsdl:input>
+<wsdl:output message="tns:getAccommodationResponse" name="getAccommodationResponse"> </wsdl:output>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="AccomodationPortSoap11" type="tns:AccomodationPort">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="getAccommodation">
+<soap:operation soapAction=""/>
+<wsdl:input name="getAccommodationRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="getAccommodationResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="AccomodationPortService">
+<wsdl:port binding="tns:AccomodationPortSoap11" name="AccomodationPortSoap11">
+<soap:address location="https://localhost:8443/ws"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

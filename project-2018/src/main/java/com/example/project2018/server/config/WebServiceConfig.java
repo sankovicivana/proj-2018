@@ -25,8 +25,8 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
-//306454.cer
-// booking
+//885550 agent
+//306454 booking
 @EnableWs
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {
@@ -39,17 +39,19 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		
 		return new ServletRegistrationBean(servlet, "/ws/*");
 	}
-	/*@Bean
-	public SaajSoapMessageFactory messageFactory() {
-	    SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
-	    messageFactory.setSoapVersion(SoapVersion.SOAP_12);
-	    return messageFactory;
-	}*/
+	/*//Verzija SOAP protokola 1.2
+		@Bean
+		public SaajSoapMessageFactory messageFactory() {
+		    SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
+		    messageFactory.setSoapVersion(SoapVersion.SOAP_12);
+		    return messageFactory;
+		}*/
 	//name mora biti naziv scheme
 	@Bean(name = "test")
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema accSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("AccomodationPort");
+        wsdl11Definition.setServiceName("AccomodationService");
         wsdl11Definition.setLocationUri("/ws");
         wsdl11Definition.setTargetNamespace("http://server.project2018.example.com/soap");
         wsdl11Definition.setSchema(accSchema);
@@ -59,39 +61,39 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	@Bean
     public KeyStoreCallbackHandler securityCallbackHandler(){
         KeyStoreCallbackHandler callbackHandler = new KeyStoreCallbackHandler();
-        callbackHandler.setPrivateKeyPassword("password");
+        callbackHandler.setPrivateKeyPassword("B00king2oo18");
+        //callbackHandler.setPrivateKeyPassword("booking");
         return callbackHandler;
     }
 	
 	@Bean
 	public Wss4jSecurityInterceptor securityInterceptor() throws Exception {
 		Wss4jSecurityInterceptor securityInterceptor = new Wss4jSecurityInterceptor();
-/*
-        // validate incoming request
-        //securityInterceptor.setValidationActions("Timestamp Signature Encrypt");
-		securityInterceptor.setValidationActions("NoSecurity");
+
+
+		//Validacija dolazne poruke
+        securityInterceptor.setValidationActions("Timestamp Signature Encrypt");
         securityInterceptor.setValidationSignatureCrypto(getCryptoFactoryBean().getObject());
         securityInterceptor.setValidationDecryptionCrypto(getCryptoFactoryBean().getObject());
         securityInterceptor.setValidationCallbackHandler(securityCallbackHandler());
-*/
-        // encrypt the response
-		// klijent treba da posalje svoj sertifikat i da pomocu njegovog privatnog kljuca server enkriptuje podatke
         
-		//securityInterceptor.setSecurementEncryptionUser("client-public");
-        //content enkriptuje ceo sadrzaj odgovora
-        //securityInterceptor.setSecurementEncryptionParts("{Content}{http://server.project2018.example.com/soap}getAccommodationResponse");
-		
-        securityInterceptor.setSecurementEncryptionParts("{Element}{http://server.project2018.example.com/soap}name");
+        //Enkripcija celog odgovora
+        securityInterceptor.setSecurementEncryptionUser("agent2018-public");
+        //securityInterceptor.setSecurementEncryptionUser("885550");
+        securityInterceptor.setSecurementEncryptionParts("{Content}{http://server.project2018.example.com/soap}getAccommodationResponse");
+        //Enkripcija elementa
+        //securityInterceptor.setSecurementEncryptionParts("{Element}{http://server.project2018.example.com/soap}name");
         securityInterceptor.setSecurementEncryptionCrypto(getCryptoFactoryBean().getObject());
 
-        // sign the response
-        //securityInterceptor.setSecurementActions("Signature Encrypt");
+        // Digitalno potpisivanje odgovora
         securityInterceptor.setSecurementActions("Signature Encrypt");
-
-        securityInterceptor.setSecurementUsername("tomcat");
-        securityInterceptor.setSecurementPassword("booking");
+        securityInterceptor.setSecurementUsername("booking2018");
+        securityInterceptor.setSecurementPassword("B00king2oo18");
+        //securityInterceptor.setSecurementUsername("306454");
+        //securityInterceptor.setSecurementPassword("booking");
         securityInterceptor.setSecurementSignatureCrypto(getCryptoFactoryBean().getObject());
 
+        
         return securityInterceptor;
 
 	}
@@ -106,10 +108,13 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	@Bean
 	public CryptoFactoryBean getCryptoFactoryBean() throws IOException {
         CryptoFactoryBean cryptoFactoryBean = new CryptoFactoryBean();
-        cryptoFactoryBean.setKeyStorePassword("password");
-        cryptoFactoryBean.setKeyStoreLocation(new ClassPathResource("bookingKeyStore.jks"));
+        cryptoFactoryBean.setKeyStorePassword("Password1");
+        cryptoFactoryBean.setKeyStoreLocation(new ClassPathResource("server.jks"));
+        //cryptoFactoryBean.setKeyStorePassword("password");
+        //cryptoFactoryBean.setKeyStoreLocation(new ClassPathResource("keystore.jks"));
         return cryptoFactoryBean;
 	}
+	
 	@Bean
     public XsdSchema empSchema() {
         return new SimpleXsdSchema(new ClassPathResource("test.xsd"));
