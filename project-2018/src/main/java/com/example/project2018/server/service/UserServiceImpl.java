@@ -149,11 +149,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User updatePassword(String Password,String username) {
+	public User updatePassword(String password,String username) {
 		// TODO Auto-generated method stub
 		User user = userRepository.findByUsername(username);
-		System.out.println("here");
-		 user.setPassword(passwordEncoder.encode(Password));
+		
+		 user.setPassword(password);
 		 userRepository.save(user);
 		return user;
 	}
