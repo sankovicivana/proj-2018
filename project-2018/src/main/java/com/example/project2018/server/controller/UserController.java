@@ -32,7 +32,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.project2018.server.dto.UserDTO;
 import com.example.project2018.server.exception.AuthenticationException;
+import com.example.project2018.server.model.Token;
 import com.example.project2018.server.model.users.User;
+import com.example.project2018.server.repository.PasswordResetTokenRepository;
 import com.example.project2018.server.repository.UserRepository;
 import com.example.project2018.server.security.JwtTokenUtil;
 import com.example.project2018.server.security.JwtUser;
@@ -61,7 +63,8 @@ public class UserController {
     
     @Autowired
     private EmailService emailService;
-    
+    @Autowired 
+	 private PasswordResetTokenRepository tokenRepository;
     @Autowired
     private AuthenticationManager authenticationManager;
     
@@ -109,17 +112,18 @@ public class UserController {
             value = "/confirmation/{encoded}",
             method = RequestMethod.GET)
     public ResponseEntity<User> sentMail(@PathVariable String encoded){
-    	
-    	 byte[] bytesDec = Base64.decodeBase64(encoded);
-         String email = new String(bytesDec);
-         System.out.println("mail"+email);
-    	
-    	User user= userRepository.getUserByEmail(email);
+    	Token token = tokenRepository.findByToken(encoded);
+    	// byte[] bytesDec = Base64.decodeBase64(encoded);
+       //  String email = new String(bytesDec);
+         System.out.println("mail");
+    	User user=token.getUser();
+    	//User user= userRepository.getUserByEmail(email);
     	if(user!=null){
     			user.setConfirmed(true);
     			user.setEnabled(true);
     		 System.out.println(user.isConfirmed());
     		userRepository.save(user);
+    		tokenRepository.delete(token);
     		return new ResponseEntity<>(HttpStatus.OK);
     		
 		
