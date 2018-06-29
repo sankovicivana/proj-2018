@@ -34,10 +34,6 @@ public class PasswordResetController {
 	 private BCryptPasswordEncoder passwordEncoder;
 
 	
-	 @ModelAttribute("passwordResetForm")
-	 public PasswordResetDTO passwordReset() {
-	        return new PasswordResetDTO();
-	    }
 	
 	@RequestMapping(value="/reset-password", method = RequestMethod.GET)
 	public String displayResetPasswordPage(@RequestParam(value="token",required = true) String token, HttpServletResponse httpResponse,HttpSession session)throws Exception{
@@ -72,7 +68,9 @@ public class PasswordResetController {
 		User user = tokenn.getUser();
 		System.out.println("user"+user.getId());
 		String updatedPassword = passwordEncoder.encode(passwordResetDTO.getPassword());
+		System.out.println("updatedPassword"+updatedPassword);
 		userService.updatePassword(updatedPassword, user.getUsername());
+		System.out.println("Sad cemo obrisati token");
 		tokenRepository.delete(tokenn);
 		
 	}

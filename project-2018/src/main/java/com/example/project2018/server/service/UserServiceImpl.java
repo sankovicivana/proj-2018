@@ -152,7 +152,10 @@ public class UserServiceImpl implements UserService{
 	public User updatePassword(String Password,String username) {
 		// TODO Auto-generated method stub
 		User user = userRepository.findByUsername(username);
-		return userRepository.save(user);
+		System.out.println("here");
+		 user.setPassword(passwordEncoder.encode(Password));
+		 userRepository.save(user);
+		return user;
 	}
 
 	
