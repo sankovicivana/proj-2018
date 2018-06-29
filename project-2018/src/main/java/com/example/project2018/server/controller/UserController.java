@@ -111,8 +111,9 @@ public class UserController {
     @RequestMapping(
             value = "/confirmation/{encoded}",
             method = RequestMethod.GET)
-    public ResponseEntity<User> sentMail(@PathVariable String encoded){
+    public String sentMail(@PathVariable String encoded){
     	Token token = tokenRepository.findByToken(encoded);
+    	
     	// byte[] bytesDec = Base64.decodeBase64(encoded);
        //  String email = new String(bytesDec);
          System.out.println("mail");
@@ -124,12 +125,12 @@ public class UserController {
     		 System.out.println(user.isConfirmed());
     		userRepository.save(user);
     		tokenRepository.delete(token);
-    		return new ResponseEntity<>(HttpStatus.OK);
-    		
+    		//return new ResponseEntity<>(HttpStatus.OK);
+    		return "ok";
 		
     	}else {
-    		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    		
+    		//return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    		return "greska";
     	}
     	
     	

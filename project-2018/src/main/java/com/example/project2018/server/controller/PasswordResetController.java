@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,9 +19,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.project2018.server.dto.PasswordResetDTO;
+import com.example.project2018.server.dto.UserDTO;
 import com.example.project2018.server.model.Token;
 import com.example.project2018.server.model.users.User;
 import com.example.project2018.server.repository.PasswordResetTokenRepository;
+import com.example.project2018.server.security.JwtAuthenticationResponse;
 import com.example.project2018.server.service.EmailService;
 import com.example.project2018.server.service.UserService;
 
@@ -61,12 +65,15 @@ public class PasswordResetController {
 	@RequestMapping(value="/reset-password", method = RequestMethod.POST)
 	public void handlePasswordReset(@RequestBody PasswordResetDTO passwordResetDTO,HttpSession session){
 		String token=(String) session.getAttribute("token");
-		//request.getSession().getAttribute("name")
+		
 		Token tokenn = tokenRepository.findByToken(token);
 		System.out.println("token"+token);
 		System.out.println("token"+tokenn);
+		
 		User user = tokenn.getUser();
 		System.out.println("user"+user.getId());
+		String password=passwordResetDTO.getPassword();
+		System.out.println(password);
 		String updatedPassword = passwordEncoder.encode(passwordResetDTO.getPassword());
 		System.out.println("updatedPassword"+updatedPassword);
 		userService.updatePassword(updatedPassword, user.getUsername());
