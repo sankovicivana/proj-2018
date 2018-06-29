@@ -84,7 +84,27 @@ public class AccomodationService
     public AccomodationPort getAccomodationPortSoap11(WebServiceFeature... features) {
         return super.getPort(new QName("http://server.project2018.example.com/soap", "AccomodationPortSoap11"), AccomodationPort.class, features);
     }
+    /**
+     * 
+     * @return
+     *     returns AccomodationPort
+     */
+    @WebEndpoint(name = "AccomodationPortSoap12")
+    public AccomodationPort getAccomodationPortSoap12() {
+        return super.getPort(new QName("http://server.project2018.example.com/soap", "AccomodationPortSoap12"), AccomodationPort.class);
+    }
 
+    /**
+     * 
+     * @param features
+     *     A list of {@link javax.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
+     * @return
+     *     returns AccomodationPort
+     */
+    @WebEndpoint(name = "AccomodationPortSoap12")
+    public AccomodationPort getAccomodationPortSoap12(WebServiceFeature... features) {
+        return super.getPort(new QName("http://server.project2018.example.com/soap", "AccomodationPortSoap12"), AccomodationPort.class, features);
+    }
     private static URL __getWsdlLocation() {
         if (ACCOMODATIONSERVICE_EXCEPTION!= null) {
             throw ACCOMODATIONSERVICE_EXCEPTION;

@@ -36,10 +36,9 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		MessageDispatcherServlet servlet = new MessageDispatcherServlet();
 		servlet.setApplicationContext(applicationContext);
 		servlet.setTransformWsdlLocations(true);
-		
 		return new ServletRegistrationBean(servlet, "/ws/*");
 	}
-	/*//Verzija SOAP protokola 1.2
+/*	//Verzija SOAP protokola 1.2
 		@Bean
 		public SaajSoapMessageFactory messageFactory() {
 		    SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
@@ -93,7 +92,8 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         //securityInterceptor.setSecurementPassword("booking");
         securityInterceptor.setSecurementSignatureCrypto(getCryptoFactoryBean().getObject());
 
-        
+        //securityInterceptor.setSecurementActions("NoSecurity");
+        //securityInterceptor.setValidationActions("NoSecurity");
         return securityInterceptor;
 
 	}

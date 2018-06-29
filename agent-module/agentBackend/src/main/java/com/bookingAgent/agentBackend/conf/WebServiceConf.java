@@ -29,21 +29,24 @@ public class WebServiceConf extends WsConfigurerAdapter {
     public Jaxb2Marshaller marshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
         marshaller.setContextPath("com.bookingAgent.agentBackend.ws");
+        marshaller.setSupportDtd(false);
+        marshaller.setProcessExternalEntities(false);
         return marshaller;
     }
-	//Verzija SOAP protokola 1.2
+/*	//Verzija SOAP protokola 1.2
 	@Bean
 	public SaajSoapMessageFactory messageFactory() {
 	    SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
 	    messageFactory.setSoapVersion(SoapVersion.SOAP_12);
 	    return messageFactory;
-	}
+	}*/
     @Bean
     public AgentClient getAgentClient(Jaxb2Marshaller marshaller) throws Exception {
         AgentClient client = new AgentClient();
         client.setDefaultUri("https://localhost:8443/ws");
         client.setMarshaller(marshaller);
         client.setUnmarshaller(marshaller);
+        System.out.println(client.getMessageFactory().toString());
         ClientInterceptor[] interceptors = new ClientInterceptor[]{securityInterceptor()};
         client.setInterceptors(interceptors);
         return client;
@@ -75,6 +78,8 @@ public class WebServiceConf extends WsConfigurerAdapter {
         securityInterceptor.setValidationDecryptionCrypto(getCryptoFactoryBean().getObject());
         securityInterceptor.setValidationCallbackHandler(securityCallbackHandler());
         
+        //securityInterceptor.setSecurementActions("NoSecurity");
+        //securityInterceptor.setValidationActions("NoSecurity");
         return securityInterceptor;
     }
 
