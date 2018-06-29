@@ -94,6 +94,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 
         //securityInterceptor.setSecurementActions("NoSecurity");
         //securityInterceptor.setValidationActions("NoSecurity");
+        
         return securityInterceptor;
 
 	}

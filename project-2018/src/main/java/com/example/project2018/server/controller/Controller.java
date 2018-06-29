@@ -24,6 +24,7 @@ public class Controller {
 	@PreAuthorize("hasAuthority('CREATE_CERTIFICATE')")
 	@RequestMapping(value="/createCert", method=RequestMethod.GET)
 	public ResponseEntity<String> createCert(){
+	
 		
 		
 	return new ResponseEntity<>("Create certificate ", HttpStatus.OK);
