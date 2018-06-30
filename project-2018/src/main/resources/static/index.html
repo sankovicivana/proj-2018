@@ -283,6 +283,8 @@
 								$("#logInBtn").hide();
 								$("#regBtn").hide();
 								$('#inputModal').modal('toggle');
+								$("#inputFormLogin [name='password']").val("")
+								$("#inputFormLogin [name='username']").val(""),
 								console.log(data);
 			                	setJwtToken(data.token);					
 								
@@ -292,6 +294,8 @@
 						
 							console.log(error.responseText);
 							$("#loginErrorStatus").text(error.responseText);
+							$("#inputFormLogin [name='password']").val("")
+							$("#inputFormLogin [name='username']").val("")
 						}
 						});
 					
