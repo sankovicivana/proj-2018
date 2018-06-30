@@ -1,30 +1,27 @@
 package com.example.project2018.server.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
+
 
 import com.example.project2018.server.dto.PasswordResetDTO;
-import com.example.project2018.server.dto.UserDTO;
+
 import com.example.project2018.server.model.Token;
 import com.example.project2018.server.model.users.User;
 import com.example.project2018.server.repository.PasswordResetTokenRepository;
-import com.example.project2018.server.security.JwtAuthenticationResponse;
-import com.example.project2018.server.service.EmailService;
+
 import com.example.project2018.server.service.UserService;
 
 @RestController
@@ -37,7 +34,7 @@ public class PasswordResetController {
 	 @Autowired 
 	 private BCryptPasswordEncoder passwordEncoder;
 
-	
+	 private static final Logger logger = LoggerFactory.getLogger(PasswordResetController.class);
 	
 	@RequestMapping(value="/reset-password", method = RequestMethod.GET)
 	public String displayResetPasswordPage(@RequestParam(value="token",required = true) String token, HttpServletResponse httpResponse,HttpSession session)throws Exception{
@@ -76,7 +73,9 @@ public class PasswordResetController {
 		System.out.println(password);
 		String updatedPassword = passwordEncoder.encode(passwordResetDTO.getPassword());
 		System.out.println("updatedPassword"+updatedPassword);
+		logger.info("Korisnik: {} je promenio password. ",user.getUsername());
 		userService.updatePassword(updatedPassword, user.getUsername());
+		
 		System.out.println("Sad cemo obrisati token");
 		tokenRepository.delete(tokenn);
 		

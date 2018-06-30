@@ -1,13 +1,9 @@
 package com.example.project2018.server.controller;
 
-import java.awt.PageAttributes.MediaType;
-import java.io.IOException;
-import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.util.codec.binary.Base64;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +11,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.LockedException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.project2018.server.dto.UserDTO;
-import com.example.project2018.server.exception.AuthenticationException;
+
 import com.example.project2018.server.model.Token;
 import com.example.project2018.server.model.users.User;
 import com.example.project2018.server.repository.PasswordResetTokenRepository;
@@ -65,10 +56,9 @@ public class UserController {
     private EmailService emailService;
     @Autowired 
 	 private PasswordResetTokenRepository tokenRepository;
-    @Autowired
-    private AuthenticationManager authenticationManager;
     
-    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+    
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @RequestMapping(value = "user", method = RequestMethod.GET)
     public JwtUser getAuthenticatedUser(HttpServletRequest request) {
@@ -114,22 +104,22 @@ public class UserController {
     public String sentMail(@PathVariable String encoded){
     	Token token = tokenRepository.findByToken(encoded);
     	
-    	// byte[] bytesDec = Base64.decodeBase64(encoded);
-       //  String email = new String(bytesDec);
+    	
          System.out.println("mail");
     	User user=token.getUser();
-    	//User user= userRepository.getUserByEmail(email);
+    	
     	if(user!=null){
     			user.setConfirmed(true);
     			user.setEnabled(true);
     		 System.out.println(user.isConfirmed());
     		userRepository.save(user);
+    		logger.info("{} registrovan.", user.getUsername());
     		tokenRepository.delete(token);
-    		//return new ResponseEntity<>(HttpStatus.OK);
+    		
     		return "ok";
 		
     	}else {
-    		//return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    		
     		return "greska";
     	}
     	
