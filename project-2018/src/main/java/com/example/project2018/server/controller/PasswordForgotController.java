@@ -34,7 +34,7 @@ public class PasswordForgotController {
     @Autowired 
     private EmailService emailService;
 	
-    //@PreAuthorize("hasRole('REGULAR')") 
+  
   
 	@RequestMapping(value="/forgot-password",method=RequestMethod.POST)
     public ResponseEntity<User> procesForgotPasswordForm(HttpServletRequest request,@RequestBody PasswordForgotDTO passwordDTO){
@@ -45,7 +45,7 @@ public class PasswordForgotController {
     	
     		return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
     	}
-    	System.out.println("Usao u kontroler forgot PAsss");
+    	//System.out.println("Usao u kontroler forgot PAsss");
     	Token token = new Token();
         token.setToken(UUID.randomUUID().toString());
         token.setUser(user);

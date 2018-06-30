@@ -68,15 +68,13 @@ public class PasswordResetController {
 		System.out.println("token"+tokenn);
 		
 		User user = tokenn.getUser();
-		System.out.println("user"+user.getId());
-		String password=passwordResetDTO.getPassword();
-		System.out.println(password);
+		
 		String updatedPassword = passwordEncoder.encode(passwordResetDTO.getPassword());
-		System.out.println("updatedPassword"+updatedPassword);
+	
 		logger.info("Korisnik: {} je promenio password. ",user.getUsername());
 		userService.updatePassword(updatedPassword, user.getUsername());
 		
-		System.out.println("Sad cemo obrisati token");
+	
 		tokenRepository.delete(tokenn);
 		
 	}
