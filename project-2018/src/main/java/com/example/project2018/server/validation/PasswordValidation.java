@@ -11,7 +11,6 @@ public class PasswordValidation implements ConstraintValidator<ValidPassword, St
 
 	@Override
 	public boolean isValid(String password, ConstraintValidatorContext context) {
-		// TODO Auto-generated method stub
 		PasswordValidator validator = new PasswordValidator(Arrays.asList(
 		           new LengthRule(8, 30), 
 		           new UppercaseCharacterRule(1), 

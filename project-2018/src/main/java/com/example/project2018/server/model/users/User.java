@@ -32,8 +32,8 @@ public class User {
 	private String lastname;
 	//za mail da li je potvrdjen
 	private boolean confirmed;
+
 	@NotEmpty
-	//@ValidPassword
 	private String password;
 	
 

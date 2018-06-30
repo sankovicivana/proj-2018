@@ -13,8 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
-
-
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,7 +70,7 @@ public class UserController {
     
   //registracija usera
     @RequestMapping(value="/register",method=RequestMethod.POST)
-    public ResponseEntity<User> registrate(@RequestBody UserDTO userDTO){
+    public ResponseEntity<User> registrate(@Validated @RequestBody UserDTO userDTO){
  
     	if ((userRepository.findByUsername(userDTO.getUsername()) != null)|| (userRepository.findByEmail(userDTO.getEmail()) != null) ) {
              return new ResponseEntity<>(HttpStatus.FORBIDDEN);

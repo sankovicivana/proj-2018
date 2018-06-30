@@ -2,10 +2,18 @@ package com.example.project2018.server.dto;
 
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
+
+import com.example.project2018.server.validation.ValidEmail;
+import com.example.project2018.server.validation.ValidPassword;
+
 public class UserDTO {
+	
 
 	private String username;
+	@ValidEmail
 	private String email;
+	@ValidPassword
 	private String password;
 	private String firstname;
 	private String lastname;
