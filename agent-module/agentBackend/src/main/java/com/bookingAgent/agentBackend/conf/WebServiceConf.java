@@ -3,6 +3,7 @@ package com.bookingAgent.agentBackend.conf;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.wss4j.dom.WSConstants;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -57,23 +58,21 @@ public class WebServiceConf extends WsConfigurerAdapter {
         
         // Podesavamo sigurnosne akcije. 
         securityInterceptor.setSecurementActions("Timestamp Signature Encrypt");
-       
+        securityInterceptor.setSecurementEncryptionSymAlgorithm(WSConstants.AES_256);
         //Digitalno potpisivanje poruke 
         //Prosledjujemo alias sertifikata iz keystora
         securityInterceptor.setSecurementUsername("agent2018");
         securityInterceptor.setSecurementPassword("Ag3nt2oo18");
-        //securityInterceptor.setSecurementUsername("885550");
-        //securityInterceptor.setSecurementPassword("agent");
         securityInterceptor.setSecurementSignatureCrypto(getCryptoFactoryBean().getObject());
         
         //Enkripcija sadrzaja poruke (moze ceo Body ili neki odjedjeni deo)
         securityInterceptor.setSecurementEncryptionUser("booking2018-public");
-        //securityInterceptor.setSecurementEncryptionUser("306454");
         securityInterceptor.setSecurementEncryptionCrypto(getCryptoFactoryBean().getObject());
         securityInterceptor.setSecurementEncryptionParts("{Content}{http://server.project2018.example.com/soap}getAccommodationRequest");
         
-        // sign the response
-        securityInterceptor.setValidationActions("Signature Encrypt");
+        // Akcije validacije doalzne poruke
+        securityInterceptor.setValidationActions("Timestamp Signature Encrypt");
+        
         securityInterceptor.setValidationSignatureCrypto(getCryptoFactoryBean().getObject());
         securityInterceptor.setValidationDecryptionCrypto(getCryptoFactoryBean().getObject());
         securityInterceptor.setValidationCallbackHandler(securityCallbackHandler());
