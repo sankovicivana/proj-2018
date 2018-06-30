@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.security.auth.callback.CallbackHandler;
 
+import org.apache.wss4j.dom.WSConstants;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 
 
@@ -78,18 +79,17 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         
         //Enkripcija celog odgovora
         securityInterceptor.setSecurementEncryptionUser("agent2018-public");
-        //securityInterceptor.setSecurementEncryptionUser("885550");
         securityInterceptor.setSecurementEncryptionParts("{Content}{http://server.project2018.example.com/soap}getAccommodationResponse");
         //Enkripcija elementa
         //securityInterceptor.setSecurementEncryptionParts("{Element}{http://server.project2018.example.com/soap}name");
         securityInterceptor.setSecurementEncryptionCrypto(getCryptoFactoryBean().getObject());
 
         // Digitalno potpisivanje odgovora
-        securityInterceptor.setSecurementActions("Signature Encrypt");
+        securityInterceptor.setSecurementActions("Timestamp Signature Encrypt");
+        securityInterceptor.setSecurementEncryptionSymAlgorithm(WSConstants.AES_256);
+
         securityInterceptor.setSecurementUsername("booking2018");
         securityInterceptor.setSecurementPassword("B00king2oo18");
-        //securityInterceptor.setSecurementUsername("306454");
-        //securityInterceptor.setSecurementPassword("booking");
         securityInterceptor.setSecurementSignatureCrypto(getCryptoFactoryBean().getObject());
 
         //securityInterceptor.setSecurementActions("NoSecurity");
@@ -111,8 +111,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         CryptoFactoryBean cryptoFactoryBean = new CryptoFactoryBean();
         cryptoFactoryBean.setKeyStorePassword("Password1");
         cryptoFactoryBean.setKeyStoreLocation(new ClassPathResource("server.jks"));
-        //cryptoFactoryBean.setKeyStorePassword("password");
-        //cryptoFactoryBean.setKeyStoreLocation(new ClassPathResource("keystore.jks"));
+
         return cryptoFactoryBean;
 	}
 	

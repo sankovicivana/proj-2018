@@ -24,7 +24,6 @@ public class Controller {
 		request.setId(3);
 		System.out.println(request);
 		GetAccommodationResponse response = ac.getResponse(request);
-		
 		System.out.println(response.getAccommodation());
 		Accommodation acc = new Accommodation();
 		acc.setId(response.getAccommodation().getId());
